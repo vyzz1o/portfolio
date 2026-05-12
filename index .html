@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W — 作品集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:#f2ead8; --parchment:#e8dcc4; --sepia:#c4a882;
+    --warm-brown:#8b6b4a; --dark-brown:#3d2b1f; --near-black:#1a1008;
+    --film-grain:#d4c4a8; --gold:#c9a84c; --rust:#9b4a2e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--near-black);color:var(--cream);font-family:'Libre Baskerville',Georgia,serif;cursor:none;overflow-x:hidden;}
+
+  #cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;}
+  #cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.15s ease,width 0.2s,height 0.2s;opacity:0.5;}
+  #grain-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:100;opacity:0.06;mix-blend-mode:overlay;}
+  #particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:50;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(26,16,8,0.9) 0%,transparent 100%);backdrop-filter:blur(2px);}
+  .nav-logo{font-family:'Special Elite',monospace;font-size:1.1rem;letter-spacing:0.3em;color:var(--gold);text-decoration:none;}
+  .nav-links{display:flex;gap:2.5rem;list-style:none;}
+  .nav-links a{font-family:'Special Elite',monospace;font-size:0.75rem;letter-spacing:0.2em;color:var(--film-grain);text-decoration:none;text-transform:uppercase;transition:color 0.3s;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform 0.3s;transform-origin:left;}
+  .nav-links a:hover{color:var(--gold);}
+  .nav-links a:hover::after{transform:scaleX(1);}
+
+  #hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 3rem;position:relative;overflow:hidden;}
+  .hero-bg-text{position:absolute;bottom:-0.15em;right:-0.05em;font-family:'IM Fell English',serif;font-size:clamp(12rem,25vw,22rem);color:transparent;-webkit-text-stroke:1px rgba(196,168,130,0.08);line-height:1;user-select:none;pointer-events:none;}
+  .hero-eyebrow{font-family:'Special Elite',monospace;font-size:0.75rem;letter-spacing:0.4em;color:var(--gold);margin-bottom:2rem;text-transform:uppercase;}
+  .hero-title{font-family:'IM Fell English',serif;font-size:clamp(3.5rem,10vw,9rem);line-height:0.9;color:var(--cream);margin-bottom:0.5rem;}
+  .hero-title .changeable{display:inline-block;color:var(--gold);min-width:3ch;transition:opacity 0.2s;font-style:italic;}
+  .hero-subtitle{font-family:'Libre Baskerville',serif;font-style:italic;font-size:clamp(1rem,2.5vw,1.4rem);color:var(--sepia);margin-top:1.5rem;max-width:480px;line-height:1.6;}
+  .hero-scroll{margin-top:4rem;display:flex;align-items:center;gap:1rem;font-family:'Special Elite',monospace;font-size:0.65rem;letter-spacing:0.3em;color:var(--warm-brown);text-transform:uppercase;}
+  .hero-scroll-line{width:60px;height:1px;background:var(--warm-brown);animation:scroll-pulse 2s infinite;}
+  @keyframes scroll-pulse{0%,100%{opacity:0.3}50%{opacity:1}}
+
+  section{padding:6rem 3rem;}
+  .section-eyebrow{font-family:'Special Elite',monospace;font-size:0.7rem;letter-spacing:0.4em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;}
+  .section-title{font-family:'IM Fell English',serif;font-size:clamp(2rem,5vw,3.5rem);color:var(--cream);line-height:1.1;margin-bottom:3rem;}
+
+  /* CATEGORY CARDS */
+  #categories{background:rgba(255,255,255,0.01);border-top:1px solid rgba(196,168,130,0.08);}
+  .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;perspective:1200px;}
+  .tilt-card{position:relative;border-radius:2px;overflow:hidden;cursor:none;transition:box-shadow 0.3s;transform-style:preserve-3d;will-change:transform;background:var(--dark-brown);border:1px solid rgba(196,168,130,0.12);height:380px;}
+  .tilt-card:hover{box-shadow:0 30px 60px rgba(0,0,0,0.6),0 0 0 1px rgba(201,168,76,0.2);}
+  .card-shine{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity 0.3s;}
+  .card-img-area{position:absolute;inset:0;overflow:hidden;}
+  .card-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:4rem;opacity:0.12;}
+  .card-overlay{position:absolute;bottom:0;left:0;right:0;padding:2rem;background:linear-gradient(to top,rgba(26,16,8,0.95) 0%,transparent 100%);z-index:2;transform:translateZ(20px);}
+  .card-number{font-family:'Special Elite',monospace;font-size:0.65rem;letter-spacing:0.3em;color:var(--gold);margin-bottom:0.5rem;display:block;opacity:0.7;}
+  .card-title-t{font-family:'IM Fell English',serif;font-size:1.8rem;color:var(--cream);margin-bottom:0.5rem;}
+  .card-desc{font-size:0.8rem;color:var(--sepia);line-height:1.5;font-style:italic;}
+
+  /* GALLERY */
+  .gallery-section{padding-top:5rem;padding-bottom:5rem;border-top:1px solid rgba(196,168,130,0.08);}
+  .gallery-header{padding:0 3rem 2rem;display:flex;justify-content:space-between;align-items:flex-end;}
+  .gallery-track-wrapper{overflow:hidden;position:relative;padding:1rem 0;}
+  .gallery-track{display:flex;gap:1.2rem;padding:0 3rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;cursor:grab;}
+  .gallery-track::-webkit-scrollbar{display:none;}
+  .gallery-track.dragging{cursor:grabbing;}
+  .gallery-track::after{content:'';display:block;min-width:3rem;flex-shrink:0;}
+  .gallery-item{flex-shrink:0;scroll-snap-align:start;position:relative;overflow:hidden;border:1px solid rgba(196,168,130,0.1);transition:border-color 0.3s;cursor:none;}
+  .gallery-item:hover{border-color:rgba(196,168,130,0.35);}
+  .gallery-item.portrait{width:260px;height:380px;}
+  .gallery-item.landscape{width:420px;height:280px;}
+  .gallery-item.square{width:300px;height:300px;}
+  .gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s ease;}
+  .gallery-item:hover img{transform:scale(1.04);}
+  .gallery-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;background:rgba(61,43,31,0.4);}
+  .gallery-placeholder span{font-family:'Special Elite',monospace;font-size:0.65rem;letter-spacing:0.2em;color:var(--warm-brown);text-transform:uppercase;}
+  .gallery-item-overlay{position:absolute;bottom:0;left:0;right:0;padding:1.2rem;background:linear-gradient(to top,rgba(26,16,8,0.9) 0%,transparent 100%);transform:translateY(100%);transition:transform 0.3s ease;}
+  .gallery-item:hover .gallery-item-overlay{transform:translateY(0);}
+  .gallery-item-title{font-family:'IM Fell English',serif;font-size:1rem;color:var(--cream);margin-bottom:0.2rem;}
+  .gallery-item-meta{font-family:'Special Elite',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;opacity:0.8;}
+  .gallery-nav{display:flex;gap:0.5rem;align-items:center;}
+  .gallery-btn{width:36px;height:36px;border:1px solid rgba(196,168,130,0.2);background:transparent;color:var(--sepia);display:flex;align-items:center;justify-content:center;cursor:none;transition:all 0.2s;font-size:1rem;}
+  .gallery-btn:hover{border-color:var(--gold);color:var(--gold);}
+  .gallery-count{font-family:'Special Elite',monospace;font-size:0.65rem;letter-spacing:0.15em;color:var(--warm-brown);padding:0 0.5rem;}
+  .loading-row{padding:3rem;text-align:center;font-family:'Special Elite',monospace;font-size:0.7rem;letter-spacing:0.2em;color:var(--warm-brown);text-transform:uppercase;opacity:0.6;}
+
+  /* ABOUT */
+  #about{border-top:1px solid rgba(196,168,130,0.08);display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+  .about-img-frame{position:relative;aspect-ratio:4/5;max-width:420px;}
+  .about-img-frame::before{content:'';position:absolute;top:-12px;left:-12px;right:12px;bottom:12px;border:1px solid rgba(196,168,130,0.2);pointer-events:none;}
+  .about-img-placeholder{width:100%;height:100%;background:var(--dark-brown);display:flex;align-items:center;justify-content:center;font-size:5rem;opacity:0.15;border:1px solid rgba(196,168,130,0.1);}
+  .about-text p{font-style:italic;color:var(--sepia);line-height:1.9;margin-bottom:1.2rem;font-size:0.95rem;}
+  .about-text p strong{color:var(--cream);font-style:normal;}
+  .tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:2rem;}
+  .tag{font-family:'Special Elite',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--warm-brown);border:1px solid rgba(196,168,130,0.2);padding:0.3rem 0.8rem;text-transform:uppercase;}
+  .film-strip-deco{display:flex;gap:3px;margin:2rem 0;}
+  .film-hole{width:12px;height:18px;border:1px solid rgba(196,168,130,0.2);border-radius:2px;flex-shrink:0;}
+
+  /* CONTACT */
+  #contact{border-top:1px solid rgba(196,168,130,0.12);background:rgba(0,0,0,0.3);padding:6rem 3rem 3rem;}
+  .contact-grid{display:grid;grid-template-columns:1fr auto;gap:6rem;align-items:start;margin-bottom:4rem;}
+  .contact-title{font-family:'IM Fell English',serif;font-size:clamp(2.5rem,6vw,5rem);color:var(--cream);line-height:1;margin-bottom:1.5rem;}
+  .contact-sub{font-style:italic;color:var(--sepia);font-size:0.9rem;line-height:1.7;max-width:400px;}
+  .contact-links{display:flex;flex-direction:column;gap:0;min-width:240px;}
+  .contact-link-item{display:flex;flex-direction:column;gap:0.2rem;text-decoration:none;border-bottom:1px solid rgba(196,168,130,0.1);padding:0 0 1.2rem;margin-bottom:1.2rem;}
+  .contact-link-item:last-child{border-bottom:none;margin-bottom:0;}
+  .contact-link-label{font-family:'Special Elite',monospace;font-size:0.6rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;opacity:0.7;}
+  .contact-link-value{font-family:'Libre Baskerville',serif;font-size:0.95rem;color:var(--cream);transition:color 0.2s;}
+  .contact-link-item:hover .contact-link-value{color:var(--gold);}
+
+  /* IG BUTTON */
+  .ig-btn{
+    display:inline-flex;align-items:center;gap:0.7rem;
+    border:1px solid rgba(196,168,130,0.3);padding:0.9rem 1.8rem;
+    text-decoration:none;color:var(--cream);font-family:'Special Elite',monospace;
+    font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;
+    transition:all 0.3s;margin-top:2rem;
+    background:transparent;
+  }
+  .ig-btn:hover{background:var(--gold);color:var(--near-black);border-color:var(--gold);}
+  .ig-btn svg{width:18px;height:18px;flex-shrink:0;}
+
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(196,168,130,0.08);padding-top:2rem;margin-top:2rem;}
+  .footer-copy{font-family:'Special Elite',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--warm-brown);text-transform:uppercase;}
+  .footer-mark{font-family:'IM Fell English',serif;font-style:italic;font-size:0.9rem;color:var(--sepia);opacity:0.5;}
+
+  #float-btn{position:fixed;bottom:2.5rem;right:2.5rem;z-index:300;background:var(--gold);color:var(--near-black);border:none;padding:0.8rem 1.5rem;font-family:'Special Elite',monospace;font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;cursor:none;display:flex;align-items:center;gap:0.6rem;transition:background 0.2s,transform 0.2s;box-shadow:0 8px 24px rgba(0,0,0,0.4);text-decoration:none;}
+  #float-btn:hover{background:var(--cream);transform:translateY(-2px);}
+  #float-btn svg{width:14px;height:14px;}
+
+  .noise-overlay{position:fixed;inset:0;pointer-events:none;z-index:90;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");opacity:0.028;mix-blend-mode:screen;}
+  .fade-up{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease,transform 0.8s ease;}
+  .fade-up.visible{opacity:1;transform:translateY(0);}
+
+  @media(max-width:768px){
+    nav{padding:1rem 1.5rem;}
+    section,#hero{padding:4rem 1.5rem;}
+    #about{grid-template-columns:1fr;gap:3rem;}
+    .contact-grid{grid-template-columns:1fr;gap:3rem;}
+    .nav-links{gap:1.5rem;}
+    .gallery-header{padding:0 1.5rem 1.5rem;}
+    .gallery-track{padding:0 1.5rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="noise-overlay"></div>
+<canvas id="grain-canvas"></canvas>
+<canvas id="particle-canvas"></canvas>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<nav>
+  <a href="#hero" class="nav-logo">W ✦ STUDIO</a>
+  <ul class="nav-links">
+    <li><a href="#photography">攝影</a></li>
+    <li><a href="#illustration">繪畫</a></li>
+    <li><a href="#about">關於</a></li>
+    <li><a href="#contact">聯絡</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg-text" id="hero-bg-text">光</div>
+  <p class="hero-eyebrow">— 影像 · 繪畫 · 創作 —</p>
+  <h1 class="hero-title">用<span class="changeable" id="hero-word">光</span>書寫</h1>
+  <p class="hero-subtitle">攝影是等待光的藝術，<br>繪畫是追憶光的練習。<br><em>這裡收藏了我與光相遇的片刻。</em></p>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div>scroll to explore</div>
+</section>
+
+<section id="categories">
+  <p class="section-eyebrow fade-up">— 創作系列</p>
+  <h2 class="section-title fade-up">作品類別</h2>
+  <div class="cards-grid">
+    <div class="tilt-card fade-up" data-tilt>
+      <div class="card-shine"></div>
+      <div class="card-img-area"><div class="card-img-placeholder">◉</div></div>
+      <div class="card-overlay">
+        <span class="card-number">01 / SERIES</span>
+        <h3 class="card-title-t">底片攝影</h3>
+        <p class="card-desc">街頭、人像、城市喧囂中的靜默切片</p>
+      </div>
+    </div>
+    <div class="tilt-card fade-up" data-tilt style="transition-delay:0.1s">
+      <div class="card-shine"></div>
+      <div class="card-img-area"><div class="card-img-placeholder">✐</div></div>
+      <div class="card-overlay">
+        <span class="card-number">02 / SERIES</span>
+        <h3 class="card-title-t">手繪插畫</h3>
+        <p class="card-desc">水彩、素描、記憶中色彩流動的形狀</p>
+      </div>
+    </div>
+    <div class="tilt-card fade-up" data-tilt style="transition-delay:0.2s">
+      <div class="card-shine"></div>
+      <div class="card-img-area"><div class="card-img-placeholder">⬡</div></div>
+      <div class="card-overlay">
+        <span class="card-number">03 / SERIES</span>
+        <h3 class="card-title-t">商業攝影</h3>
+        <p class="card-desc">品牌視覺、產品美學、說服眼睛的故事</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTOGRAPHY from Firestore -->
+<section class="gallery-section" id="photography">
+  <div class="gallery-header fade-up">
+    <div>
+      <p class="section-eyebrow" style="margin-bottom:0.5rem">— 攝影作品</p>
+      <h2 class="section-title" style="margin-bottom:0">Film &amp; Lens</h2>
+    </div>
+    <div class="gallery-nav">
+      <button class="gallery-btn" onclick="scrollGallery('photo-track',-1)">‹</button>
+      <span class="gallery-count" id="photo-counter">— / —</span>
+      <button class="gallery-btn" onclick="scrollGallery('photo-track',1)">›</button>
+    </div>
+  </div>
+  <div class="gallery-track-wrapper">
+    <div class="gallery-track" id="photo-track">
+      <div class="loading-row" style="min-width:100%">載入中…</div>
+    </div>
+  </div>
+</section>
+
+<!-- ILLUSTRATION from Firestore -->
+<section class="gallery-section" id="illustration">
+  <div class="gallery-header fade-up">
+    <div>
+      <p class="section-eyebrow" style="margin-bottom:0.5rem">— 繪畫作品</p>
+      <h2 class="section-title" style="margin-bottom:0">Ink &amp; Pigment</h2>
+    </div>
+    <div class="gallery-nav">
+      <button class="gallery-btn" onclick="scrollGallery('illus-track',-1)">‹</button>
+      <span class="gallery-count" id="illus-counter">— / —</span>
+      <button class="gallery-btn" onclick="scrollGallery('illus-track',1)">›</button>
+    </div>
+  </div>
+  <div class="gallery-track-wrapper">
+    <div class="gallery-track" id="illus-track">
+      <div class="loading-row" style="min-width:100%">載入中…</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-img-frame fade-up">
+    <div class="about-img-placeholder">◯</div>
+  </div>
+  <div class="about-text fade-up" style="transition-delay:0.15s">
+    <p class="section-eyebrow">— 關於創作者</p>
+    <h2 class="section-title">W</h2>
+    <div class="film-strip-deco">
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+    </div>
+    <p>在<strong>光與影</strong>之間尋找語言。底片是我的日記，畫紙是我的草稿紙，鏡頭是我與世界相遇的媒介。</p>
+    <p>創作對我而言是一種<strong>記憶的實踐</strong>——在快門按下的瞬間，在顏料落下的片刻，試著留住什麼。</p>
+    <p>目前接受<strong>學校委託計畫、藝術教育合作</strong>及相關拍攝邀約。</p>
+    <div class="tags">
+      <span class="tag">底片攝影</span><span class="tag">街頭攝影</span><span class="tag">人像</span>
+      <span class="tag">水彩</span><span class="tag">素描</span><span class="tag">商業攝影</span>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="contact-grid fade-up">
+    <div>
+      <p class="section-eyebrow">— 合作邀約</p>
+      <h2 class="contact-title">讓我們<br><em>一起工作</em></h2>
+      <p class="contact-sub">無論是學校委託、展覽計畫、或任何希望透過影像與繪畫說故事的合作，都歡迎聯絡。</p>
+      <!-- ★ 改成你的 IG 網址 -->
+      <a class="ig-btn" href="https://instagram.com/你的IG帳號" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+        </svg>
+        在 Instagram 找到我
+      </a>
+    </div>
+    <div class="contact-links">
+      <!-- ★ 填入你的聯絡資訊 -->
+      <a class="contact-link-item" href="mailto:your@email.com">
+        <span class="contact-link-label">Email</span>
+        <span class="contact-link-value">your@email.com</span>
+      </a>
+      <a class="contact-link-item" href="https://instagram.com/你的IG帳號" target="_blank">
+        <span class="contact-link-label">Instagram</span>
+        <span class="contact-link-value">@你的IG帳號</span>
+      </a>
+      <a class="contact-link-item" href="#">
+        <span class="contact-link-label">Location</span>
+        <span class="contact-link-value">台灣 · 台北</span>
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 W Studio — All Rights Reserved</span>
+    <span class="footer-mark">攝影 · 繪畫 · 創作</span>
+  </div>
+</footer>
+
+<a href="https://instagram.com/你的IG帳號" id="float-btn" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+    <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/>
+    <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+  </svg>
+  Instagram
+</a>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, getDocs, query, where, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+// ══════════════════════════════════════
+// 填入你的 Firebase 設定（和 admin.html 一樣）
+// ══════════════════════════════════════
+const firebaseConfig = {
+  apiKey:            "AIzaSyAeG23IjdCrgxLwN7iCW4so1EQtHyWjfoc",
+  authDomain:        "wish-w.firebaseapp.com",
+  projectId:         "wish-w",
+  storageBucket:     "wish-w.firebasestorage.app",
+  messagingSenderId: "472916214379",
+  appId:             "1:472916214379:web:e76352027f3e0640ffa72e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+const SIZES = ['portrait','landscape','square'];
+let sizeIdx = 0;
+
+function buildItem(work) {
+  const size = SIZES[sizeIdx % 3]; sizeIdx++;
+  return `
+    <div class="gallery-item ${size}">
+      <img src="${work.imageUrl}" alt="${work.title}" loading="lazy">
+      <div class="gallery-item-overlay">
+        <p class="gallery-item-title">${work.title}</p>
+        <p class="gallery-item-meta">${work.year}${work.medium ? ' · '+work.medium : ''}</p>
+      </div>
+    </div>`;
+}
+
+async function loadCategory(category, trackId, counterId) {
+  const track = document.getElementById(trackId);
+  try {
+    const q = query(collection(db,'works'), where('category','==',category), orderBy('createdAt','desc'));
+    const snap = await getDocs(q);
+    if (snap.empty) {
+      track.innerHTML = `<div class="loading-row" style="min-width:100%">尚無作品</div>`;
+      document.getElementById(counterId).textContent = '0 / 0';
+      return;
+    }
+    const works = [];
+    snap.forEach(d => works.push(d.data()));
+    sizeIdx = 0;
+    track.innerHTML = works.map(buildItem).join('') + '<div style="min-width:3rem;flex-shrink:0"></div>';
+    document.getElementById(counterId).textContent = `01 / ${String(works.length).padStart(2,'0')}`;
+    initDrag(track, counterId, works.length);
+  } catch(e) {
+    track.innerHTML = `<div class="loading-row" style="min-width:100%">載入失敗</div>`;
+    console.error(e);
+  }
+}
+
+function initDrag(track, counterId, total) {
+  let isDown=false, startX, scrollLeft;
+  track.addEventListener('mousedown', e => { isDown=true; track.classList.add('dragging'); startX=e.pageX-track.offsetLeft; scrollLeft=track.scrollLeft; });
+  document.addEventListener('mouseup', () => { isDown=false; track.classList.remove('dragging'); });
+  track.addEventListener('mousemove', e => { if(!isDown) return; e.preventDefault(); track.scrollLeft=scrollLeft-(e.pageX-track.offsetLeft-startX); });
+  track.addEventListener('scroll', () => {
+    const items = track.querySelectorAll('.gallery-item');
+    if (!items.length) return;
+    const step = items[0].offsetWidth + 19;
+    const cur = Math.min(total, Math.round(track.scrollLeft/step)+1);
+    document.getElementById(counterId).textContent = String(cur).padStart(2,'0')+' / '+String(total).padStart(2,'0');
+  });
+}
+
+loadCategory('photography', 'photo-track', 'photo-counter');
+loadCategory('illustration', 'illus-track', 'illus-counter');
+</script>
+
+<script>
+// cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function anim(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;cursor.style.left=mx+'px';cursor.style.top=my+'px';ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
+document.querySelectorAll('a,button,.tilt-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';});
+});
+
+// hero words
+const words=['光','影','時間','靜默','記憶','瞬間'];
+const bgWords=['光','Shadow','Time','Silence','Memory','Moment'];
+let wi=0;
+const wordEl=document.getElementById('hero-word'),bgEl=document.getElementById('hero-bg-text');
+setInterval(()=>{wordEl.style.opacity='0';setTimeout(()=>{wi=(wi+1)%words.length;wordEl.textContent=words[wi];bgEl.textContent=bgWords[wi];wordEl.style.opacity='1';},250);},2200);
+
+// grain
+(function grain(){const c=document.getElementById('grain-canvas'),ctx=c.getContext('2d');function resize(){c.width=innerWidth;c.height=innerHeight;}resize();addEventListener('resize',resize);function draw(){const img=ctx.createImageData(c.width,c.height);const d=img.data;for(let i=0;i<d.length;i+=4){const v=Math.random()*255|0;d[i]=d[i+1]=d[i+2]=v;d[i+3]=18;}ctx.putImageData(img,0,0);setTimeout(()=>requestAnimationFrame(draw),80);}draw();})();
+
+// particles
+(function particles(){const c=document.getElementById('particle-canvas'),ctx=c.getContext('2d');function resize(){c.width=innerWidth;c.height=innerHeight;}resize();addEventListener('resize',resize);const pts=[];document.addEventListener('mousemove',e=>{if(Math.random()>0.55){pts.push({x:e.clientX,y:e.clientY,vx:(Math.random()-0.5)*0.8,vy:(Math.random()-0.5)*0.8-0.4,life:1,size:Math.random()*2.5+0.5,hue:Math.random()*20});if(pts.length>35)pts.shift();}});function loop(){ctx.clearRect(0,0,c.width,c.height);for(let i=pts.length-1;i>=0;i--){const p=pts[i];p.x+=p.vx;p.y+=p.vy;p.life-=0.018;if(p.life<=0){pts.splice(i,1);continue;}ctx.globalAlpha=p.life*0.6;ctx.fillStyle=`hsl(${38+p.hue},60%,${60+p.hue}%)`;ctx.beginPath();ctx.arc(p.x,p.y,p.size*p.life,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;requestAnimationFrame(loop);}loop();})();
+
+// 3D tilt
+document.querySelectorAll('[data-tilt]').forEach(card=>{
+  const shine=card.querySelector('.card-shine');
+  card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const dx=(e.clientX-r.left-r.width/2)/(r.width/2);const dy=(e.clientY-r.top-r.height/2)/(r.height/2);card.style.transform=`perspective(800px) rotateX(${-dy*12}deg) rotateY(${dx*12}deg) scale3d(1.02,1.02,1.02)`;const sx=((e.clientX-r.left)/r.width*100).toFixed(1);const sy=((e.clientY-r.top)/r.height*100).toFixed(1);shine.style.background=`radial-gradient(circle at ${sx}% ${sy}%,rgba(255,255,255,0.12) 0%,transparent 55%)`;shine.style.opacity='1';});
+  card.addEventListener('mouseleave',()=>{card.style.transform='';shine.style.opacity='0';});
+});
+
+// gallery scroll buttons
+window.scrollGallery=function(id,dir){const track=document.getElementById(id);const items=track.querySelectorAll('.gallery-item');const step=(items[0]?.offsetWidth||280)+19;track.scrollBy({left:dir*step,behavior:'smooth'});};
+
+// fade-up
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

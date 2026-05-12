@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W Studio — 後台管理</title>
+<style>
+  :root {
+    --cream:#f2ead8; --sepia:#c4a882; --warm-brown:#8b6b4a;
+    --dark-brown:#3d2b1f; --near-black:#1a1008; --gold:#c9a84c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100vh;}
+
+  #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#2a1a0e 0%,#1a1008 70%);}
+  .login-box{border:1px solid rgba(196,168,130,0.2);padding:3rem;width:380px;background:rgba(61,43,31,0.4);text-align:center;}
+  .login-logo{font-size:2.2rem;font-style:italic;color:var(--gold);margin-bottom:0.3rem;}
+  .login-sub{font-size:0.65rem;letter-spacing:0.35em;color:var(--warm-brown);text-transform:uppercase;margin-bottom:0.5rem;}
+  .login-desc{font-size:0.82rem;color:var(--sepia);font-style:italic;margin-bottom:2.5rem;line-height:1.6;}
+  .btn-google{width:100%;padding:0.9rem 1.5rem;background:var(--gold);color:#1a1008;border:none;font-family:Georgia,serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.8rem;transition:background 0.2s;}
+  .btn-google:hover{background:#e0bc5a;}
+  .login-note{font-size:0.65rem;color:var(--warm-brown);margin-top:1.2rem;opacity:0.7;}
+  .err-msg{color:#e07070;font-size:0.78rem;margin-top:1rem;min-height:1.2rem;}
+
+  #admin-panel{display:none;}
+  .admin-nav{position:sticky;top:0;z-index:100;background:#1a1008;border-bottom:1px solid rgba(196,168,130,0.1);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;}
+  .admin-nav-logo{font-style:italic;color:var(--gold);font-size:1.1rem;}
+  .nav-user{display:flex;align-items:center;gap:0.8rem;font-size:0.7rem;color:var(--warm-brown);}
+  .nav-avatar{width:28px;height:28px;border-radius:50%;border:1px solid rgba(196,168,130,0.3);object-fit:cover;}
+  .btn-logout{background:transparent;border:1px solid rgba(196,168,130,0.2);color:var(--sepia);padding:0.3rem 0.8rem;font-size:0.65rem;letter-spacing:0.15em;cursor:pointer;font-family:Georgia,serif;text-transform:uppercase;transition:all 0.2s;}
+  .btn-logout:hover{border-color:var(--gold);color:var(--gold);}
+
+  .admin-body{padding:2rem;max-width:1100px;margin:0 auto;}
+  .upload-card{border:1px solid rgba(196,168,130,0.15);padding:2rem;background:rgba(61,43,31,0.25);margin-bottom:2.5rem;}
+  .card-title{font-size:0.7rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(196,168,130,0.1);}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  .form-field{margin-bottom:1rem;}
+  .form-field.full{grid-column:1/-1;}
+  .form-field label{display:block;font-size:0.6rem;letter-spacing:0.2em;color:var(--sepia);text-transform:uppercase;margin-bottom:0.4rem;}
+  .form-field input,.form-field select{width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;transition:border-color 0.2s;}
+  .form-field input:focus,.form-field select:focus{border-color:var(--gold);}
+  .form-field select option{background:#3d2b1f;}
+  .drop-zone{border:1px dashed rgba(196,168,130,0.3);padding:3rem;text-align:center;cursor:pointer;transition:all 0.2s;background:rgba(0,0,0,0.15);margin-bottom:1rem;}
+  .drop-zone.dragover{border-color:var(--gold);background:rgba(201,168,76,0.05);}
+  .drop-zone p{color:var(--warm-brown);font-size:0.8rem;line-height:1.8;}
+  .drop-zone strong{color:var(--gold);}
+  .preview-img{max-width:100%;max-height:200px;display:none;margin:1rem auto;border:1px solid rgba(196,168,130,0.2);}
+  .upload-progress{height:2px;background:rgba(196,168,130,0.1);margin-top:1rem;display:none;}
+  .upload-progress-bar{height:100%;background:var(--gold);width:0%;transition:width 0.3s;}
+  .upload-status{font-size:0.75rem;color:var(--sepia);margin-top:0.5rem;min-height:1rem;}
+  .btn-upload{background:var(--gold);color:#1a1008;border:none;padding:0.7rem 2rem;font-family:Georgia,serif;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;gap:0.5rem;}
+  .btn-upload:hover{background:#e0bc5a;}
+  .btn-upload:disabled{opacity:0.4;cursor:not-allowed;}
+
+  .tab-bar{display:flex;margin-bottom:1.5rem;border-bottom:1px solid rgba(196,168,130,0.1);}
+  .tab{padding:0.6rem 1.5rem;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;color:var(--warm-brown);border:none;border-bottom:2px solid transparent;transition:all 0.2s;background:none;font-family:Georgia,serif;}
+  .tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+  .works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;}
+  .work-item{border:1px solid rgba(196,168,130,0.1);background:rgba(61,43,31,0.2);overflow:hidden;position:relative;}
+  .work-item img{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
+  .work-item-info{padding:0.7rem;}
+  .work-item-name{font-size:0.85rem;color:var(--cream);margin-bottom:0.2rem;}
+  .work-item-meta{font-size:0.65rem;color:var(--warm-brown);text-transform:uppercase;}
+  .work-item-tag{display:inline-block;font-size:0.55rem;border:1px solid rgba(196,168,130,0.2);padding:0.1rem 0.4rem;text-transform:uppercase;color:var(--sepia);margin-top:0.3rem;}
+  .btn-delete{position:absolute;top:0.5rem;right:0.5rem;background:rgba(26,16,8,0.85);border:1px solid rgba(255,100,100,0.3);color:#e07070;width:28px;height:28px;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;}
+  .work-item:hover .btn-delete{opacity:1;}
+  .empty-state{text-align:center;padding:4rem;color:var(--warm-brown);font-style:italic;font-size:0.9rem;}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-box">
+    <p class="login-logo">W Studio</p>
+    <p class="login-sub">後台管理系統</p>
+    <p class="login-desc">用你的 Google 帳號登入，<br>即可上傳與管理作品。</p>
+    <button class="btn-google" onclick="doGoogleLogin()">
+      <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#1a1008"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#3d2b1f"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#1a1008"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#3d2b1f"/>
+      </svg>
+      以 Google 帳號登入
+    </button>
+    <p class="login-note">僅授權帳號可進入後台</p>
+    <p class="err-msg" id="err-msg"></p>
+  </div>
+</div>
+
+<div id="admin-panel">
+  <nav class="admin-nav">
+    <span class="admin-nav-logo">W Studio — 後台</span>
+    <div class="nav-user">
+      <img class="nav-avatar" id="nav-avatar" src="" alt="">
+      <span id="nav-name"></span>
+      <button class="btn-logout" onclick="doLogout()">登出</button>
+    </div>
+  </nav>
+  <div class="admin-body">
+    <div class="upload-card">
+      <p class="card-title">✦ 上傳新作品</p>
+      <div class="form-grid">
+        <div class="form-field"><label>作品名稱</label><input type="text" id="f-title" placeholder="無題 #001"></div>
+        <div class="form-field"><label>年份</label><input type="text" id="f-year" placeholder="2024"></div>
+        <div class="form-field"><label>類別</label>
+          <select id="f-category">
+            <option value="photography">底片攝影</option>
+            <option value="illustration">手繪插畫</option>
+            <option value="commercial">商業攝影</option>
+          </select>
+        </div>
+        <div class="form-field"><label>媒材 / 備注</label><input type="text" id="f-medium" placeholder="35mm · 底片"></div>
+        <div class="form-field full">
+          <label>選擇圖片</label>
+          <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+            <p><strong>點擊選擇</strong>或拖曳圖片到這裡<br><span style="font-size:0.7rem;opacity:0.6">JPG、PNG、WebP，建議寬度 2000px 以上</span></p>
+            <img class="preview-img" id="preview-img">
+          </div>
+          <input type="file" id="file-input" accept="image/*" style="display:none">
+          <div class="upload-progress" id="upload-progress"><div class="upload-progress-bar" id="progress-bar"></div></div>
+          <p class="upload-status" id="upload-status"></p>
+        </div>
+      </div>
+      <button class="btn-upload" id="btn-upload" onclick="uploadWork()">↑ 上傳作品</button>
+    </div>
+    <div class="upload-card">
+      <p class="card-title">✦ 已上傳作品</p>
+      <div class="tab-bar">
+        <button class="tab active" onclick="switchTab(event,'all')">全部</button>
+        <button class="tab" onclick="switchTab(event,'photography')">攝影</button>
+        <button class="tab" onclick="switchTab(event,'illustration')">插畫</button>
+        <button class="tab" onclick="switchTab(event,'commercial')">商業</button>
+      </div>
+      <div id="works-list"><p class="empty-state">載入中…</p></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+// ════════════════════════════════════════════
+//  ★ Firebase 設定
+// ════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey:            "AIzaSyAeG23IjdCrgxLwN7iCW4so1EQtHyWjfoc",
+  authDomain:        "wish-w.firebaseapp.com",
+  projectId:         "wish-w",
+  storageBucket:     "wish-w.firebasestorage.app",
+  messagingSenderId: "472916214379",
+  appId:             "1:472916214379:web:e76352027f3e0640ffa72e"
+};
+
+// ★ 只有這個 Gmail 可以登入後台
+const ALLOWED_EMAIL = "syuan920322@gmail.com";
+
+// ════════════════════════════════════════════
+//  ★ Cloudinary 設定
+// ════════════════════════════════════════════
+const CLOUDINARY_CLOUD  = "dn2eetexfs";
+const CLOUDINARY_PRESET = "portfolio_upload";
+
+const app      = initializeApp(firebaseConfig);
+const auth     = getAuth(app);
+const db       = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+let currentFilter = 'all';
+let selectedFile  = null;
+
+onAuthStateChanged(auth, user => {
+  if (user && user.email === ALLOWED_EMAIL) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-panel').style.display  = 'block';
+    document.getElementById('nav-name').textContent  = user.displayName || user.email;
+    document.getElementById('nav-avatar').src        = user.photoURL || '';
+    loadWorks();
+  } else {
+    if (user) { signOut(auth); document.getElementById('err-msg').textContent = '此帳號無後台權限。'; }
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('admin-panel').style.display  = 'none';
+  }
+});
+
+window.doGoogleLogin = async () => {
+  document.getElementById('err-msg').textContent = '';
+  try { await signInWithPopup(auth, provider); }
+  catch(e) { document.getElementById('err-msg').textContent = '登入失敗，請再試一次。'; }
+};
+window.doLogout = () => signOut(auth);
+
+const fileInput  = document.getElementById('file-input');
+const dropZone   = document.getElementById('drop-zone');
+const previewImg = document.getElementById('preview-img');
+fileInput.addEventListener('change', e => setFile(e.target.files[0]));
+dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('dragover'); setFile(e.dataTransfer.files[0]); });
+function setFile(f) {
+  if (!f) return; selectedFile = f;
+  const r = new FileReader();
+  r.onload = e => { previewImg.src = e.target.result; previewImg.style.display = 'block'; };
+  r.readAsDataURL(f);
+}
+
+window.uploadWork = async () => {
+  if (!selectedFile) { alert('請先選擇圖片'); return; }
+  const title    = document.getElementById('f-title').value.trim()  || '無題';
+  const year     = document.getElementById('f-year').value.trim()   || String(new Date().getFullYear());
+  const category = document.getElementById('f-category').value;
+  const medium   = document.getElementById('f-medium').value.trim();
+  const btn      = document.getElementById('btn-upload');
+  const pWrap    = document.getElementById('upload-progress');
+  const bar      = document.getElementById('progress-bar');
+  const status   = document.getElementById('upload-status');
+  btn.disabled = true; pWrap.style.display = 'block'; status.textContent = '上傳中…';
+
+  try {
+    // 上傳到 Cloudinary
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    formData.append('upload_preset', CLOUDINARY_PRESET);
+    formData.append('folder', 'portfolio');
+
+    bar.style.width = '30%'; status.textContent = '上傳中… 請稍候';
+
+    const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+      method: 'POST', body: formData
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error?.message || '上傳失敗');
+
+    bar.style.width = '80%'; status.textContent = '儲存資料中…';
+
+    // 把圖片網址存到 Firestore
+    await addDoc(collection(db,'works'), {
+      title, year, category, medium,
+      imageUrl:   data.secure_url,
+      publicId:   data.public_id,
+      createdAt:  new Date()
+    });
+
+    bar.style.width = '100%'; status.textContent = '✓ 上傳成功！';
+    setTimeout(() => { bar.style.width='0%'; pWrap.style.display='none'; }, 1500);
+    btn.disabled = false; selectedFile = null; previewImg.style.display = 'none';
+    ['f-title','f-year','f-medium'].forEach(id => document.getElementById(id).value = '');
+    loadWorks();
+
+  } catch(e) {
+    status.textContent = '上傳失敗：' + e.message;
+    btn.disabled = false;
+  }
+};
+
+async function loadWorks() {
+  const container = document.getElementById('works-list');
+  const snap = await getDocs(query(collection(db,'works'), orderBy('createdAt','desc')));
+  let works = []; snap.forEach(d => works.push({id:d.id,...d.data()}));
+  if (currentFilter !== 'all') works = works.filter(w => w.category === currentFilter);
+  if (!works.length) { container.innerHTML='<p class="empty-state">這個分類還沒有作品</p>'; return; }
+  const label = {photography:'攝影',illustration:'插畫',commercial:'商業攝影'};
+  container.innerHTML = `<div class="works-grid">${works.map(w=>`
+    <div class="work-item">
+      <img src="${w.imageUrl}" alt="${w.title}" loading="lazy">
+      <div class="work-item-info">
+        <p class="work-item-name">${w.title}</p>
+        <p class="work-item-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
+        <span class="work-item-tag">${label[w.category]||w.category}</span>
+      </div>
+      <button class="btn-delete" onclick="deleteWork('${w.id}','${w.publicId}')">✕</button>
+    </div>`).join('')}</div>`;
+}
+
+window.deleteWork = async (docId, publicId) => {
+  if (!confirm('確定要刪除這件作品嗎？')) return;
+  await deleteDoc(doc(db,'works',docId));
+  // 注意：Cloudinary 圖片刪除需要後端 API，前台無法直接刪除
+  // 圖片會留在 Cloudinary 但不再顯示於網站
+  loadWorks();
+};
+
+window.switchTab = (e, filter) => {
+  currentFilter = filter;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  e.target.classList.add('active');
+  loadWorks();
+};
+</script>
+</body>
+</html>
