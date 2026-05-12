@@ -5,66 +5,71 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>W Studio — 後台管理</title>
 <style>
-  :root {
-    --cream:#f2ead8; --sepia:#c4a882; --warm-brown:#8b6b4a;
-    --dark-brown:#3d2b1f; --near-black:#1a1008; --gold:#c9a84c;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100vh;}
+:root{--cream:#f2ead8;--sepia:#c4a882;--warm-brown:#8b6b4a;--dark-brown:#3d2b1f;--near-black:#1a1008;--gold:#c9a84c;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100vh;}
 
-  #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#2a1a0e 0%,#1a1008 70%);}
-  .login-box{border:1px solid rgba(196,168,130,0.2);padding:3rem;width:380px;background:rgba(61,43,31,0.4);text-align:center;}
-  .login-logo{font-size:2.2rem;font-style:italic;color:var(--gold);margin-bottom:0.3rem;}
-  .login-sub{font-size:0.65rem;letter-spacing:0.35em;color:var(--warm-brown);text-transform:uppercase;margin-bottom:0.5rem;}
-  .login-desc{font-size:0.82rem;color:var(--sepia);font-style:italic;margin-bottom:2.5rem;line-height:1.6;}
-  .btn-google{width:100%;padding:0.9rem 1.5rem;background:var(--gold);color:#1a1008;border:none;font-family:Georgia,serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.8rem;transition:background 0.2s;}
-  .btn-google:hover{background:#e0bc5a;}
-  .login-note{font-size:0.65rem;color:var(--warm-brown);margin-top:1.2rem;opacity:0.7;}
-  .err-msg{color:#e07070;font-size:0.78rem;margin-top:1rem;min-height:1.2rem;}
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#2a1a0e 0%,#1a1008 70%);}
+.login-box{border:1px solid rgba(196,168,130,0.2);padding:3rem;width:380px;background:rgba(61,43,31,0.4);text-align:center;}
+.login-logo{font-size:2.2rem;font-style:italic;color:var(--gold);margin-bottom:0.3rem;}
+.login-sub{font-size:0.65rem;letter-spacing:0.35em;color:var(--warm-brown);text-transform:uppercase;margin-bottom:0.5rem;}
+.login-desc{font-size:0.82rem;color:var(--sepia);font-style:italic;margin-bottom:2.5rem;line-height:1.6;}
+.btn-google{width:100%;padding:0.9rem 1.5rem;background:var(--gold);color:#1a1008;border:none;font-family:Georgia,serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.8rem;transition:background 0.2s;}
+.btn-google:hover{background:#e0bc5a;}
+.login-note{font-size:0.65rem;color:var(--warm-brown);margin-top:1.2rem;opacity:0.7;}
+.err-msg{color:#e07070;font-size:0.78rem;margin-top:1rem;min-height:1.2rem;}
 
-  #admin-panel{display:none;}
-  .admin-nav{position:sticky;top:0;z-index:100;background:#1a1008;border-bottom:1px solid rgba(196,168,130,0.1);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;}
-  .admin-nav-logo{font-style:italic;color:var(--gold);font-size:1.1rem;}
-  .nav-user{display:flex;align-items:center;gap:0.8rem;font-size:0.7rem;color:var(--warm-brown);}
-  .nav-avatar{width:28px;height:28px;border-radius:50%;border:1px solid rgba(196,168,130,0.3);object-fit:cover;}
-  .btn-logout{background:transparent;border:1px solid rgba(196,168,130,0.2);color:var(--sepia);padding:0.3rem 0.8rem;font-size:0.65rem;letter-spacing:0.15em;cursor:pointer;font-family:Georgia,serif;text-transform:uppercase;transition:all 0.2s;}
-  .btn-logout:hover{border-color:var(--gold);color:var(--gold);}
+#admin-panel{display:none;}
+.admin-nav{position:sticky;top:0;z-index:100;background:#1a1008;border-bottom:1px solid rgba(196,168,130,0.1);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;}
+.admin-nav-logo{font-style:italic;color:var(--gold);font-size:1.1rem;}
+.nav-user{display:flex;align-items:center;gap:0.8rem;font-size:0.7rem;color:var(--warm-brown);}
+.nav-avatar{width:28px;height:28px;border-radius:50%;border:1px solid rgba(196,168,130,0.3);object-fit:cover;}
+.btn-logout{background:transparent;border:1px solid rgba(196,168,130,0.2);color:var(--sepia);padding:0.3rem 0.8rem;font-size:0.65rem;letter-spacing:0.15em;cursor:pointer;font-family:Georgia,serif;text-transform:uppercase;transition:all 0.2s;}
+.btn-logout:hover{border-color:var(--gold);color:var(--gold);}
 
-  .admin-body{padding:2rem;max-width:1100px;margin:0 auto;}
-  .upload-card{border:1px solid rgba(196,168,130,0.15);padding:2rem;background:rgba(61,43,31,0.25);margin-bottom:2.5rem;}
-  .card-title{font-size:0.7rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(196,168,130,0.1);}
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-  .form-field{margin-bottom:1rem;}
-  .form-field.full{grid-column:1/-1;}
-  .form-field label{display:block;font-size:0.6rem;letter-spacing:0.2em;color:var(--sepia);text-transform:uppercase;margin-bottom:0.4rem;}
-  .form-field input,.form-field select{width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;transition:border-color 0.2s;}
-  .form-field input:focus,.form-field select:focus{border-color:var(--gold);}
-  .form-field select option{background:#3d2b1f;}
-  .drop-zone{border:1px dashed rgba(196,168,130,0.3);padding:3rem;text-align:center;cursor:pointer;transition:all 0.2s;background:rgba(0,0,0,0.15);margin-bottom:1rem;}
-  .drop-zone.dragover{border-color:var(--gold);background:rgba(201,168,76,0.05);}
-  .drop-zone p{color:var(--warm-brown);font-size:0.8rem;line-height:1.8;}
-  .drop-zone strong{color:var(--gold);}
-  .preview-img{max-width:100%;max-height:200px;display:none;margin:1rem auto;border:1px solid rgba(196,168,130,0.2);}
-  .upload-progress{height:2px;background:rgba(196,168,130,0.1);margin-top:1rem;display:none;}
-  .upload-progress-bar{height:100%;background:var(--gold);width:0%;transition:width 0.3s;}
-  .upload-status{font-size:0.75rem;color:var(--sepia);margin-top:0.5rem;min-height:1rem;}
-  .btn-upload{background:var(--gold);color:#1a1008;border:none;padding:0.7rem 2rem;font-family:Georgia,serif;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;gap:0.5rem;}
-  .btn-upload:hover{background:#e0bc5a;}
-  .btn-upload:disabled{opacity:0.4;cursor:not-allowed;}
+.admin-body{padding:2rem;max-width:1100px;margin:0 auto;}
+.upload-card{border:1px solid rgba(196,168,130,0.15);padding:2rem;background:rgba(61,43,31,0.25);margin-bottom:2.5rem;}
+.card-title{font-size:0.7rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(196,168,130,0.1);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-field{margin-bottom:1rem;}
+.form-field.full{grid-column:1/-1;}
+.form-field label{display:block;font-size:0.6rem;letter-spacing:0.2em;color:var(--sepia);text-transform:uppercase;margin-bottom:0.4rem;}
+.form-field input,.form-field select{width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;transition:border-color 0.2s;}
+.form-field input:focus,.form-field select:focus{border-color:var(--gold);}
+.form-field select option{background:#3d2b1f;}
 
-  .tab-bar{display:flex;margin-bottom:1.5rem;border-bottom:1px solid rgba(196,168,130,0.1);}
-  .tab{padding:0.6rem 1.5rem;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;color:var(--warm-brown);border:none;border-bottom:2px solid transparent;transition:all 0.2s;background:none;font-family:Georgia,serif;}
-  .tab.active{color:var(--gold);border-bottom-color:var(--gold);}
-  .works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;}
-  .work-item{border:1px solid rgba(196,168,130,0.1);background:rgba(61,43,31,0.2);overflow:hidden;position:relative;}
-  .work-item img{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
-  .work-item-info{padding:0.7rem;}
-  .work-item-name{font-size:0.85rem;color:var(--cream);margin-bottom:0.2rem;}
-  .work-item-meta{font-size:0.65rem;color:var(--warm-brown);text-transform:uppercase;}
-  .work-item-tag{display:inline-block;font-size:0.55rem;border:1px solid rgba(196,168,130,0.2);padding:0.1rem 0.4rem;text-transform:uppercase;color:var(--sepia);margin-top:0.3rem;}
-  .btn-delete{position:absolute;top:0.5rem;right:0.5rem;background:rgba(26,16,8,0.85);border:1px solid rgba(255,100,100,0.3);color:#e07070;width:28px;height:28px;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;}
-  .work-item:hover .btn-delete{opacity:1;}
-  .empty-state{text-align:center;padding:4rem;color:var(--warm-brown);font-style:italic;font-size:0.9rem;}
+/* DROP ZONES */
+.drop-zone{border:1px dashed rgba(196,168,130,0.3);padding:2rem;text-align:center;cursor:pointer;transition:all 0.2s;background:rgba(0,0,0,0.15);margin-bottom:0.8rem;}
+.drop-zone.dragover{border-color:var(--gold);background:rgba(201,168,76,0.05);}
+.drop-zone p{color:var(--warm-brown);font-size:0.78rem;line-height:1.7;}
+.drop-zone strong{color:var(--gold);}
+.cover-preview{width:100%;max-height:200px;object-fit:cover;display:none;border:1px solid rgba(196,168,130,0.2);margin-top:0.8rem;}
+.extras-preview{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.8rem;}
+.extra-thumb{position:relative;width:80px;height:80px;}
+.extra-thumb img{width:100%;height:100%;object-fit:cover;border:1px solid rgba(196,168,130,0.2);}
+.extra-thumb button{position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:rgba(26,16,8,0.9);border:1px solid rgba(255,100,100,0.4);color:#e07070;font-size:0.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+.upload-progress{height:2px;background:rgba(196,168,130,0.1);margin-top:1rem;display:none;}
+.upload-progress-bar{height:100%;background:var(--gold);width:0%;transition:width 0.3s;}
+.upload-status{font-size:0.75rem;color:var(--sepia);margin-top:0.5rem;min-height:1rem;}
+.btn-upload{background:var(--gold);color:#1a1008;border:none;padding:0.7rem 2rem;font-family:Georgia,serif;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;gap:0.5rem;margin-top:0.5rem;}
+.btn-upload:hover{background:#e0bc5a;}
+.btn-upload:disabled{opacity:0.4;cursor:not-allowed;}
+
+/* TABS & WORKS */
+.tab-bar{display:flex;margin-bottom:1.5rem;border-bottom:1px solid rgba(196,168,130,0.1);flex-wrap:wrap;}
+.tab{padding:0.6rem 1.2rem;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;color:var(--warm-brown);border:none;border-bottom:2px solid transparent;transition:all 0.2s;background:none;font-family:Georgia,serif;}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;}
+.work-item{border:1px solid rgba(196,168,130,0.1);background:rgba(61,43,31,0.2);overflow:hidden;position:relative;}
+.work-item-cover{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
+.work-item-info{padding:0.65rem;}
+.work-item-name{font-size:0.82rem;color:var(--cream);margin-bottom:0.15rem;}
+.work-item-meta{font-size:0.6rem;color:var(--warm-brown);text-transform:uppercase;}
+.work-item-count{font-size:0.55rem;color:var(--sepia);margin-top:0.1rem;opacity:0.8;}
+.work-item-tag{display:inline-block;font-size:0.52rem;border:1px solid rgba(196,168,130,0.2);padding:0.1rem 0.4rem;text-transform:uppercase;color:var(--sepia);margin-top:0.25rem;}
+.btn-delete{position:absolute;top:0.4rem;right:0.4rem;background:rgba(26,16,8,0.88);border:1px solid rgba(255,100,100,0.3);color:#e07070;width:26px;height:26px;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;padding:0;}
+.work-item:hover .btn-delete{opacity:1;}
+.empty-state{text-align:center;padding:4rem;color:var(--warm-brown);font-style:italic;font-size:0.9rem;}
 </style>
 </head>
 <body>
@@ -98,55 +103,88 @@
     </div>
   </nav>
   <div class="admin-body">
+
+    <!-- UPLOAD FORM -->
     <div class="upload-card">
       <p class="card-title">✦ 上傳新作品</p>
       <div class="form-grid">
-        <div class="form-field"><label>作品名稱</label><input type="text" id="f-title" placeholder="無題 #001"></div>
-        <div class="form-field"><label>年份</label><input type="text" id="f-year" placeholder="2024"></div>
-        <div class="form-field"><label>類別</label>
+        <div class="form-field">
+          <label>作品名稱</label>
+          <input type="text" id="f-title" placeholder="無題 #001">
+        </div>
+        <div class="form-field">
+          <label>年份</label>
+          <input type="text" id="f-year" placeholder="2024">
+        </div>
+        <div class="form-field">
+          <label>類別</label>
           <select id="f-category">
-            <option value="photography">底片攝影</option>
-            <option value="illustration">手繪插畫</option>
-            <option value="commercial">商業攝影</option>
+            <option value="film">底片攝影 Film</option>
+            <option value="street">街頭攝影 Street</option>
+            <option value="portrait">人像攝影 Portrait</option>
+            <option value="commercial">商業攝影 Commercial</option>
+            <option value="pet">寵物 Pet</option>
+            <option value="digital">電繪 Digital Art</option>
           </select>
         </div>
-        <div class="form-field"><label>媒材 / 備注</label><input type="text" id="f-medium" placeholder="35mm · 底片"></div>
+        <div class="form-field">
+          <label>媒材 / 備注</label>
+          <input type="text" id="f-medium" placeholder="35mm · Kodak Gold 200">
+        </div>
+
+        <!-- COVER IMAGE -->
         <div class="form-field full">
-          <label>選擇圖片</label>
-          <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
-            <p><strong>點擊選擇</strong>或拖曳圖片到這裡<br><span style="font-size:0.7rem;opacity:0.6">JPG、PNG、WebP，建議寬度 2000px 以上</span></p>
-            <img class="preview-img" id="preview-img">
+          <label>封面圖（主圖）</label>
+          <div class="drop-zone" id="cover-zone" onclick="document.getElementById('cover-input').click()">
+            <p><strong>點擊選擇</strong>或拖曳封面圖到這裡<br><span style="font-size:0.68rem;opacity:0.6">建議寬度 2000px 以上</span></p>
           </div>
-          <input type="file" id="file-input" accept="image/*" style="display:none">
-          <div class="upload-progress" id="upload-progress"><div class="upload-progress-bar" id="progress-bar"></div></div>
-          <p class="upload-status" id="upload-status"></p>
+          <img class="cover-preview" id="cover-preview">
+          <input type="file" id="cover-input" accept="image/*" style="display:none">
+        </div>
+
+        <!-- EXTRA IMAGES -->
+        <div class="form-field full">
+          <label>其他照片（可選，可多選）</label>
+          <div class="drop-zone" id="extras-zone" onclick="document.getElementById('extras-input').click()">
+            <p><strong>點擊選擇</strong>或拖曳其他照片到這裡<br><span style="font-size:0.68rem;opacity:0.6">可一次選多張，最多 9 張</span></p>
+          </div>
+          <div class="extras-preview" id="extras-preview"></div>
+          <input type="file" id="extras-input" accept="image/*" multiple style="display:none">
         </div>
       </div>
+
+      <div class="upload-progress" id="upload-progress">
+        <div class="upload-progress-bar" id="progress-bar"></div>
+      </div>
+      <p class="upload-status" id="upload-status"></p>
       <button class="btn-upload" id="btn-upload" onclick="uploadWork()">↑ 上傳作品</button>
     </div>
+
+    <!-- WORKS LIST -->
     <div class="upload-card">
       <p class="card-title">✦ 已上傳作品</p>
       <div class="tab-bar">
         <button class="tab active" onclick="switchTab(event,'all')">全部</button>
-        <button class="tab" onclick="switchTab(event,'photography')">攝影</button>
-        <button class="tab" onclick="switchTab(event,'illustration')">插畫</button>
+        <button class="tab" onclick="switchTab(event,'film')">底片</button>
+        <button class="tab" onclick="switchTab(event,'street')">街頭</button>
+        <button class="tab" onclick="switchTab(event,'portrait')">人像</button>
         <button class="tab" onclick="switchTab(event,'commercial')">商業</button>
+        <button class="tab" onclick="switchTab(event,'pet')">寵物</button>
+        <button class="tab" onclick="switchTab(event,'digital')">電繪</button>
       </div>
       <div id="works-list"><p class="empty-state">載入中…</p></div>
     </div>
+
   </div>
 </div>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-// ════════════════════════════════════════════
-//  ★ Firebase 設定
-// ════════════════════════════════════════════
 const firebaseConfig = {
   apiKey:            "AIzaSyAeG23IjdCrgxLwN7iCW4so1EQtHyWjfoc",
   authDomain:        "wish-w.firebaseapp.com",
@@ -156,14 +194,9 @@ const firebaseConfig = {
   appId:             "1:472916214379:web:e76352027f3e0640ffa72e"
 };
 
-// ★ 只有這個 Gmail 可以登入後台
-const ALLOWED_EMAIL = "syuan920322@gmail.com";
-
-// ════════════════════════════════════════════
-//  ★ Cloudinary 設定
-// ════════════════════════════════════════════
-const CLOUDINARY_CLOUD  = "dn2eetexfs";
-const CLOUDINARY_PRESET = "portfolio_upload";
+const ALLOWED_EMAIL    = "syuan920322@gmail.com";
+const CLOUDINARY_CLOUD = "dn2eetexfs";
+const CLOUDINARY_PRESET= "portfolio_upload";
 
 const app      = initializeApp(firebaseConfig);
 const auth     = getAuth(app);
@@ -171,8 +204,10 @@ const db       = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
 let currentFilter = 'all';
-let selectedFile  = null;
+let coverFile     = null;
+let extraFiles    = [];
 
+// ── AUTH ──
 onAuthStateChanged(auth, user => {
   if (user && user.email === ALLOWED_EMAIL) {
     document.getElementById('login-screen').style.display = 'none';
@@ -189,27 +224,92 @@ onAuthStateChanged(auth, user => {
 
 window.doGoogleLogin = async () => {
   document.getElementById('err-msg').textContent = '';
-  try { await signInWithPopup(auth, provider); }
-  catch(e) { document.getElementById('err-msg').textContent = '登入失敗，請再試一次。'; }
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  try {
+    if (isMobile) {
+      await signInWithRedirect(auth, provider);
+    } else {
+      await signInWithPopup(auth, provider);
+    }
+  } catch(e) {
+    document.getElementById('err-msg').textContent = '登入失敗，請再試一次。';
+  }
 };
+
+// 處理手機 redirect 回來的結果
+getRedirectResult(auth).then(result => {
+  // onAuthStateChanged 會自動接手，不需要額外處理
+}).catch(e => {
+  if (e.code !== 'auth/no-current-user') {
+    document.getElementById('err-msg').textContent = '登入失敗：' + e.message;
+  }
+});
 window.doLogout = () => signOut(auth);
 
-const fileInput  = document.getElementById('file-input');
-const dropZone   = document.getElementById('drop-zone');
-const previewImg = document.getElementById('preview-img');
-fileInput.addEventListener('change', e => setFile(e.target.files[0]));
-dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('dragover'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('dragover'); setFile(e.dataTransfer.files[0]); });
-function setFile(f) {
-  if (!f) return; selectedFile = f;
+// ── COVER FILE ──
+const coverInput = document.getElementById('cover-input');
+const coverZone  = document.getElementById('cover-zone');
+const coverPrev  = document.getElementById('cover-preview');
+coverInput.addEventListener('change', e => setCover(e.target.files[0]));
+coverZone.addEventListener('dragover', e => { e.preventDefault(); coverZone.classList.add('dragover'); });
+coverZone.addEventListener('dragleave', () => coverZone.classList.remove('dragover'));
+coverZone.addEventListener('drop', e => { e.preventDefault(); coverZone.classList.remove('dragover'); setCover(e.dataTransfer.files[0]); });
+function setCover(f) {
+  if (!f) return; coverFile = f;
   const r = new FileReader();
-  r.onload = e => { previewImg.src = e.target.result; previewImg.style.display = 'block'; };
+  r.onload = e => { coverPrev.src = e.target.result; coverPrev.style.display='block'; };
   r.readAsDataURL(f);
 }
 
+// ── EXTRA FILES ──
+const extrasInput = document.getElementById('extras-input');
+const extrasZone  = document.getElementById('extras-zone');
+const extrasPrev  = document.getElementById('extras-preview');
+extrasInput.addEventListener('change', e => addExtras(Array.from(e.target.files)));
+extrasZone.addEventListener('dragover', e => { e.preventDefault(); extrasZone.classList.add('dragover'); });
+extrasZone.addEventListener('dragleave', () => extrasZone.classList.remove('dragover'));
+extrasZone.addEventListener('drop', e => { e.preventDefault(); extrasZone.classList.remove('dragover'); addExtras(Array.from(e.dataTransfer.files)); });
+function addExtras(files) {
+  files.forEach(f => { if (extraFiles.length < 9) extraFiles.push(f); });
+  renderExtrasPrev();
+}
+function renderExtrasPrev() {
+  extrasPrev.innerHTML = '';
+  extraFiles.forEach((f,i) => {
+    const r = new FileReader();
+    r.onload = e => {
+      const div = document.createElement('div'); div.className='extra-thumb';
+      div.innerHTML=`<img src="${e.target.result}"><button onclick="removeExtra(${i})">✕</button>`;
+      extrasPrev.appendChild(div);
+    };
+    r.readAsDataURL(f);
+  });
+}
+window.removeExtra = i => { extraFiles.splice(i,1); renderExtrasPrev(); };
+
+// ── UPLOAD TO CLOUDINARY ──
+async function uploadToCloudinary(file, onProgress) {
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CLOUDINARY_PRESET);
+  fd.append('folder', 'portfolio');
+  return new Promise((res, rej) => {
+    const xhr = new XMLHttpRequest();
+    xhr.upload.onprogress = e => { if (e.lengthComputable && onProgress) onProgress(e.loaded/e.total); };
+    xhr.onload = () => {
+      const data = JSON.parse(xhr.responseText);
+      if (xhr.status === 200) res(data.secure_url);
+      else rej(new Error(data.error?.message || '上傳失敗'));
+    };
+    xhr.onerror = () => rej(new Error('網路錯誤'));
+    xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`);
+    xhr.send(fd);
+  });
+}
+
+// ── UPLOAD WORK ──
 window.uploadWork = async () => {
-  if (!selectedFile) { alert('請先選擇圖片'); return; }
+  if (!coverFile) { alert('請先選擇封面圖'); return; }
   const title    = document.getElementById('f-title').value.trim()  || '無題';
   const year     = document.getElementById('f-year').value.trim()   || String(new Date().getFullYear());
   const category = document.getElementById('f-category').value;
@@ -218,38 +318,43 @@ window.uploadWork = async () => {
   const pWrap    = document.getElementById('upload-progress');
   const bar      = document.getElementById('progress-bar');
   const status   = document.getElementById('upload-status');
-  btn.disabled = true; pWrap.style.display = 'block'; status.textContent = '上傳中…';
+
+  btn.disabled = true; pWrap.style.display='block';
+  const total = 1 + extraFiles.length;
+  let done = 0;
+
+  const updateBar = () => { bar.style.width = Math.round(done/total*100)+'%'; };
 
   try {
-    // 上傳到 Cloudinary
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-    formData.append('upload_preset', CLOUDINARY_PRESET);
-    formData.append('folder', 'portfolio');
-
-    bar.style.width = '30%'; status.textContent = '上傳中… 請稍候';
-
-    const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
-      method: 'POST', body: formData
+    status.textContent = `上傳封面圖…`;
+    const coverUrl = await uploadToCloudinary(coverFile, p => {
+      bar.style.width = Math.round((done + p) / total * 100) + '%';
     });
-    const data = await res.json();
+    done++; updateBar();
 
-    if (!res.ok) throw new Error(data.error?.message || '上傳失敗');
+    const images = [];
+    for (let i=0; i<extraFiles.length; i++) {
+      status.textContent = `上傳第 ${i+1} / ${extraFiles.length} 張…`;
+      const url = await uploadToCloudinary(extraFiles[i], p => {
+        bar.style.width = Math.round((done + p) / total * 100) + '%';
+      });
+      images.push(url); done++; updateBar();
+    }
 
-    bar.style.width = '80%'; status.textContent = '儲存資料中…';
-
-    // 把圖片網址存到 Firestore
+    status.textContent = '儲存資料…';
     await addDoc(collection(db,'works'), {
-      title, year, category, medium,
-      imageUrl:   data.secure_url,
-      publicId:   data.public_id,
-      createdAt:  new Date()
+      title, year, category, medium, coverUrl, images, createdAt: new Date()
     });
 
-    bar.style.width = '100%'; status.textContent = '✓ 上傳成功！';
-    setTimeout(() => { bar.style.width='0%'; pWrap.style.display='none'; }, 1500);
-    btn.disabled = false; selectedFile = null; previewImg.style.display = 'none';
-    ['f-title','f-year','f-medium'].forEach(id => document.getElementById(id).value = '');
+    bar.style.width = '100%';
+    status.textContent = '✓ 上傳成功！';
+    setTimeout(() => { bar.style.width='0%'; pWrap.style.display='none'; status.textContent=''; }, 2000);
+
+    // reset
+    coverFile = null; extraFiles = [];
+    coverPrev.style.display='none'; extrasPrev.innerHTML='';
+    ['f-title','f-year','f-medium'].forEach(id=>document.getElementById(id).value='');
+    btn.disabled = false;
     loadWorks();
 
   } catch(e) {
@@ -258,30 +363,33 @@ window.uploadWork = async () => {
   }
 };
 
+// ── LOAD WORKS ──
+const CAT_LABEL = {film:'底片',street:'街頭',portrait:'人像',commercial:'商業',pet:'寵物',digital:'電繪'};
+
 async function loadWorks() {
   const container = document.getElementById('works-list');
   const snap = await getDocs(query(collection(db,'works'), orderBy('createdAt','desc')));
   let works = []; snap.forEach(d => works.push({id:d.id,...d.data()}));
   if (currentFilter !== 'all') works = works.filter(w => w.category === currentFilter);
   if (!works.length) { container.innerHTML='<p class="empty-state">這個分類還沒有作品</p>'; return; }
-  const label = {photography:'攝影',illustration:'插畫',commercial:'商業攝影'};
-  container.innerHTML = `<div class="works-grid">${works.map(w=>`
-    <div class="work-item">
-      <img src="${w.imageUrl}" alt="${w.title}" loading="lazy">
+  container.innerHTML = `<div class="works-grid">${works.map(w=>{
+    const total = 1 + (w.images?.length||0);
+    return `<div class="work-item">
+      <img class="work-item-cover" src="${w.coverUrl}" alt="${w.title}" loading="lazy">
       <div class="work-item-info">
         <p class="work-item-name">${w.title}</p>
         <p class="work-item-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
-        <span class="work-item-tag">${label[w.category]||w.category}</span>
+        ${total>1?`<p class="work-item-count">${total} 張照片</p>`:''}
+        <span class="work-item-tag">${CAT_LABEL[w.category]||w.category}</span>
       </div>
-      <button class="btn-delete" onclick="deleteWork('${w.id}','${w.publicId}')">✕</button>
-    </div>`).join('')}</div>`;
+      <button class="btn-delete" onclick="deleteWork('${w.id}')">✕</button>
+    </div>`;
+  }).join('')}</div>`;
 }
 
-window.deleteWork = async (docId, publicId) => {
+window.deleteWork = async docId => {
   if (!confirm('確定要刪除這件作品嗎？')) return;
   await deleteDoc(doc(db,'works',docId));
-  // 注意：Cloudinary 圖片刪除需要後端 API，前台無法直接刪除
-  // 圖片會留在 Cloudinary 但不再顯示於網站
   loadWorks();
 };
 
