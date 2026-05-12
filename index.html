@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>W — 作品集</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Tenor+Sans&family=DM+Mono:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Tenor+Sans&family=DM+Mono:ital@0;1&family=Noto+Serif+TC:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream:#f2ead8; --parchment:#e8dcc4; --sepia:#c4a882;
@@ -131,6 +131,51 @@
   .fade-up{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease,transform 0.8s ease;}
   .fade-up.visible{opacity:1;transform:translateY(0);}
 
+
+  /* ── LANGUAGE TOGGLE ── */
+  #lang-toggle {
+    font-family:'DM Mono',monospace;
+    font-size:0.6rem;
+    letter-spacing:0.2em;
+    color:var(--sepia);
+    background:transparent;
+    border:1px solid rgba(196,168,130,0.25);
+    padding:0.3rem 0.7rem;
+    cursor:none;
+    transition:all 0.2s;
+    text-transform:uppercase;
+    margin-left:1rem;
+  }
+  #lang-toggle:hover { border-color:var(--gold); color:var(--gold); }
+
+  /* Chinese font overrides */
+  html[lang="zh-TW"] .hero-title,
+  html[lang="zh-TW"] .section-title,
+  html[lang="zh-TW"] .card-title-t,
+  html[lang="zh-TW"] .contact-title,
+  html[lang="zh-TW"] .footer-mark {
+    font-family:'Noto Serif TC',serif;
+    font-weight:200;
+    letter-spacing:0.05em;
+  }
+  html[lang="zh-TW"] body {
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+  }
+  html[lang="zh-TW"] .hero-subtitle,
+  html[lang="zh-TW"] .about-text p,
+  html[lang="zh-TW"] .contact-sub,
+  html[lang="zh-TW"] .card-desc {
+    font-family:'Noto Serif TC',serif;
+    font-weight:200;
+    font-style:normal;
+    letter-spacing:0.03em;
+    line-height:1.9;
+  }
+  html[lang="zh-TW"] .hero-title {
+    font-size:clamp(3.5rem,9vw,8.5rem);
+    line-height:1;
+  }
   @media(max-width:768px){
     nav{padding:1rem 1.5rem;}
     section,#hero{padding:4rem 1.5rem;}
@@ -153,32 +198,33 @@
 <nav>
   <a href="#hero" class="nav-logo">W ✦ STUDIO</a>
   <ul class="nav-links">
-    <li><a href="#photography">Film</a></li>
-    <li><a href="#illustration">Art</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#photography" data-en="Film" data-zh="攝影">Film</a></li>
+    <li><a href="#illustration" data-en="Art" data-zh="插畫">Art</a></li>
+    <li><a href="#about" data-en="About" data-zh="關於">About</a></li>
+    <li><a href="#contact" data-en="Contact" data-zh="聯絡">Contact</a></li>
   </ul>
+  <button id="lang-toggle" onclick="toggleLang()">中 ｜ EN</button>
 </nav>
 
 <section id="hero">
   <div class="hero-bg-text" id="hero-bg-text">W</div>
-  <p class="hero-eyebrow">— Photography · Illustration · Commercial —</p>
-  <h1 class="hero-title"><span class="changeable" id="hero-word">Seeing</span><br>through<br>the lens</h1>
-  <p class="hero-subtitle">Film, streets, portraits, creatures —<br><em>every frame is an act of remembering.</em></p>
+  <p class="hero-eyebrow" data-en="— Photography · Illustration · Commercial —" data-zh="— 攝影 · 插畫 · 商業 —">— Photography · Illustration · Commercial —</p>
+  <h1 class="hero-title" data-en-html="<span class='changeable' id='hero-word'>Seeing</span><br>through<br>the lens" data-zh-html="用<span class='changeable' id='hero-word'>光</span>書寫"><span class="changeable" id="hero-word">Seeing</span><br>through<br>the lens</h1>
+  <p class="hero-subtitle" data-en-html="Film, streets, portraits, creatures —<br><em>every frame is an act of remembering.</em>" data-zh-html="底片、街頭、人像、寵物——<br><em>每一格快門，都是一次記憶的練習。</em>">Film, streets, portraits, creatures —<br><em>every frame is an act of remembering.</em></p>
   <div class="hero-scroll"><div class="hero-scroll-line"></div>scroll to explore</div>
 </section>
 
 <section id="categories">
-  <p class="section-eyebrow fade-up">— Series</p>
-  <h2 class="section-title fade-up">Work</h2>
+  <p class="section-eyebrow fade-up" data-en="— Series" data-zh="— 創作系列">— Series</p>
+  <h2 class="section-title fade-up" data-en="Work" data-zh="作品">Work</h2>
   <div class="cards-grid">
     <div class="tilt-card fade-up" data-tilt>
       <div class="card-shine"></div>
       <div class="card-img-area"><div class="card-img-placeholder">◉</div></div>
       <div class="card-overlay">
         <span class="card-number">01 / SERIES</span>
-        <h3 class="card-title-t">Film & Street</h3>
-        <p class="card-desc">Analog moments — streets, faces, quiet corners of the city</p>
+        <h3 class="card-title-t" data-en="Film & Street" data-zh="底片攝影">Film & Street</h3>
+        <p class="card-desc" data-en="Analog moments — streets, faces, quiet corners of the city" data-zh="街頭、人像、城市喧囂中的靜默切片">Analog moments — streets, faces, quiet corners of the city</p>
       </div>
     </div>
     <div class="tilt-card fade-up" data-tilt style="transition-delay:0.1s">
@@ -186,8 +232,8 @@
       <div class="card-img-area"><div class="card-img-placeholder">✐</div></div>
       <div class="card-overlay">
         <span class="card-number">02 / SERIES</span>
-        <h3 class="card-title-t">Digital Art</h3>
-        <p class="card-desc">Illustrations drawn from imagination and memory</p>
+        <h3 class="card-title-t" data-en="Digital Art" data-zh="電繪插畫">Digital Art</h3>
+        <p class="card-desc" data-en="Illustrations drawn from imagination and memory" data-zh="電繪創作，從記憶與想像中提煉色彩">Illustrations drawn from imagination and memory</p>
       </div>
     </div>
     <div class="tilt-card fade-up" data-tilt style="transition-delay:0.2s">
@@ -195,8 +241,8 @@
       <div class="card-img-area"><div class="card-img-placeholder">⬡</div></div>
       <div class="card-overlay">
         <span class="card-number">03 / SERIES</span>
-        <h3 class="card-title-t">Commercial</h3>
-        <p class="card-desc">Brand visuals, portraits, and pet photography</p>
+        <h3 class="card-title-t" data-en="Commercial" data-zh="商業攝影">Commercial</h3>
+        <p class="card-desc" data-en="Brand visuals, portraits, and pet photography" data-zh="品牌視覺、人像、寵物攝影">Brand visuals, portraits, and pet photography</p>
       </div>
     </div>
   </div>
@@ -206,8 +252,8 @@
 <section class="gallery-section" id="photography">
   <div class="gallery-header fade-up">
     <div>
-      <p class="section-eyebrow" style="margin-bottom:0.5rem">— Photography</p>
-      <h2 class="section-title" style="margin-bottom:0">Film & Lens</h2>
+      <p class="section-eyebrow" style="margin-bottom:0.5rem" data-en="— Photography" data-zh="— 攝影作品">— Photography</p>
+      <h2 class="section-title" style="margin-bottom:0" data-en="Film & Lens" data-zh="底片與鏡頭">Film & Lens</h2>
     </div>
     <div class="gallery-nav">
       <button class="gallery-btn" onclick="scrollGallery('photo-track',-1)">‹</button>
@@ -226,8 +272,8 @@
 <section class="gallery-section" id="illustration">
   <div class="gallery-header fade-up">
     <div>
-      <p class="section-eyebrow" style="margin-bottom:0.5rem">— Illustration</p>
-      <h2 class="section-title" style="margin-bottom:0">Ink & Pigment</h2>
+      <p class="section-eyebrow" style="margin-bottom:0.5rem" data-en="— Illustration" data-zh="— 插畫作品">— Illustration</p>
+      <h2 class="section-title" style="margin-bottom:0" data-en="Ink & Pigment" data-zh="線條與色彩">Ink & Pigment</h2>
     </div>
     <div class="gallery-nav">
       <button class="gallery-btn" onclick="scrollGallery('illus-track',-1)">‹</button>
@@ -247,18 +293,18 @@
     <div class="about-img-placeholder">◯</div>
   </div>
   <div class="about-text fade-up" style="transition-delay:0.15s">
-    <p class="section-eyebrow">— About</p>
+    <p class="section-eyebrow" data-en="— About" data-zh="— 關於創作者">— About</p>
     <h2 class="section-title">W</h2>
     <div class="film-strip-deco">
       <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
       <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
     </div>
-    <p>I speak in <strong>film grain and brushstrokes</strong> — a photographer who shoots analog, draws digitally, and finds meaning in the quiet details others walk past.</p>
-    <p>From <strong>street corners to studio lights</strong>, from pet portraits to commercial campaigns, every project is an exercise in seeing more carefully.</p>
-    <p>Open to <strong>commercial commissions, portrait sessions, and creative collaborations</strong>. Let's make something together.</p>
+    <p data-en-html="I speak in <strong>film grain and brushstrokes</strong> — a photographer who shoots analog, draws digitally, and finds meaning in the quiet details others walk past." data-zh-html="用<strong>底片顆粒與筆觸</strong>說話——拍底片、畫電繪，在別人走過的角落裡尋找意義。">I speak in <strong>film grain and brushstrokes</strong> — a photographer who shoots analog, draws digitally, and finds meaning in the quiet details others walk past.</p>
+    <p data-en-html="From <strong>street corners to studio lights</strong>, from pet portraits to commercial campaigns, every project is an exercise in seeing more carefully." data-zh-html="從<strong>街頭到棚燈</strong>，從寵物到商業品牌，每一個拍攝計畫都是一次更仔細觀看世界的練習。">From <strong>street corners to studio lights</strong>, from pet portraits to commercial campaigns, every project is an exercise in seeing more carefully.</p>
+    <p data-en-html="Open to <strong>commercial commissions, portrait sessions, and creative collaborations</strong>. Let's make something together." data-zh-html="歡迎<strong>商業合作、人像拍攝、寵物攝影</strong>等各類創作邀約，期待一起做出好東西。">Open to <strong>commercial commissions, portrait sessions, and creative collaborations</strong>. Let's make something together.</p>
     <div class="tags">
-      <span class="tag">Film Photography</span><span class="tag">Street</span><span class="tag">Portrait</span>
-      <span class="tag">Pet</span><span class="tag">Digital Art</span><span class="tag">Commercial</span>
+      <span class="tag" data-en="Film Photography" data-zh="底片攝影">Film Photography</span><span class="tag" data-en="Street" data-zh="街頭攝影">Street</span><span class="tag" data-en="Portrait" data-zh="人像">Portrait</span>
+      <span class="tag" data-en="Pet" data-zh="寵物">Pet</span><span class="tag" data-en="Digital Art" data-zh="電繪">Digital Art</span><span class="tag" data-en="Commercial" data-zh="商業攝影">Commercial</span>
     </div>
   </div>
 </section>
@@ -266,9 +312,9 @@
 <footer id="contact">
   <div class="contact-grid fade-up">
     <div>
-      <p class="section-eyebrow">— Get in touch</p>
-      <h2 class="contact-title">Let's<br><em>work together</em></h2>
-      <p class="contact-sub">Available for portrait sessions, commercial shoots, pet photography, and digital illustration commissions.</p>
+      <p class="section-eyebrow" data-en="— Get in touch" data-zh="— 合作邀約">— Get in touch</p>
+      <h2 class="contact-title" data-en-html="Let's<br><em>work together</em>" data-zh-html="歡迎<br><em>合作邀約</em>">Let's<br><em>work together</em></h2>
+      <p class="contact-sub" data-en="Available for portrait sessions, commercial shoots, pet photography, and digital illustration commissions." data-zh="人像、商業、寵物攝影，以及電繪委託，都歡迎聯絡洽談。">Available for portrait sessions, commercial shoots, pet photography, and digital illustration commissions.</p>
       <!-- ★ 改成你的 IG 網址 -->
       <a class="ig-btn" href="https://instagram.com/你的IG帳號" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -296,7 +342,7 @@
   </div>
   <div class="footer-bottom">
     <span class="footer-copy">© 2025 W Studio — All Rights Reserved</span>
-    <span class="footer-mark">Photography · Art · Vision</span>
+    <span class="footer-mark" data-en="Photography · Art · Vision" data-zh="攝影 · 插畫 · 創作">Photography · Art · Vision</span>
   </div>
 </footer>
 
@@ -394,8 +440,8 @@ document.querySelectorAll('a,button,.tilt-card').forEach(el=>{
 });
 
 // hero words
-const words=['Seeing','Feeling','Chasing','Framing','Capturing','Drifting'];
-const bgWords=['W','W','W','W','W','W'];
+let words=['Seeing','Feeling','Chasing','Framing','Capturing','Drifting'];
+let bgWords=['W','W','W','W','W','W'];
 let wi=0;
 const wordEl=document.getElementById('hero-word'),bgEl=document.getElementById('hero-bg-text');
 setInterval(()=>{wordEl.style.opacity='0';setTimeout(()=>{wi=(wi+1)%words.length;wordEl.textContent=words[wi];bgEl.textContent=bgWords[wi];wordEl.style.opacity='1';},250);},2200);
@@ -415,6 +461,38 @@ document.querySelectorAll('[data-tilt]').forEach(card=>{
 
 // gallery scroll buttons
 window.scrollGallery=function(id,dir){const track=document.getElementById(id);const items=track.querySelectorAll('.gallery-item');const step=(items[0]?.offsetWidth||280)+19;track.scrollBy({left:dir*step,behavior:'smooth'});};
+
+
+// ── LANGUAGE TOGGLE ──
+let currentLang = 'en';
+const EN_WORDS = ['Seeing','Feeling','Chasing','Framing','Capturing','Drifting'];
+const ZH_WORDS = ['光','影','時間','靜默','記憶','瞬間'];
+
+window.toggleLang = function() {
+  currentLang = currentLang === 'en' ? 'zh' : 'en';
+  const html = document.documentElement;
+  const btn  = document.getElementById('lang-toggle');
+
+  if (currentLang === 'zh') {
+    html.lang = 'zh-TW';
+    btn.textContent = 'EN ｜ 中';
+    words.splice(0, words.length, ...ZH_WORDS);
+    bgWords.splice(0, bgWords.length, ...['光','影','時','默','憶','瞬']);
+  } else {
+    html.lang = 'en';
+    btn.textContent = '中 ｜ EN';
+    words.splice(0, words.length, ...EN_WORDS);
+    bgWords.splice(0, bgWords.length, ...['W','W','W','W','W','W']);
+  }
+
+  const lang = currentLang;
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.textContent = lang === 'en' ? el.dataset.en : el.dataset.zh;
+  });
+  document.querySelectorAll('[data-en-html]').forEach(el => {
+    el.innerHTML = lang === 'en' ? el.dataset.enHtml : el.dataset.zhHtml;
+  });
+};
 
 // fade-up
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.1});
