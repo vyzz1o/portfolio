@@ -140,6 +140,13 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
           </select>
         </div>
         <div class="form-field"><label>媒材 / 備注</label><input type="text" id="f-medium" placeholder="35mm · Kodak Gold 200"></div>
+        <div class="form-field"><label>封面圖方向</label>
+          <select id="f-orient">
+            <option value="portrait">直式 Portrait（高 &gt; 寬）</option>
+            <option value="landscape">橫式 Landscape（寬 &gt; 高）</option>
+            <option value="square">方形 Square</option>
+          </select>
+        </div>
         <div class="form-field full">
           <label>封面圖（主圖）</label>
           <div class="drop-zone" id="cover-zone" onclick="document.getElementById('cover-input').click()">
@@ -205,6 +212,13 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
         </select>
       </div>
       <div class="form-field"><label>媒材 / 備注</label><input type="text" id="e-medium"></div>
+      <div class="form-field"><label>封面圖方向</label>
+        <select id="e-orient">
+          <option value="portrait">直式 Portrait</option>
+          <option value="landscape">橫式 Landscape</option>
+          <option value="square">方形 Square</option>
+        </select>
+      </div>
       <div class="form-field full">
         <label>目前圖片（第一張 = 封面）</label>
         <div class="current-imgs" id="e-current-imgs"></div>
@@ -352,7 +366,8 @@ window.uploadWork=async()=>{
       done++; upd();
     }
     status.textContent='儲存…';
-    await addDoc(collection(db,'works'),{title,year,category,medium,coverUrl,images,sortOrder:allWorks.length,createdAt:new Date()});
+    const orient=document.getElementById('f-orient').value;
+    await addDoc(collection(db,'works'),{title,year,category,medium,orient,coverUrl,images,sortOrder:allWorks.length,createdAt:new Date()});
     bar.style.width='100%'; status.textContent='✓ 上傳成功！';
     setTimeout(()=>{bar.style.width='0%';pWrap.style.display='none';status.textContent='';},2000);
     coverFile=null; extraFiles=[];
@@ -451,6 +466,7 @@ window.openEdit=id=>{
   document.getElementById('e-year').value=w.year||'';
   document.getElementById('e-category').value=w.category||'film';
   document.getElementById('e-medium').value=w.medium||'';
+  document.getElementById('e-orient').value=w.orient||'portrait';
   document.getElementById('e-status').textContent='';
   document.getElementById('e-add-preview').innerHTML='';
   renderEditImgs();
@@ -496,6 +512,7 @@ window.saveEdit=async()=>{
   const year=document.getElementById('e-year').value.trim()||'';
   const category=document.getElementById('e-category').value;
   const medium=document.getElementById('e-medium').value.trim();
+  const orient=document.getElementById('e-orient').value;
   const btn=document.getElementById('e-save-btn');
   const bar=document.getElementById('e-bar');
   const pWrap=document.getElementById('e-progress');
@@ -511,10 +528,10 @@ window.saveEdit=async()=>{
     const allImgs=[...editImgs,...newUrls];
     const coverUrl=allImgs[0]||'';
     const images=allImgs.slice(1);
-    await updateDoc(doc(db,'works',editId),{title,year,category,medium,coverUrl,images});
+    await updateDoc(doc(db,'works',editId),{title,year,category,medium,orient,coverUrl,images});
     // update local
     const idx=allWorks.findIndex(x=>x.id===editId);
-    if(idx>-1) allWorks[idx]={...allWorks[idx],title,year,category,medium,coverUrl,images};
+    if(idx>-1) allWorks[idx]={...allWorks[idx],title,year,category,medium,orient,coverUrl,images};
     status.textContent='✓ 儲存成功！';
     setTimeout(()=>{closeEdit();renderWorks();},800);
   }catch(e){status.textContent='失敗：'+e.message;}
@@ -537,3 +554,4 @@ window.switchTab=(e,filter)=>{
 </script>
 </body>
 </html>
+
