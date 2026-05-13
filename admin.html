@@ -293,18 +293,18 @@ onAuthStateChanged(auth, user=>{
 });
 
 window.doGoogleLogin=async()=>{
-  document.getElementById('err-msg').textContent='';
-  const mob=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const errEl=document.getElementById('err-msg');
+  errEl.textContent='';
   try{
-    if(mob){
-      // Show loading state
-      document.querySelector('.btn-google').textContent='跳轉中…';
+    await signInWithPopup(auth,provider);
+  } catch(popupErr){
+    // popup failed, try redirect
+    try{
       await signInWithRedirect(auth,provider);
-    } else {
-      await signInWithPopup(auth,provider);
+    } catch(e){
+      errEl.textContent='登入失敗：'+e.message;
     }
   }
-  catch(e){document.getElementById('err-msg').textContent='登入失敗：'+e.message;}
 };
 window.doLogout=()=>signOut(auth);
 
