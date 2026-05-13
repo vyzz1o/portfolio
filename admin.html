@@ -24,12 +24,12 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
 .admin-nav-logo{font-style:italic;color:var(--gold);font-size:1.1rem;}
 .nav-user{display:flex;align-items:center;gap:0.8rem;font-size:0.7rem;color:var(--warm-brown);}
 .nav-avatar{width:28px;height:28px;border-radius:50%;border:1px solid rgba(196,168,130,0.3);object-fit:cover;}
-.btn-logout{background:transparent;border:1px solid rgba(196,168,130,0.2);color:var(--sepia);padding:0.3rem 0.8rem;font-size:0.65rem;letter-spacing:0.15em;cursor:pointer;font-family:Georgia,serif;text-transform:uppercase;transition:all 0.2s;}
-.btn-logout:hover{border-color:var(--gold);color:var(--gold);}
+.btn-sm{background:transparent;border:1px solid rgba(196,168,130,0.2);color:var(--sepia);padding:0.3rem 0.8rem;font-size:0.65rem;letter-spacing:0.15em;cursor:pointer;font-family:Georgia,serif;text-transform:uppercase;transition:all 0.2s;}
+.btn-sm:hover{border-color:var(--gold);color:var(--gold);}
 
 .admin-body{padding:2rem;max-width:1100px;margin:0 auto;}
-.upload-card{border:1px solid rgba(196,168,130,0.15);padding:2rem;background:rgba(61,43,31,0.25);margin-bottom:2.5rem;}
-.card-title{font-size:0.7rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(196,168,130,0.1);}
+.card{border:1px solid rgba(196,168,130,0.15);padding:2rem;background:rgba(61,43,31,0.25);margin-bottom:2.5rem;}
+.card-title{font-size:0.7rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(196,168,130,0.1);display:flex;align-items:center;justify-content:space-between;}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
 .form-field{margin-bottom:1rem;}
 .form-field.full{grid-column:1/-1;}
@@ -41,44 +41,59 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
 .drop-zone.dragover{border-color:var(--gold);background:rgba(201,168,76,0.05);}
 .drop-zone p{color:var(--warm-brown);font-size:0.78rem;line-height:1.7;}
 .drop-zone strong{color:var(--gold);}
-.cover-preview{width:100%;max-height:200px;object-fit:cover;display:none;border:1px solid rgba(196,168,130,0.2);margin-top:0.8rem;}
-.extras-preview{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.8rem;}
-.extra-thumb{position:relative;width:80px;height:80px;}
-.extra-thumb img{width:100%;height:100%;object-fit:cover;border:1px solid rgba(196,168,130,0.2);}
-.extra-thumb button{position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:rgba(26,16,8,0.9);border:1px solid rgba(255,100,100,0.4);color:#e07070;font-size:0.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+.cover-preview{width:100%;max-height:180px;object-fit:cover;display:none;border:1px solid rgba(196,168,130,0.2);margin-top:0.8rem;}
+.thumbs{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.8rem;}
+.thumb{position:relative;width:76px;height:76px;}
+.thumb img{width:100%;height:100%;object-fit:cover;border:1px solid rgba(196,168,130,0.2);}
+.thumb-del{position:absolute;top:-5px;right:-5px;width:17px;height:17px;border-radius:50%;background:rgba(26,16,8,0.9);border:1px solid rgba(255,100,100,0.4);color:#e07070;font-size:0.55rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
 .upload-progress{height:2px;background:rgba(196,168,130,0.1);margin-top:1rem;display:none;}
 .upload-progress-bar{height:100%;background:var(--gold);width:0%;transition:width 0.3s;}
-.upload-status{font-size:0.75rem;color:var(--sepia);margin-top:0.5rem;min-height:1rem;}
-.btn-upload{background:var(--gold);color:#1a1008;border:none;padding:0.7rem 2rem;font-family:Georgia,serif;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;display:inline-flex;align-items:center;gap:0.5rem;margin-top:0.5rem;}
-.btn-upload:hover{background:#e0bc5a;}
-.btn-upload:disabled{opacity:0.4;cursor:not-allowed;}
+.upload-status{font-size:0.72rem;color:var(--sepia);margin-top:0.5rem;min-height:1rem;}
+.btn-primary{background:var(--gold);color:#1a1008;border:none;padding:0.65rem 1.8rem;font-family:Georgia,serif;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;display:inline-flex;align-items:center;gap:0.5rem;margin-top:0.5rem;}
+.btn-primary:hover{background:#e0bc5a;}
+.btn-primary:disabled{opacity:0.4;cursor:not-allowed;}
+.btn-danger{background:transparent;border:1px solid rgba(255,100,100,0.3);color:#e07070;padding:0.65rem 1.2rem;font-family:Georgia,serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-top:0.5rem;margin-left:0.5rem;}
+.btn-danger:hover{background:rgba(224,112,112,0.1);}
 
-/* TABS */
-.tab-bar{display:flex;margin-bottom:1.5rem;border-bottom:1px solid rgba(196,168,130,0.1);flex-wrap:wrap;}
-.tab{padding:0.6rem 1.2rem;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;color:var(--warm-brown);border:none;border-bottom:2px solid transparent;transition:all 0.2s;background:none;font-family:Georgia,serif;}
+.tab-bar{display:flex;margin-bottom:1rem;border-bottom:1px solid rgba(196,168,130,0.1);flex-wrap:wrap;}
+.tab{padding:0.55rem 1.1rem;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;color:var(--warm-brown);border:none;border-bottom:2px solid transparent;transition:all 0.2s;background:none;font-family:Georgia,serif;}
 .tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.sort-hint{font-size:0.62rem;color:var(--warm-brown);font-style:italic;margin-bottom:0.8rem;opacity:0.65;}
+.sort-saved{font-size:0.62rem;color:var(--gold);margin-left:0.8rem;opacity:0;transition:opacity 0.3s;font-style:italic;}
+.sort-saved.show{opacity:1;}
 
-/* SORT HINT */
-.sort-hint{font-size:0.65rem;color:var(--warm-brown);font-style:italic;margin-bottom:1rem;opacity:0.7;}
-.sort-saving{color:var(--gold);font-size:0.65rem;margin-left:0.5rem;opacity:0;}
-.sort-saving.show{opacity:1;transition:opacity 0.2s;}
-
-/* WORKS GRID — DRAGGABLE */
-.works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;}
-.work-item{border:1px solid rgba(196,168,130,0.1);background:rgba(61,43,31,0.2);overflow:hidden;position:relative;transition:box-shadow 0.2s,transform 0.15s;}
-.work-item.dragging-item{opacity:0.4;transform:scale(0.96);}
+.works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:1rem;}
+.work-item{border:1px solid rgba(196,168,130,0.1);background:rgba(61,43,31,0.2);overflow:hidden;position:relative;transition:box-shadow 0.2s;}
 .work-item.drag-over{box-shadow:0 0 0 2px var(--gold);}
-.work-item-cover{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
-.work-item-info{padding:0.65rem;}
-.work-item-name{font-size:0.82rem;color:var(--cream);margin-bottom:0.15rem;}
-.work-item-meta{font-size:0.6rem;color:var(--warm-brown);text-transform:uppercase;}
-.work-item-count{font-size:0.55rem;color:var(--sepia);margin-top:0.1rem;opacity:0.8;}
-.work-item-tag{display:inline-block;font-size:0.52rem;border:1px solid rgba(196,168,130,0.2);padding:0.1rem 0.4rem;text-transform:uppercase;color:var(--sepia);margin-top:0.25rem;}
-.drag-handle{position:absolute;top:0.4rem;left:0.4rem;background:rgba(26,16,8,0.75);color:var(--sepia);width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;cursor:grab;opacity:0;transition:opacity 0.2s;border:1px solid rgba(196,168,130,0.2);}
+.work-item.dragging-item{opacity:0.4;}
+.work-cover{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
+.work-info{padding:0.6rem;}
+.work-name{font-size:0.8rem;color:var(--cream);margin-bottom:0.12rem;}
+.work-meta{font-size:0.58rem;color:var(--warm-brown);text-transform:uppercase;}
+.work-count{font-size:0.52rem;color:var(--sepia);margin-top:0.08rem;}
+.work-tag{display:inline-block;font-size:0.5rem;border:1px solid rgba(196,168,130,0.18);padding:0.08rem 0.35rem;text-transform:uppercase;color:var(--sepia);margin-top:0.2rem;}
+.work-actions{position:absolute;top:0.4rem;right:0.4rem;display:flex;gap:0.3rem;opacity:0;transition:opacity 0.2s;}
+.work-item:hover .work-actions{opacity:1;}
+.act-btn{width:26px;height:26px;background:rgba(26,16,8,0.88);border:1px solid rgba(196,168,130,0.2);color:var(--sepia);font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:all 0.2s;}
+.act-btn:hover{border-color:var(--gold);color:var(--gold);}
+.act-btn.del{border-color:rgba(255,100,100,0.3);color:#e07070;}
+.act-btn.del:hover{border-color:#e07070;}
+.drag-handle{position:absolute;top:0.4rem;left:0.4rem;width:24px;height:24px;background:rgba(26,16,8,0.75);border:1px solid rgba(196,168,130,0.18);color:var(--sepia);display:flex;align-items:center;justify-content:center;font-size:0.65rem;cursor:grab;opacity:0;transition:opacity 0.2s;}
 .work-item:hover .drag-handle{opacity:1;}
-.btn-delete{position:absolute;top:0.4rem;right:0.4rem;background:rgba(26,16,8,0.88);border:1px solid rgba(255,100,100,0.3);color:#e07070;width:26px;height:26px;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;padding:0;}
-.work-item:hover .btn-delete{opacity:1;}
-.empty-state{text-align:center;padding:4rem;color:var(--warm-brown);font-style:italic;font-size:0.9rem;}
+.empty-state{text-align:center;padding:3rem;color:var(--warm-brown);font-style:italic;}
+
+/* EDIT MODAL */
+#edit-modal{position:fixed;inset:0;z-index:900;background:rgba(10,5,2,0.9);display:none;align-items:center;justify-content:center;padding:1rem;}
+#edit-modal.open{display:flex;}
+.modal-box{background:#1e100a;border:1px solid rgba(196,168,130,0.2);padding:2rem;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;}
+.modal-title{font-size:0.7rem;letter-spacing:0.28em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(196,168,130,0.1);display:flex;justify-content:space-between;align-items:center;}
+.modal-close{background:none;border:none;color:var(--sepia);font-size:1.2rem;cursor:pointer;transition:color 0.2s;}
+.modal-close:hover{color:var(--gold);}
+.current-imgs{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;}
+.cur-img{position:relative;width:76px;height:76px;}
+.cur-img img{width:100%;height:100%;object-fit:cover;border:1px solid rgba(196,168,130,0.2);}
+.cur-img.is-cover::after{content:'Cover';position:absolute;bottom:0;left:0;right:0;background:rgba(201,168,76,0.85);color:#1a1008;font-size:0.45rem;letter-spacing:0.1em;text-align:center;padding:0.15rem;text-transform:uppercase;}
+.cur-img-del{position:absolute;top:-5px;right:-5px;width:17px;height:17px;border-radius:50%;background:rgba(26,16,8,0.9);border:1px solid rgba(255,100,100,0.4);color:#e07070;font-size:0.55rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
 </style>
 </head>
 <body>
@@ -103,12 +118,13 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
     <div class="nav-user">
       <img class="nav-avatar" id="nav-avatar" src="" alt="">
       <span id="nav-name"></span>
-      <button class="btn-logout" onclick="doLogout()">登出</button>
+      <button class="btn-sm" onclick="doLogout()">登出</button>
     </div>
   </nav>
   <div class="admin-body">
 
-    <div class="upload-card">
+    <!-- UPLOAD -->
+    <div class="card">
       <p class="card-title">✦ 上傳新作品</p>
       <div class="form-grid">
         <div class="form-field"><label>作品名稱</label><input type="text" id="f-title" placeholder="無題 #001"></div>
@@ -127,27 +143,31 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
         <div class="form-field full">
           <label>封面圖（主圖）</label>
           <div class="drop-zone" id="cover-zone" onclick="document.getElementById('cover-input').click()">
-            <p><strong>點擊選擇</strong>或拖曳封面圖<br><span style="font-size:0.68rem;opacity:0.6">建議 2000px 以上</span></p>
+            <p><strong>點擊選擇</strong>或拖曳封面圖<br><span style="font-size:0.65rem;opacity:0.6">建議 2000px 以上</span></p>
           </div>
           <img class="cover-preview" id="cover-preview">
           <input type="file" id="cover-input" accept="image/*" style="display:none">
         </div>
         <div class="form-field full">
-          <label>其他照片（最多 9 張，可多選）</label>
+          <label>其他照片（最多 9 張）</label>
           <div class="drop-zone" id="extras-zone" onclick="document.getElementById('extras-input').click()">
             <p><strong>點擊選擇</strong>或拖曳其他照片</p>
           </div>
-          <div class="extras-preview" id="extras-preview"></div>
+          <div class="thumbs" id="extras-preview"></div>
           <input type="file" id="extras-input" accept="image/*" multiple style="display:none">
         </div>
       </div>
       <div class="upload-progress" id="upload-progress"><div class="upload-progress-bar" id="progress-bar"></div></div>
       <p class="upload-status" id="upload-status"></p>
-      <button class="btn-upload" id="btn-upload" onclick="uploadWork()">↑ 上傳作品</button>
+      <button class="btn-primary" id="btn-upload" onclick="uploadWork()">↑ 上傳作品</button>
     </div>
 
-    <div class="upload-card">
-      <p class="card-title">✦ 已上傳作品 <span class="sort-saving" id="sort-saving">已儲存順序 ✓</span></p>
+    <!-- WORKS LIST -->
+    <div class="card">
+      <p class="card-title">
+        <span>✦ 已上傳作品</span>
+        <span class="sort-saved" id="sort-saved">已儲存順序 ✓</span>
+      </p>
       <div class="tab-bar">
         <button class="tab active" onclick="switchTab(event,'all')">全部</button>
         <button class="tab" onclick="switchTab(event,'film')">底片</button>
@@ -157,10 +177,53 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
         <button class="tab" onclick="switchTab(event,'pet')">寵物</button>
         <button class="tab" onclick="switchTab(event,'digital')">電繪</button>
       </div>
-      <p class="sort-hint">☰ 拖曳作品卡片可調整顯示順序</p>
+      <p class="sort-hint">☰ 拖曳卡片調整前台顯示順序</p>
       <div id="works-list"><p class="empty-state">載入中…</p></div>
     </div>
 
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div id="edit-modal">
+  <div class="modal-box">
+    <p class="modal-title">
+      <span>✦ 編輯作品</span>
+      <button class="modal-close" onclick="closeEdit()">✕</button>
+    </p>
+    <div class="form-grid">
+      <div class="form-field"><label>作品名稱</label><input type="text" id="e-title"></div>
+      <div class="form-field"><label>年份</label><input type="text" id="e-year"></div>
+      <div class="form-field"><label>類別</label>
+        <select id="e-category">
+          <option value="film">底片攝影 Film</option>
+          <option value="street">街頭攝影 Street</option>
+          <option value="portrait">人像攝影 Portrait</option>
+          <option value="commercial">商業攝影 Commercial</option>
+          <option value="pet">寵物 Pet</option>
+          <option value="digital">電繪 Digital Art</option>
+        </select>
+      </div>
+      <div class="form-field"><label>媒材 / 備注</label><input type="text" id="e-medium"></div>
+      <div class="form-field full">
+        <label>目前圖片（第一張 = 封面）</label>
+        <div class="current-imgs" id="e-current-imgs"></div>
+      </div>
+      <div class="form-field full">
+        <label>新增圖片</label>
+        <div class="drop-zone" id="e-add-zone" onclick="document.getElementById('e-add-input').click()">
+          <p><strong>點擊選擇</strong>或拖曳圖片新增到此作品</p>
+        </div>
+        <div class="thumbs" id="e-add-preview"></div>
+        <input type="file" id="e-add-input" accept="image/*" multiple style="display:none">
+      </div>
+    </div>
+    <div class="upload-progress" id="e-progress"><div class="upload-progress-bar" id="e-bar"></div></div>
+    <p class="upload-status" id="e-status"></p>
+    <div>
+      <button class="btn-primary" id="e-save-btn" onclick="saveEdit()">儲存變更</button>
+      <button class="btn-danger" onclick="deleteEditWork()">刪除作品</button>
+    </div>
   </div>
 </div>
 
@@ -168,245 +231,304 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy, writeBatch }
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, writeBatch }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
-  apiKey:            "AIzaSyAeG23IjdCrgxLwN7iCW4so1EQtHyWjfoc",
-  authDomain:        "wish-w.firebaseapp.com",
-  projectId:         "wish-w",
-  storageBucket:     "wish-w.firebasestorage.app",
-  messagingSenderId: "472916214379",
-  appId:             "1:472916214379:web:e76352027f3e0640ffa72e"
+  apiKey:"AIzaSyAeG23IjdCrgxLwN7iCW4so1EQtHyWjfoc",authDomain:"wish-w.firebaseapp.com",projectId:"wish-w",
+  storageBucket:"wish-w.firebasestorage.app",messagingSenderId:"472916214379",appId:"1:472916214379:web:e76352027f3e0640ffa72e"
 };
-
 const ALLOWED_EMAIL    = "syuan920322@gmail.com";
 const CLOUDINARY_CLOUD = "dn2eetxfs";
 const CLOUDINARY_PRESET= "portfolio_upload";
 
-const app      = initializeApp(firebaseConfig);
-const auth     = getAuth(app);
-const db       = getFirestore(app);
-const provider = new GoogleAuthProvider();
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const provider=new GoogleAuthProvider();
 
-let currentFilter = 'all';
-let coverFile     = null;
-let extraFiles    = [];
-let allWorks      = [];
-let dragSrcId     = null;
+let allWorks=[], currentFilter='all';
+let coverFile=null, extraFiles=[];
+let editId=null, editImgs=[], editNewFiles=[];
 
-// ── AUTH ──
-onAuthStateChanged(auth, user => {
-  if (user && user.email === ALLOWED_EMAIL) {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('admin-panel').style.display  = 'block';
-    document.getElementById('nav-name').textContent  = user.displayName || user.email;
-    document.getElementById('nav-avatar').src        = user.photoURL || '';
+// AUTH
+onAuthStateChanged(auth, user=>{
+  if(user&&user.email===ALLOWED_EMAIL){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('admin-panel').style.display='block';
+    document.getElementById('nav-name').textContent=user.displayName||user.email;
+    document.getElementById('nav-avatar').src=user.photoURL||'';
     loadWorks();
   } else {
-    if (user) { signOut(auth); document.getElementById('err-msg').textContent = '此帳號無後台權限。'; }
-    document.getElementById('login-screen').style.display = 'flex';
-    document.getElementById('admin-panel').style.display  = 'none';
+    if(user){signOut(auth);document.getElementById('err-msg').textContent='此帳號無後台權限。';}
+    document.getElementById('login-screen').style.display='flex';
+    document.getElementById('admin-panel').style.display='none';
   }
 });
-
-getRedirectResult(auth).catch(() => {});
-
-window.doGoogleLogin = async () => {
-  document.getElementById('err-msg').textContent = '';
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  try {
-    if (isMobile) await signInWithRedirect(auth, provider);
-    else await signInWithPopup(auth, provider);
-  } catch(e) { document.getElementById('err-msg').textContent = '登入失敗，請再試一次。'; }
+getRedirectResult(auth).catch(()=>{});
+window.doGoogleLogin=async()=>{
+  document.getElementById('err-msg').textContent='';
+  const mob=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  try{ if(mob) await signInWithRedirect(auth,provider); else await signInWithPopup(auth,provider); }
+  catch(e){document.getElementById('err-msg').textContent='登入失敗，請再試一次。';}
 };
-window.doLogout = () => signOut(auth);
+window.doLogout=()=>signOut(auth);
 
-// ── FILE INPUTS ──
-const coverInput = document.getElementById('cover-input');
-const coverZone  = document.getElementById('cover-zone');
-const coverPrev  = document.getElementById('cover-preview');
-coverInput.addEventListener('change', e => setCover(e.target.files[0]));
-coverZone.addEventListener('dragover',  e => { e.preventDefault(); coverZone.classList.add('dragover'); });
-coverZone.addEventListener('dragleave', () => coverZone.classList.remove('dragover'));
-coverZone.addEventListener('drop', e => { e.preventDefault(); coverZone.classList.remove('dragover'); setCover(e.dataTransfer.files[0]); });
-function setCover(f) {
-  if (!f) return; coverFile = f;
-  const r = new FileReader();
-  r.onload = e => { coverPrev.src=e.target.result; coverPrev.style.display='block'; };
-  r.readAsDataURL(f);
-}
-
-const extrasInput = document.getElementById('extras-input');
-const extrasZone  = document.getElementById('extras-zone');
-const extrasPrev  = document.getElementById('extras-preview');
-extrasInput.addEventListener('change', e => addExtras(Array.from(e.target.files)));
-extrasZone.addEventListener('dragover',  e => { e.preventDefault(); extrasZone.classList.add('dragover'); });
-extrasZone.addEventListener('dragleave', () => extrasZone.classList.remove('dragover'));
-extrasZone.addEventListener('drop', e => { e.preventDefault(); extrasZone.classList.remove('dragover'); addExtras(Array.from(e.dataTransfer.files)); });
-function addExtras(files) {
-  files.forEach(f => { if(extraFiles.length<9) extraFiles.push(f); });
-  renderExtrasPrev();
-}
-function renderExtrasPrev() {
-  extrasPrev.innerHTML='';
-  extraFiles.forEach((f,i) => {
-    const r=new FileReader();
-    r.onload=e=>{
-      const d=document.createElement('div'); d.className='extra-thumb';
-      d.innerHTML=`<img src="${e.target.result}"><button onclick="removeExtra(${i})">✕</button>`;
-      extrasPrev.appendChild(d);
-    };
-    r.readAsDataURL(f);
+// FILE INPUTS (upload)
+setupDropZone('cover-zone','cover-input',false);
+setupDropZone('extras-zone','extras-input',true);
+function setupDropZone(zoneId, inputId, multi){
+  const zone=document.getElementById(zoneId);
+  const input=document.getElementById(inputId);
+  input.addEventListener('change',e=>{
+    if(multi) addExtras(Array.from(e.target.files));
+    else setCover(e.target.files[0]);
+  });
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('dragover');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('dragover'));
+  zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('dragover');
+    if(multi) addExtras(Array.from(e.dataTransfer.files));
+    else setCover(e.dataTransfer.files[0]);
   });
 }
-window.removeExtra = i => { extraFiles.splice(i,1); renderExtrasPrev(); };
+function setCover(f){
+  if(!f)return; coverFile=f;
+  const r=new FileReader();
+  r.onload=e=>{const p=document.getElementById('cover-preview');p.src=e.target.result;p.style.display='block';};
+  r.readAsDataURL(f);
+}
+function addExtras(files){
+  files.forEach(f=>{if(extraFiles.length<9)extraFiles.push(f);});
+  renderExtrasPrev();
+}
+function renderExtrasPrev(){
+  const c=document.getElementById('extras-preview'); c.innerHTML='';
+  extraFiles.forEach((f,i)=>{
+    const r=new FileReader(); r.onload=e=>{
+      const d=document.createElement('div');d.className='thumb';
+      d.innerHTML=`<img src="${e.target.result}"><button class="thumb-del" onclick="removeExtra(${i})">✕</button>`;
+      c.appendChild(d);
+    }; r.readAsDataURL(f);
+  });
+}
+window.removeExtra=i=>{extraFiles.splice(i,1);renderExtrasPrev();};
 
-// ── CLOUDINARY UPLOAD ──
-async function uploadToCloudinary(file, onProgress) {
-  const fd = new FormData();
-  fd.append('file', file);
-  fd.append('upload_preset', CLOUDINARY_PRESET);
-  fd.append('folder', 'portfolio');
-  return new Promise((res,rej) => {
-    const xhr = new XMLHttpRequest();
-    xhr.upload.onprogress = e => { if(e.lengthComputable && onProgress) onProgress(e.loaded/e.total); };
-    xhr.onload = () => {
-      const data=JSON.parse(xhr.responseText);
-      if(xhr.status===200) res(data.secure_url);
-      else rej(new Error(data.error?.message||'上傳失敗'));
-    };
-    xhr.onerror = ()=>rej(new Error('網路錯誤'));
+// CLOUDINARY
+async function cloudinaryUpload(file, onP){
+  const fd=new FormData();
+  fd.append('file',file); fd.append('upload_preset',CLOUDINARY_PRESET); fd.append('folder','portfolio');
+  return new Promise((res,rej)=>{
+    const xhr=new XMLHttpRequest();
+    xhr.upload.onprogress=e=>{if(e.lengthComputable&&onP)onP(e.loaded/e.total);};
+    xhr.onload=()=>{const d=JSON.parse(xhr.responseText);if(xhr.status===200)res(d.secure_url);else rej(new Error(d.error?.message||'失敗'));};
+    xhr.onerror=()=>rej(new Error('網路錯誤'));
     xhr.open('POST',`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`);
     xhr.send(fd);
   });
 }
 
-// ── UPLOAD WORK ──
-window.uploadWork = async () => {
-  if (!coverFile) { alert('請先選擇封面圖'); return; }
-  const title    = document.getElementById('f-title').value.trim()  || '無題';
-  const year     = document.getElementById('f-year').value.trim()   || String(new Date().getFullYear());
-  const category = document.getElementById('f-category').value;
-  const medium   = document.getElementById('f-medium').value.trim();
+// UPLOAD WORK
+window.uploadWork=async()=>{
+  if(!coverFile){alert('請先選擇封面圖');return;}
+  const title=document.getElementById('f-title').value.trim()||'無題';
+  const year=document.getElementById('f-year').value.trim()||String(new Date().getFullYear());
+  const category=document.getElementById('f-category').value;
+  const medium=document.getElementById('f-medium').value.trim();
   const btn=document.getElementById('btn-upload');
   const pWrap=document.getElementById('upload-progress');
   const bar=document.getElementById('progress-bar');
   const status=document.getElementById('upload-status');
   btn.disabled=true; pWrap.style.display='block';
   const total=1+extraFiles.length; let done=0;
-  const upd=()=>{ bar.style.width=Math.round(done/total*100)+'%'; };
-  try {
+  const upd=()=>{bar.style.width=Math.round(done/total*100)+'%';};
+  try{
     status.textContent='上傳封面圖…';
-    const coverUrl=await uploadToCloudinary(coverFile, p=>{ bar.style.width=Math.round((done+p)/total*100)+'%'; });
+    const coverUrl=await cloudinaryUpload(coverFile,p=>{bar.style.width=Math.round((done+p)/total*100)+'%';});
     done++; upd();
     const images=[];
     for(let i=0;i<extraFiles.length;i++){
-      status.textContent=`上傳第 ${i+1} / ${extraFiles.length} 張…`;
-      const url=await uploadToCloudinary(extraFiles[i], p=>{ bar.style.width=Math.round((done+p)/total*100)+'%'; });
-      images.push(url); done++; upd();
+      status.textContent=`上傳第 ${i+1}/${extraFiles.length} 張…`;
+      images.push(await cloudinaryUpload(extraFiles[i],p=>{bar.style.width=Math.round((done+p)/total*100)+'%';}));
+      done++; upd();
     }
-    status.textContent='儲存資料…';
-    // sortOrder: put new work at the end
-    const sortOrder = allWorks.length;
-    await addDoc(collection(db,'works'),{ title, year, category, medium, coverUrl, images, sortOrder, createdAt:new Date() });
+    status.textContent='儲存…';
+    await addDoc(collection(db,'works'),{title,year,category,medium,coverUrl,images,sortOrder:allWorks.length,createdAt:new Date()});
     bar.style.width='100%'; status.textContent='✓ 上傳成功！';
-    setTimeout(()=>{ bar.style.width='0%'; pWrap.style.display='none'; status.textContent=''; },2000);
+    setTimeout(()=>{bar.style.width='0%';pWrap.style.display='none';status.textContent='';},2000);
     coverFile=null; extraFiles=[];
-    coverPrev.style.display='none'; extrasPrev.innerHTML='';
+    document.getElementById('cover-preview').style.display='none';
+    document.getElementById('extras-preview').innerHTML='';
     ['f-title','f-year','f-medium'].forEach(id=>document.getElementById(id).value='');
     btn.disabled=false; loadWorks();
-  } catch(e){ status.textContent='上傳失敗：'+e.message; btn.disabled=false; }
+  }catch(e){status.textContent='失敗：'+e.message;btn.disabled=false;}
 };
 
-// ── LOAD WORKS ──
-const CAT_LABEL={film:'底片',street:'街頭',portrait:'人像',commercial:'商業',pet:'寵物',digital:'電繪'};
-
-async function loadWorks() {
-  const snap = await getDocs(collection(db,'works'));
-  allWorks = [];
-  snap.forEach(d => allWorks.push({ id:d.id, ...d.data() }));
-  allWorks.sort((a,b) => {
-    const aHas = a.sortOrder != null;
-    const bHas = b.sortOrder != null;
-    if (aHas && bHas) return a.sortOrder - b.sortOrder;
-    if (aHas) return -1;
-    if (bHas) return 1;
-    const aT = a.createdAt?.toMillis?.() || 0;
-    const bT = b.createdAt?.toMillis?.() || 0;
-    return bT - aT;
+// LOAD
+function sortW(arr){
+  return [...arr].sort((a,b)=>{
+    const ah=a.sortOrder!=null,bh=b.sortOrder!=null;
+    if(ah&&bh)return a.sortOrder-b.sortOrder;
+    if(ah)return -1;if(bh)return 1;
+    return (b.createdAt?.toMillis?.()??0)-(a.createdAt?.toMillis?.()??0);
   });
+}
+const CAT={film:'底片',street:'街頭',portrait:'人像',commercial:'商業',pet:'寵物',digital:'電繪'};
+
+async function loadWorks(){
+  const snap=await getDocs(collection(db,'works'));
+  allWorks=[]; snap.forEach(d=>allWorks.push({id:d.id,...d.data()}));
   renderWorks();
 }
 
-function renderWorks() {
+function renderWorks(){
   const container=document.getElementById('works-list');
-  let works=currentFilter==='all'?[...allWorks]:allWorks.filter(w=>w.category===currentFilter);
-  if(!works.length){ container.innerHTML='<p class="empty-state">這個分類還沒有作品</p>'; return; }
-  container.innerHTML=`<div class="works-grid" id="sortable-grid">${works.map(w=>{
+  let ws=currentFilter==='all'?sortW(allWorks):sortW(allWorks).filter(w=>w.category===currentFilter);
+  if(!ws.length){container.innerHTML='<p class="empty-state">這個分類還沒有作品</p>';return;}
+  container.innerHTML=`<div class="works-grid" id="sortable">${ws.map(w=>{
     const total=1+(w.images?.length||0);
     return `<div class="work-item" draggable="true" data-id="${w.id}">
-      <div class="drag-handle" title="拖曳排序">⠿</div>
-      <img class="work-item-cover" src="${w.coverUrl}" alt="${w.title}" loading="lazy">
-      <div class="work-item-info">
-        <p class="work-item-name">${w.title}</p>
-        <p class="work-item-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
-        ${total>1?`<p class="work-item-count">${total} 張照片</p>`:''}
-        <span class="work-item-tag">${CAT_LABEL[w.category]||w.category}</span>
+      <div class="drag-handle">⠿</div>
+      <img class="work-cover" src="${w.coverUrl}" alt="${w.title}" loading="lazy">
+      <div class="work-info">
+        <p class="work-name">${w.title}</p>
+        <p class="work-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
+        ${total>1?`<p class="work-count">${total} 張</p>`:''}
+        <span class="work-tag">${CAT[w.category]||w.category}</span>
       </div>
-      <button class="btn-delete" onclick="deleteWork('${w.id}')">✕</button>
+      <div class="work-actions">
+        <button class="act-btn" onclick="openEdit('${w.id}')" title="編輯">✎</button>
+        <button class="act-btn del" onclick="quickDelete('${w.id}')" title="刪除">✕</button>
+      </div>
     </div>`;
   }).join('')}</div>`;
-  initSortable();
+  initSort();
 }
 
-// ── DRAG-TO-REORDER ──
-function initSortable() {
-  const grid=document.getElementById('sortable-grid');
-  if(!grid) return;
-  let dragSrc=null;
+// DRAG SORT
+function initSort(){
+  const grid=document.getElementById('sortable');
+  if(!grid)return;
   grid.querySelectorAll('.work-item').forEach(item=>{
-    item.addEventListener('dragstart', e=>{ dragSrc=item; item.classList.add('dragging-item'); e.dataTransfer.effectAllowed='move'; });
-    item.addEventListener('dragend',   ()=>{ item.classList.remove('dragging-item'); grid.querySelectorAll('.work-item').forEach(i=>i.classList.remove('drag-over')); });
-    item.addEventListener('dragover',  e=>{ e.preventDefault(); e.dataTransfer.dropEffect='move'; if(item!==dragSrc){ grid.querySelectorAll('.work-item').forEach(i=>i.classList.remove('drag-over')); item.classList.add('drag-over'); } });
-    item.addEventListener('drop', async e=>{
-      e.preventDefault();
-      if(!dragSrc||dragSrc===item) return;
-      item.classList.remove('drag-over');
-      // reorder in DOM
+    item.addEventListener('dragstart',e=>{item.classList.add('dragging-item');e.dataTransfer.effectAllowed='move';});
+    item.addEventListener('dragend',()=>{item.classList.remove('dragging-item');grid.querySelectorAll('.work-item').forEach(i=>i.classList.remove('drag-over'));});
+    item.addEventListener('dragover',e=>{e.preventDefault();if(item!==document.querySelector('.dragging-item')){grid.querySelectorAll('.work-item').forEach(i=>i.classList.remove('drag-over'));item.classList.add('drag-over');}});
+    item.addEventListener('drop',async e=>{
+      e.preventDefault();item.classList.remove('drag-over');
+      const src=document.querySelector('.dragging-item');
+      if(!src||src===item)return;
       const items=[...grid.querySelectorAll('.work-item')];
-      const srcIdx=items.indexOf(dragSrc);
-      const tgtIdx=items.indexOf(item);
-      if(srcIdx<tgtIdx) item.after(dragSrc);
-      else item.before(dragSrc);
-      // save new order to Firestore
+      if(items.indexOf(src)<items.indexOf(item))item.after(src);else item.before(src);
       await saveOrder();
     });
   });
 }
-
-async function saveOrder() {
-  const grid=document.getElementById('sortable-grid');
-  if(!grid) return;
+async function saveOrder(){
+  const grid=document.getElementById('sortable');if(!grid)return;
   const items=[...grid.querySelectorAll('.work-item')];
   const batch=writeBatch(db);
-  items.forEach((el,i)=>{ batch.update(doc(db,'works',el.dataset.id),{sortOrder:i}); });
+  items.forEach((el,i)=>batch.update(doc(db,'works',el.dataset.id),{sortOrder:i}));
   await batch.commit();
-  const hint=document.getElementById('sort-saving');
-  hint.classList.add('show');
-  setTimeout(()=>hint.classList.remove('show'),2000);
-  // update local allWorks order
-  items.forEach((el,i)=>{ const w=allWorks.find(x=>x.id===el.dataset.id); if(w) w.sortOrder=i; });
+  const hint=document.getElementById('sort-saved');
+  hint.classList.add('show'); setTimeout(()=>hint.classList.remove('show'),2000);
+  items.forEach((el,i)=>{const w=allWorks.find(x=>x.id===el.dataset.id);if(w)w.sortOrder=i;});
 }
 
-window.deleteWork = async docId => {
-  if(!confirm('確定要刪除這件作品嗎？')) return;
-  await deleteDoc(doc(db,'works',docId));
-  allWorks=allWorks.filter(w=>w.id!==docId);
+// QUICK DELETE
+window.quickDelete=async id=>{
+  if(!confirm('確定要刪除這件作品嗎？'))return;
+  await deleteDoc(doc(db,'works',id));
+  allWorks=allWorks.filter(w=>w.id!==id);
   renderWorks();
 };
 
-window.switchTab = (e, filter) => {
+// EDIT MODAL
+window.openEdit=id=>{
+  const w=allWorks.find(x=>x.id===id);if(!w)return;
+  editId=id;
+  editImgs=[w.coverUrl,...(w.images||[])].filter(Boolean);
+  editNewFiles=[];
+  document.getElementById('e-title').value=w.title||'';
+  document.getElementById('e-year').value=w.year||'';
+  document.getElementById('e-category').value=w.category||'film';
+  document.getElementById('e-medium').value=w.medium||'';
+  document.getElementById('e-status').textContent='';
+  document.getElementById('e-add-preview').innerHTML='';
+  renderEditImgs();
+  // setup add zone
+  const addInput=document.getElementById('e-add-input');
+  const addZone=document.getElementById('e-add-zone');
+  addInput.onchange=e=>addEditFiles(Array.from(e.target.files));
+  addZone.ondragover=e=>{e.preventDefault();addZone.classList.add('dragover');};
+  addZone.ondragleave=()=>addZone.classList.remove('dragover');
+  addZone.ondrop=e=>{e.preventDefault();addZone.classList.remove('dragover');addEditFiles(Array.from(e.dataTransfer.files));};
+  document.getElementById('edit-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+};
+window.closeEdit=()=>{
+  document.getElementById('edit-modal').classList.remove('open');
+  document.body.style.overflow='';
+};
+
+function renderEditImgs(){
+  document.getElementById('e-current-imgs').innerHTML=editImgs.map((url,i)=>`
+    <div class="cur-img${i===0?' is-cover':''}">
+      <img src="${url}" loading="lazy">
+      <button class="cur-img-del" onclick="removeEditImg(${i})">✕</button>
+    </div>`).join('');
+}
+window.removeEditImg=i=>{editImgs.splice(i,1);renderEditImgs();};
+
+function addEditFiles(files){
+  files.forEach(f=>{if(editNewFiles.length<9)editNewFiles.push(f);});
+  const c=document.getElementById('e-add-preview');c.innerHTML='';
+  editNewFiles.forEach((f,i)=>{
+    const r=new FileReader();r.onload=e=>{
+      const d=document.createElement('div');d.className='thumb';
+      d.innerHTML=`<img src="${e.target.result}"><button class="thumb-del" onclick="removeEditNew(${i})">✕</button>`;
+      c.appendChild(d);
+    };r.readAsDataURL(f);
+  });
+}
+window.removeEditNew=i=>{editNewFiles.splice(i,1);addEditFiles([]);};
+
+window.saveEdit=async()=>{
+  const title=document.getElementById('e-title').value.trim()||'無題';
+  const year=document.getElementById('e-year').value.trim()||'';
+  const category=document.getElementById('e-category').value;
+  const medium=document.getElementById('e-medium').value.trim();
+  const btn=document.getElementById('e-save-btn');
+  const bar=document.getElementById('e-bar');
+  const pWrap=document.getElementById('e-progress');
+  const status=document.getElementById('e-status');
+  btn.disabled=true; pWrap.style.display='block';
+  try{
+    const newUrls=[];
+    for(let i=0;i<editNewFiles.length;i++){
+      status.textContent=`上傳第 ${i+1}/${editNewFiles.length} 張…`;
+      bar.style.width=Math.round((i+1)/editNewFiles.length*100)+'%';
+      newUrls.push(await cloudinaryUpload(editNewFiles[i]));
+    }
+    const allImgs=[...editImgs,...newUrls];
+    const coverUrl=allImgs[0]||'';
+    const images=allImgs.slice(1);
+    await updateDoc(doc(db,'works',editId),{title,year,category,medium,coverUrl,images});
+    // update local
+    const idx=allWorks.findIndex(x=>x.id===editId);
+    if(idx>-1) allWorks[idx]={...allWorks[idx],title,year,category,medium,coverUrl,images};
+    status.textContent='✓ 儲存成功！';
+    setTimeout(()=>{closeEdit();renderWorks();},800);
+  }catch(e){status.textContent='失敗：'+e.message;}
+  btn.disabled=false;
+};
+
+window.deleteEditWork=async()=>{
+  if(!confirm('確定要刪除這件作品嗎？'))return;
+  await deleteDoc(doc(db,'works',editId));
+  allWorks=allWorks.filter(w=>w.id!==editId);
+  closeEdit(); renderWorks();
+};
+
+window.switchTab=(e,filter)=>{
   currentFilter=filter;
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   e.target.classList.add('active');
