@@ -1,557 +1,384 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>W Studio — 後台管理</title>
+<title>W — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Tenor+Sans&family=DM+Mono:ital@0;1&family=Noto+Serif+TC:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
-:root{--cream:#f2ead8;--sepia:#c4a882;--warm-brown:#8b6b4a;--dark-brown:#3d2b1f;--near-black:#1a1008;--gold:#c9a84c;}
+:root{--cream:#f2ead8;--sepia:#c4a882;--warm-brown:#8b6b4a;--dark-brown:#3d2b1f;--near-black:#1a1008;--film-grain:#d4c4a8;--gold:#c9a84c;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100vh;}
+html{scroll-behavior:smooth;}
+body{background:var(--near-black);color:var(--cream);font-family:'Cormorant Garamond',Georgia,serif;cursor:none;overflow-x:hidden;}
+#cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;opacity:0.5;}
+#grain-canvas{position:fixed;inset:0;pointer-events:none;z-index:100;opacity:0.06;mix-blend-mode:overlay;}
+#particle-canvas{position:fixed;inset:0;pointer-events:none;z-index:50;}
+.noise-overlay{position:fixed;inset:0;pointer-events:none;z-index:90;opacity:0.028;mix-blend-mode:screen;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 
-#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#2a1a0e 0%,#1a1008 70%);}
-.login-box{border:1px solid rgba(196,168,130,0.2);padding:3rem;width:380px;background:rgba(61,43,31,0.4);text-align:center;}
-.login-logo{font-size:2.2rem;font-style:italic;color:var(--gold);margin-bottom:0.3rem;}
-.login-sub{font-size:0.65rem;letter-spacing:0.35em;color:var(--warm-brown);text-transform:uppercase;margin-bottom:0.5rem;}
-.login-desc{font-size:0.82rem;color:var(--sepia);font-style:italic;margin-bottom:2.5rem;line-height:1.6;}
-.btn-google{width:100%;padding:0.9rem 1.5rem;background:var(--gold);color:#1a1008;border:none;font-family:Georgia,serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.8rem;transition:background 0.2s;}
-.btn-google:hover{background:#e0bc5a;}
-.login-note{font-size:0.65rem;color:var(--warm-brown);margin-top:1.2rem;opacity:0.7;}
-.err-msg{color:#e07070;font-size:0.78rem;margin-top:1rem;min-height:1.2rem;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(26,16,8,0.92) 0%,transparent 100%);backdrop-filter:blur(2px);}
+.nav-logo{font-family:'Tenor Sans',sans-serif;font-size:0.88rem;letter-spacing:0.38em;color:var(--gold);text-decoration:none;}
+.nav-right{display:flex;align-items:center;gap:2rem;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-family:'Tenor Sans',sans-serif;font-size:0.66rem;letter-spacing:0.22em;color:var(--film-grain);text-decoration:none;text-transform:uppercase;transition:color 0.3s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform 0.3s;transform-origin:left;}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a:hover::after{transform:scaleX(1);}
+#lang-toggle{font-family:'DM Mono',monospace;font-size:0.56rem;letter-spacing:0.18em;color:var(--sepia);background:transparent;border:1px solid rgba(196,168,130,0.25);padding:0.26rem 0.65rem;cursor:none;transition:all 0.2s;text-transform:uppercase;}
+#lang-toggle:hover{border-color:var(--gold);color:var(--gold);}
 
-#admin-panel{display:none;}
-.admin-nav{position:sticky;top:0;z-index:100;background:#1a1008;border-bottom:1px solid rgba(196,168,130,0.1);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;}
-.admin-nav-logo{font-style:italic;color:var(--gold);font-size:1.1rem;}
-.nav-user{display:flex;align-items:center;gap:0.8rem;font-size:0.7rem;color:var(--warm-brown);}
-.nav-avatar{width:28px;height:28px;border-radius:50%;border:1px solid rgba(196,168,130,0.3);object-fit:cover;}
-.btn-sm{background:transparent;border:1px solid rgba(196,168,130,0.2);color:var(--sepia);padding:0.3rem 0.8rem;font-size:0.65rem;letter-spacing:0.15em;cursor:pointer;font-family:Georgia,serif;text-transform:uppercase;transition:all 0.2s;}
-.btn-sm:hover{border-color:var(--gold);color:var(--gold);}
+#hero{height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 3rem;position:relative;overflow:hidden;}
+.hero-bg-text{position:absolute;bottom:-0.1em;right:-0.02em;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(14rem,28vw,26rem);color:transparent;-webkit-text-stroke:1px rgba(196,168,130,0.07);line-height:1;user-select:none;pointer-events:none;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.5em;color:var(--gold);margin-bottom:2rem;text-transform:uppercase;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(4rem,11vw,10rem);line-height:0.88;color:var(--cream);letter-spacing:-0.02em;}
+.hero-title .ch{display:inline-block;color:var(--gold);font-style:italic;transition:opacity 0.2s;}
+.hero-subtitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(1rem,2vw,1.35rem);color:var(--sepia);margin-top:1.8rem;max-width:460px;line-height:1.75;}
+.hero-scroll{margin-top:4rem;display:flex;align-items:center;gap:1rem;font-family:'DM Mono',monospace;font-size:0.56rem;letter-spacing:0.35em;color:var(--warm-brown);text-transform:uppercase;}
+.hero-scroll-line{width:55px;height:1px;background:var(--warm-brown);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:0.3}50%{opacity:1}}
 
-.admin-body{padding:2rem;max-width:1100px;margin:0 auto;}
-.card{border:1px solid rgba(196,168,130,0.15);padding:2rem;background:rgba(61,43,31,0.25);margin-bottom:2.5rem;}
-.card-title{font-size:0.7rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(196,168,130,0.1);display:flex;align-items:center;justify-content:space-between;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.form-field{margin-bottom:1rem;}
-.form-field.full{grid-column:1/-1;}
-.form-field label{display:block;font-size:0.6rem;letter-spacing:0.2em;color:var(--sepia);text-transform:uppercase;margin-bottom:0.4rem;}
-.form-field input,.form-field select{width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;transition:border-color 0.2s;}
-.form-field input:focus,.form-field select:focus{border-color:var(--gold);}
-.form-field select option{background:#3d2b1f;}
-.drop-zone{border:1px dashed rgba(196,168,130,0.3);padding:2rem;text-align:center;cursor:pointer;transition:all 0.2s;background:rgba(0,0,0,0.15);margin-bottom:0.8rem;}
-.drop-zone.dragover{border-color:var(--gold);background:rgba(201,168,76,0.05);}
-.drop-zone p{color:var(--warm-brown);font-size:0.78rem;line-height:1.7;}
-.drop-zone strong{color:var(--gold);}
-.cover-preview{width:100%;max-height:180px;object-fit:cover;display:none;border:1px solid rgba(196,168,130,0.2);margin-top:0.8rem;}
-.thumbs{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.8rem;}
-.thumb{position:relative;width:76px;height:76px;}
-.thumb img{width:100%;height:100%;object-fit:cover;border:1px solid rgba(196,168,130,0.2);}
-.thumb-del{position:absolute;top:-5px;right:-5px;width:17px;height:17px;border-radius:50%;background:rgba(26,16,8,0.9);border:1px solid rgba(255,100,100,0.4);color:#e07070;font-size:0.55rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
-.upload-progress{height:2px;background:rgba(196,168,130,0.1);margin-top:1rem;display:none;}
-.upload-progress-bar{height:100%;background:var(--gold);width:0%;transition:width 0.3s;}
-.upload-status{font-size:0.72rem;color:var(--sepia);margin-top:0.5rem;min-height:1rem;}
-.btn-primary{background:var(--gold);color:#1a1008;border:none;padding:0.65rem 1.8rem;font-family:Georgia,serif;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;display:inline-flex;align-items:center;gap:0.5rem;margin-top:0.5rem;}
-.btn-primary:hover{background:#e0bc5a;}
-.btn-primary:disabled{opacity:0.4;cursor:not-allowed;}
-.btn-danger{background:transparent;border:1px solid rgba(255,100,100,0.3);color:#e07070;padding:0.65rem 1.2rem;font-family:Georgia,serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-top:0.5rem;margin-left:0.5rem;}
-.btn-danger:hover{background:rgba(224,112,112,0.1);}
+.portfolio-section{padding:5rem 3rem;border-top:1px solid rgba(196,168,130,0.08);}
+.eyebrow{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.45em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3.5rem);color:var(--cream);line-height:1.05;letter-spacing:-0.01em;margin-bottom:2.5rem;}
 
-.tab-bar{display:flex;margin-bottom:1rem;border-bottom:1px solid rgba(196,168,130,0.1);flex-wrap:wrap;}
-.tab{padding:0.55rem 1.1rem;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;color:var(--warm-brown);border:none;border-bottom:2px solid transparent;transition:all 0.2s;background:none;font-family:Georgia,serif;}
-.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
-.sort-hint{font-size:0.62rem;color:var(--warm-brown);font-style:italic;margin-bottom:0.8rem;opacity:0.65;}
-.sort-saved{font-size:0.62rem;color:var(--gold);margin-left:0.8rem;opacity:0;transition:opacity 0.3s;font-style:italic;}
-.sort-saved.show{opacity:1;}
+/* UNIFIED MASONRY */
+.masonry{columns:3;column-gap:0.8rem;}
+.masonry .gallery-card.m{break-inside:avoid;margin-bottom:0.8rem;width:100%;}
+.masonry .gallery-card.m img{width:100%;height:auto;display:block;}
+@media(max-width:900px){.masonry{columns:2;}}
+@media(max-width:480px){.masonry{columns:1;}}
 
-.works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:1rem;}
-.work-item{border:1px solid rgba(196,168,130,0.1);background:rgba(61,43,31,0.2);overflow:hidden;position:relative;transition:box-shadow 0.2s;}
-.work-item.drag-over{box-shadow:0 0 0 2px var(--gold);}
-.work-item.dragging-item{opacity:0.4;}
-.work-cover{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
-.work-info{padding:0.6rem;}
-.work-name{font-size:0.8rem;color:var(--cream);margin-bottom:0.12rem;}
-.work-meta{font-size:0.58rem;color:var(--warm-brown);text-transform:uppercase;}
-.work-count{font-size:0.52rem;color:var(--sepia);margin-top:0.08rem;}
-.work-tag{display:inline-block;font-size:0.5rem;border:1px solid rgba(196,168,130,0.18);padding:0.08rem 0.35rem;text-transform:uppercase;color:var(--sepia);margin-top:0.2rem;}
-.work-actions{position:absolute;top:0.4rem;right:0.4rem;display:flex;gap:0.3rem;opacity:0;transition:opacity 0.2s;}
-.work-item:hover .work-actions{opacity:1;}
-.act-btn{width:26px;height:26px;background:rgba(26,16,8,0.88);border:1px solid rgba(196,168,130,0.2);color:var(--sepia);font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:all 0.2s;}
-.act-btn:hover{border-color:var(--gold);color:var(--gold);}
-.act-btn.del{border-color:rgba(255,100,100,0.3);color:#e07070;}
-.act-btn.del:hover{border-color:#e07070;}
-.drag-handle{position:absolute;top:0.4rem;left:0.4rem;width:24px;height:24px;background:rgba(26,16,8,0.75);border:1px solid rgba(196,168,130,0.18);color:var(--sepia);display:flex;align-items:center;justify-content:center;font-size:0.65rem;cursor:grab;opacity:0;transition:opacity 0.2s;}
-.work-item:hover .drag-handle{opacity:1;}
-.empty-state{text-align:center;padding:3rem;color:var(--warm-brown);font-style:italic;}
 
-/* EDIT MODAL */
-#edit-modal{position:fixed;inset:0;z-index:900;background:rgba(10,5,2,0.9);display:none;align-items:center;justify-content:center;padding:1rem;}
-#edit-modal.open{display:flex;}
-.modal-box{background:#1e100a;border:1px solid rgba(196,168,130,0.2);padding:2rem;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;}
-.modal-title{font-size:0.7rem;letter-spacing:0.28em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(196,168,130,0.1);display:flex;justify-content:space-between;align-items:center;}
-.modal-close{background:none;border:none;color:var(--sepia);font-size:1.2rem;cursor:pointer;transition:color 0.2s;}
-.modal-close:hover{color:var(--gold);}
-.current-imgs{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;}
-.cur-img{position:relative;width:76px;height:76px;}
-.cur-img img{width:100%;height:100%;object-fit:cover;border:1px solid rgba(196,168,130,0.2);}
-.cur-img.is-cover::after{content:'Cover';position:absolute;bottom:0;left:0;right:0;background:rgba(201,168,76,0.85);color:#1a1008;font-size:0.45rem;letter-spacing:0.1em;text-align:center;padding:0.15rem;text-transform:uppercase;}
-.cur-img-del{position:absolute;top:-5px;right:-5px;width:17px;height:17px;border-radius:50%;background:rgba(26,16,8,0.9);border:1px solid rgba(255,100,100,0.4);color:#e07070;font-size:0.55rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+/* SUB SECTIONS */
+.sub-section{margin-bottom:3.5rem;}
+.sub-section:last-child{margin-bottom:0;}
+.sub-header{display:flex;align-items:center;margin-bottom:1.2rem;}
+.sub-title{font-family:'Tenor Sans',sans-serif;font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--sepia);display:flex;align-items:center;gap:1rem;flex:1;}
+.sub-title::after{content:'';flex:1;height:1px;background:rgba(196,168,130,0.1);}
+
+/* GALLERY CARD */
+.gallery-card{position:relative;overflow:hidden;border:1px solid rgba(196,168,130,0.08);cursor:none;text-decoration:none;display:block;transition:border-color 0.3s,box-shadow 0.3s;border-radius:6px;}
+.gallery-card:hover{border-color:rgba(196,168,130,0.28);box-shadow:0 12px 40px rgba(0,0,0,0.5);}
+/* film grain on cards */
+.gallery-card::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");opacity:0.04;mix-blend-mode:overlay;pointer-events:none;border-radius:6px;z-index:2;}
+/* masonry */
+.gallery-card.m{break-inside:avoid;margin-bottom:0.7rem;width:100%;}
+.gallery-card.m img{width:100%;height:auto;display:block;transition:transform 0.5s;border-radius:6px;}
+
+.gallery-card:hover img{transform:scale(1.04);}
+.gallery-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,16,8,0.9) 0%,transparent 55%);opacity:0;transition:opacity 0.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:1rem;}
+.gallery-card:hover .gallery-card-overlay{opacity:1;}
+.gallery-card-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:0.98rem;color:var(--cream);}
+.gallery-card-meta{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;margin-top:0.12rem;}
+.gallery-card-count{font-family:'DM Mono',monospace;font-size:0.48rem;color:var(--sepia);margin-top:0.08rem;opacity:0.8;}
+.gallery-empty{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--warm-brown);font-size:0.95rem;opacity:0.5;padding:2rem 0;}
+
+/* ABOUT */
+#about{padding:6rem 3rem;border-top:1px solid rgba(196,168,130,0.08);display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+.about-img-frame{position:relative;aspect-ratio:4/5;max-width:400px;}
+.about-img-frame::before{content:'';position:absolute;top:-10px;left:-10px;right:10px;bottom:10px;border:1px solid rgba(196,168,130,0.16);pointer-events:none;}
+.about-img-placeholder{width:100%;height:100%;background:var(--dark-brown);display:flex;align-items:center;justify-content:center;font-size:4rem;opacity:0.1;border:1px solid rgba(196,168,130,0.08);}
+.about-text p{font-style:italic;color:var(--sepia);line-height:1.9;margin-bottom:1.1rem;font-size:0.93rem;}
+.about-text p strong{color:var(--cream);font-style:normal;}
+.tags{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:1.8rem;}
+.tag{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--warm-brown);border:1px solid rgba(196,168,130,0.16);padding:0.25rem 0.8rem;text-transform:uppercase;}
+.film-strip{display:flex;gap:3px;margin:1.5rem 0;}
+.film-hole{width:11px;height:17px;border:1px solid rgba(196,168,130,0.16);border-radius:2px;flex-shrink:0;}
+
+/* CONTACT */
+#contact{padding:6rem 3rem 3rem;border-top:1px solid rgba(196,168,130,0.1);background:rgba(0,0,0,0.26);}
+.contact-grid{display:grid;grid-template-columns:1fr auto;gap:6rem;align-items:start;margin-bottom:4rem;}
+.contact-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.8rem,6vw,5.5rem);color:var(--cream);line-height:0.95;margin-bottom:1.5rem;letter-spacing:-0.02em;}
+.contact-sub{font-style:italic;color:var(--sepia);font-size:0.88rem;line-height:1.75;max-width:360px;}
+.ig-btn{display:inline-flex;align-items:center;gap:0.65rem;border:1px solid rgba(196,168,130,0.25);padding:0.82rem 1.6rem;text-decoration:none;color:var(--cream);font-family:'Tenor Sans',sans-serif;font-size:0.61rem;letter-spacing:0.24em;text-transform:uppercase;transition:all 0.3s;margin-top:2rem;background:transparent;}
+.ig-btn:hover{background:var(--gold);color:var(--near-black);border-color:var(--gold);}
+.ig-btn svg{width:16px;height:16px;flex-shrink:0;}
+.contact-links{display:flex;flex-direction:column;min-width:220px;}
+.contact-link-item{display:flex;flex-direction:column;gap:0.18rem;text-decoration:none;border-bottom:1px solid rgba(196,168,130,0.07);padding-bottom:1rem;margin-bottom:1rem;}
+.contact-link-item:last-child{border-bottom:none;margin-bottom:0;}
+.contact-link-label{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.26em;color:var(--gold);text-transform:uppercase;opacity:0.7;}
+.contact-link-value{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:0.98rem;color:var(--cream);transition:color 0.2s;}
+.contact-link-item:hover .contact-link-value{color:var(--gold);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(196,168,130,0.07);padding-top:1.8rem;margin-top:1.8rem;}
+.footer-copy{font-family:'DM Mono',monospace;font-size:0.54rem;letter-spacing:0.18em;color:var(--warm-brown);text-transform:uppercase;}
+.footer-mark{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:0.92rem;color:var(--sepia);opacity:0.45;}
+#float-btn{position:fixed;bottom:2.2rem;right:2.2rem;z-index:300;background:var(--gold);color:var(--near-black);border:none;padding:0.72rem 1.3rem;font-family:'Tenor Sans',sans-serif;font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;cursor:none;display:flex;align-items:center;gap:0.55rem;transition:background 0.2s,transform 0.2s;box-shadow:0 8px 24px rgba(0,0,0,0.4);text-decoration:none;}
+#float-btn:hover{background:var(--cream);transform:translateY(-2px);}
+
+.fade-up{opacity:0;transform:translateY(26px);transition:opacity 0.8s ease,transform 0.8s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+
+html[lang="zh-TW"] .hero-title,html[lang="zh-TW"] .sec-title,html[lang="zh-TW"] .contact-title,html[lang="zh-TW"] .gallery-card-title,html[lang="zh-TW"] .footer-mark{font-family:'Noto Serif TC',serif;font-weight:200;letter-spacing:0.04em;}
+html[lang="zh-TW"] body{font-family:'Noto Serif TC',serif;font-weight:300;}
+html[lang="zh-TW"] .hero-subtitle,html[lang="zh-TW"] .about-text p,html[lang="zh-TW"] .contact-sub{font-family:'Noto Serif TC',serif;font-weight:200;font-style:normal;line-height:2;}
+html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.05;}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  .portfolio-section{padding:4rem 1.5rem;}
+  #hero{padding:0 1.5rem;}
+  #about{grid-template-columns:1fr;gap:3rem;padding:4rem 1.5rem;}
+  #contact{padding:4rem 1.5rem 2.5rem;}
+  .contact-grid{grid-template-columns:1fr;gap:2.5rem;}
+  .nav-links{gap:1.2rem;}
+  .h-track-wrap{margin:0 -1.5rem;}
+  .h-track{padding:0 1.5rem;}
+}
 </style>
 </head>
 <body>
+<div class="noise-overlay"></div>
+<canvas id="grain-canvas"></canvas>
+<canvas id="particle-canvas"></canvas>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
-<div id="login-screen">
-  <div class="login-box">
-    <p class="login-logo">W Studio</p>
-    <p class="login-sub">後台管理系統</p>
-    <p class="login-desc">用你的 Google 帳號登入，<br>即可上傳與管理作品。</p>
-    <button class="btn-google" onclick="doGoogleLogin()">
-      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#1a1008"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#3d2b1f"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#1a1008"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#3d2b1f"/></svg>
-      以 Google 帳號登入
-    </button>
-    <p class="login-note">僅授權帳號可進入後台</p>
-    <p class="err-msg" id="err-msg"></p>
+<nav>
+  <a href="#hero" class="nav-logo">W ✦ STUDIO</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#overview"    data-en="Work"    data-zh="作品">Work</a></li>
+      <li><a href="#photography" data-en="Photo"   data-zh="攝影">Photo</a></li>
+      <li><a href="#art"         data-en="Art"     data-zh="創作">Art</a></li>
+      <li><a href="#about"       data-en="About"   data-zh="關於">About</a></li>
+      <li><a href="#contact"     data-en="Contact" data-zh="聯絡">Contact</a></li>
+    </ul>
+    <button id="lang-toggle" onclick="toggleLang()">中 ｜ EN</button>
   </div>
-</div>
+</nav>
 
-<div id="admin-panel">
-  <nav class="admin-nav">
-    <span class="admin-nav-logo">W Studio — 後台</span>
-    <div class="nav-user">
-      <img class="nav-avatar" id="nav-avatar" src="" alt="">
-      <span id="nav-name"></span>
-      <button class="btn-sm" onclick="doLogout()">登出</button>
+<section id="hero">
+  <div class="hero-bg-text">W</div>
+  <p class="hero-eyebrow" data-en="— Photography · Digital Art · Commercial —" data-zh="— 攝影 · 電繪 · 商業 —">— Photography · Digital Art · Commercial —</p>
+  <h1 class="hero-title">
+    <span class="ch" id="hero-word">Seeing</span><br>
+    <span id="hero-sub" data-en-text="through the lens" data-zh-text="用光書寫">through the lens</span>
+  </h1>
+  <p class="hero-subtitle" data-en-html="Film, streets, portraits, creatures —<br><em>every frame is an act of remembering.</em>" data-zh-html="底片、街頭、人像、寵物——<br><em>每一格快門，都是一次記憶的練習。</em>">Film, streets, portraits, creatures —<br><em>every frame is an act of remembering.</em></p>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div>scroll to explore</div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="portfolio-section" id="overview">
+  <p class="eyebrow fade-up" data-en="— All Works" data-zh="— 全部作品">— All Works</p>
+  <h2 class="sec-title fade-up" data-en="Overview" data-zh="作品總覽">Overview</h2>
+  <div class="masonry" id="overview-grid"><p class="gallery-empty">Loading…</p></div>
+</section>
+
+<!-- PHOTOGRAPHY -->
+<section class="portfolio-section" id="photography">
+  <p class="eyebrow fade-up" data-en="— Photography" data-zh="— 攝影">— Photography</p>
+  <h2 class="sec-title fade-up" data-en="Through the Lens" data-zh="鏡頭所見">Through the Lens</h2>
+  <div class="sub-section">
+    <div class="sub-header">
+      <p class="sub-title" data-en="Film" data-zh="底片攝影">Film</p>
     </div>
-  </nav>
-  <div class="admin-body">
-
-    <!-- UPLOAD -->
-    <div class="card">
-      <p class="card-title">✦ 上傳新作品</p>
-      <div class="form-grid">
-        <div class="form-field"><label>作品名稱</label><input type="text" id="f-title" placeholder="無題 #001"></div>
-        <div class="form-field"><label>年份</label><input type="text" id="f-year" placeholder="2024"></div>
-        <div class="form-field"><label>類別</label>
-          <select id="f-category">
-            <option value="film">底片攝影 Film</option>
-            <option value="street">街頭攝影 Street</option>
-            <option value="portrait">人像攝影 Portrait</option>
-            <option value="commercial">商業攝影 Commercial</option>
-            <option value="pet">寵物 Pet</option>
-            <option value="digital">電繪 Digital Art</option>
-          </select>
-        </div>
-        <div class="form-field"><label>媒材 / 備注</label><input type="text" id="f-medium" placeholder="35mm · Kodak Gold 200"></div>
-        <div class="form-field"><label>封面圖方向</label>
-          <select id="f-orient">
-            <option value="portrait">直式 Portrait（高 &gt; 寬）</option>
-            <option value="landscape">橫式 Landscape（寬 &gt; 高）</option>
-            <option value="square">方形 Square</option>
-          </select>
-        </div>
-        <div class="form-field full">
-          <label>封面圖（主圖）</label>
-          <div class="drop-zone" id="cover-zone" onclick="document.getElementById('cover-input').click()">
-            <p><strong>點擊選擇</strong>或拖曳封面圖<br><span style="font-size:0.65rem;opacity:0.6">建議 2000px 以上</span></p>
-          </div>
-          <img class="cover-preview" id="cover-preview">
-          <input type="file" id="cover-input" accept="image/*" style="display:none">
-        </div>
-        <div class="form-field full">
-          <label>其他照片（最多 9 張）</label>
-          <div class="drop-zone" id="extras-zone" onclick="document.getElementById('extras-input').click()">
-            <p><strong>點擊選擇</strong>或拖曳其他照片</p>
-          </div>
-          <div class="thumbs" id="extras-preview"></div>
-          <input type="file" id="extras-input" accept="image/*" multiple style="display:none">
-        </div>
-      </div>
-      <div class="upload-progress" id="upload-progress"><div class="upload-progress-bar" id="progress-bar"></div></div>
-      <p class="upload-status" id="upload-status"></p>
-      <button class="btn-primary" id="btn-upload" onclick="uploadWork()">↑ 上傳作品</button>
-    </div>
-
-    <!-- WORKS LIST -->
-    <div class="card">
-      <p class="card-title">
-        <span>✦ 已上傳作品</span>
-        <span class="sort-saved" id="sort-saved">已儲存順序 ✓</span>
-      </p>
-      <div class="tab-bar">
-        <button class="tab active" onclick="switchTab(event,'all')">全部</button>
-        <button class="tab" onclick="switchTab(event,'film')">底片</button>
-        <button class="tab" onclick="switchTab(event,'street')">街頭</button>
-        <button class="tab" onclick="switchTab(event,'portrait')">人像</button>
-        <button class="tab" onclick="switchTab(event,'commercial')">商業</button>
-        <button class="tab" onclick="switchTab(event,'pet')">寵物</button>
-        <button class="tab" onclick="switchTab(event,'digital')">電繪</button>
-      </div>
-      <p class="sort-hint">☰ 拖曳卡片調整前台顯示順序</p>
-      <div id="works-list"><p class="empty-state">載入中…</p></div>
-    </div>
-
+    <div class="masonry" id="t-film"><p class="gallery-empty">Loading…</p></div>
   </div>
-</div>
-
-<!-- EDIT MODAL -->
-<div id="edit-modal">
-  <div class="modal-box">
-    <p class="modal-title">
-      <span>✦ 編輯作品</span>
-      <button class="modal-close" onclick="closeEdit()">✕</button>
-    </p>
-    <div class="form-grid">
-      <div class="form-field"><label>作品名稱</label><input type="text" id="e-title"></div>
-      <div class="form-field"><label>年份</label><input type="text" id="e-year"></div>
-      <div class="form-field"><label>類別</label>
-        <select id="e-category">
-          <option value="film">底片攝影 Film</option>
-          <option value="street">街頭攝影 Street</option>
-          <option value="portrait">人像攝影 Portrait</option>
-          <option value="commercial">商業攝影 Commercial</option>
-          <option value="pet">寵物 Pet</option>
-          <option value="digital">電繪 Digital Art</option>
-        </select>
-      </div>
-      <div class="form-field"><label>媒材 / 備注</label><input type="text" id="e-medium"></div>
-      <div class="form-field"><label>封面圖方向</label>
-        <select id="e-orient">
-          <option value="portrait">直式 Portrait</option>
-          <option value="landscape">橫式 Landscape</option>
-          <option value="square">方形 Square</option>
-        </select>
-      </div>
-      <div class="form-field full">
-        <label>目前圖片（第一張 = 封面）</label>
-        <div class="current-imgs" id="e-current-imgs"></div>
-      </div>
-      <div class="form-field full">
-        <label>新增圖片</label>
-        <div class="drop-zone" id="e-add-zone" onclick="document.getElementById('e-add-input').click()">
-          <p><strong>點擊選擇</strong>或拖曳圖片新增到此作品</p>
-        </div>
-        <div class="thumbs" id="e-add-preview"></div>
-        <input type="file" id="e-add-input" accept="image/*" multiple style="display:none">
-      </div>
+  <div class="sub-section">
+    <div class="sub-header">
+      <p class="sub-title" data-en="Street" data-zh="街頭攝影">Street</p>
     </div>
-    <div class="upload-progress" id="e-progress"><div class="upload-progress-bar" id="e-bar"></div></div>
-    <p class="upload-status" id="e-status"></p>
+    <div class="masonry" id="t-street"><p class="gallery-empty">Loading…</p></div>
+  </div>
+  <div class="sub-section">
+    <div class="sub-header">
+      <p class="sub-title" data-en="Portrait" data-zh="人像攝影">Portrait</p>
+    </div>
+    <div class="masonry" id="t-portrait"><p class="gallery-empty">Loading…</p></div>
+  </div>
+  <div class="sub-section">
+    <div class="sub-header">
+      <p class="sub-title" data-en="Commercial" data-zh="商業攝影">Commercial</p>
+    </div>
+    <div class="masonry" id="t-commercial"><p class="gallery-empty">Loading…</p></div>
+  </div>
+</section>
+
+<!-- ART -->
+<section class="portfolio-section" id="art">
+  <p class="eyebrow fade-up" data-en="— Creative Work" data-zh="— 創作">— Creative Work</p>
+  <h2 class="sec-title fade-up" data-en="Ink & Pixels" data-zh="線條與色彩">Ink & Pixels</h2>
+  <div class="sub-section">
+    <div class="sub-header">
+      <p class="sub-title" data-en="Pet" data-zh="寵物攝影">Pet</p>
+    </div>
+    <div class="masonry" id="t-pet"><p class="gallery-empty">Loading…</p></div>
+  </div>
+  <div class="sub-section">
+    <div class="sub-header">
+      <p class="sub-title" data-en="Digital Art" data-zh="電繪插畫">Digital Art</p>
+    </div>
+    <div class="masonry" id="t-digital"><p class="gallery-empty">Loading…</p></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-img-frame fade-up"><div class="about-img-placeholder">◯</div></div>
+  <div class="about-text fade-up" style="transition-delay:0.15s">
+    <p class="eyebrow" data-en="— About" data-zh="— 關於創作者">— About</p>
+    <h2 class="sec-title">W</h2>
+    <div class="film-strip"><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div></div>
+    <p data-en-html="I speak in <strong>film grain and brushstrokes</strong> — a photographer who shoots analog, draws digitally, and finds meaning in the quiet details others walk past." data-zh-html="用<strong>底片顆粒與筆觸</strong>說話——拍底片、畫電繪，在別人走過的角落裡尋找意義。">I speak in <strong>film grain and brushstrokes</strong> — a photographer who shoots analog, draws digitally, and finds meaning in the quiet details others walk past.</p>
+    <p data-en-html="From <strong>street corners to studio lights</strong>, from pet portraits to commercial campaigns, every project is an exercise in seeing more carefully." data-zh-html="從<strong>街頭到棚燈</strong>，從寵物到商業品牌，每一個計畫都是一次更仔細觀看世界的練習。">From <strong>street corners to studio lights</strong>, from pet portraits to commercial campaigns, every project is an exercise in seeing more carefully.</p>
+    <p data-en-html="Open to <strong>commercial commissions, portrait sessions, and creative collaborations</strong>." data-zh-html="歡迎<strong>商業合作、人像拍攝、寵物攝影</strong>等各類創作邀約。">Open to <strong>commercial commissions, portrait sessions, and creative collaborations</strong>.</p>
+    <div class="tags">
+      <span class="tag" data-en="Film" data-zh="底片攝影">Film</span>
+      <span class="tag" data-en="Street" data-zh="街頭攝影">Street</span>
+      <span class="tag" data-en="Portrait" data-zh="人像攝影">Portrait</span>
+      <span class="tag" data-en="Pet" data-zh="寵物攝影">Pet</span>
+      <span class="tag" data-en="Digital Art" data-zh="電繪">Digital Art</span>
+      <span class="tag" data-en="Commercial" data-zh="商業攝影">Commercial</span>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="contact-grid fade-up">
     <div>
-      <button class="btn-primary" id="e-save-btn" onclick="saveEdit()">儲存變更</button>
-      <button class="btn-danger" onclick="deleteEditWork()">刪除作品</button>
+      <p class="eyebrow" data-en="— Get in touch" data-zh="— 合作邀約">— Get in touch</p>
+      <h2 class="contact-title" data-en-html="Let's<br><em>work together</em>" data-zh-html="歡迎<br><em>合作邀約</em>">Let's<br><em>work together</em></h2>
+      <p class="contact-sub" data-en="Available for portrait sessions, commercial shoots, pet photography, and digital art commissions." data-zh="人像、商業、寵物攝影，以及電繪委託，都歡迎聯絡洽談。">Available for portrait sessions, commercial shoots, pet photography, and digital art commissions.</p>
+      <a class="ig-btn" href="https://instagram.com/你的IG帳號" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+        <span data-en="Find me on Instagram" data-zh="在 Instagram 找到我">Find me on Instagram</span>
+      </a>
+    </div>
+    <div class="contact-links">
+      <a class="contact-link-item" href="mailto:your@email.com">
+        <span class="contact-link-label">Email</span><span class="contact-link-value">your@email.com</span>
+      </a>
+      <a class="contact-link-item" href="https://instagram.com/你的IG帳號" target="_blank">
+        <span class="contact-link-label">Instagram</span><span class="contact-link-value">@你的IG帳號</span>
+      </a>
+      <a class="contact-link-item">
+        <span class="contact-link-label">Location</span><span class="contact-link-value">Taiwan · Taipei</span>
+      </a>
     </div>
   </div>
-</div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 W Studio — All Rights Reserved</span>
+    <span class="footer-mark" data-en="Photography · Art · Vision" data-zh="攝影 · 電繪 · 創作">Photography · Art · Vision</span>
+  </div>
+</footer>
+
+<a href="https://instagram.com/你的IG帳號" id="float-btn" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="13" height="13"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+  Instagram
+</a>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged }
-  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, writeBatch }
+import { getFirestore, collection, getDocs }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey:"AIzaSyAeG23IjdCrgxLwN7iCW4so1EQtHyWjfoc",authDomain:"wish-w.firebaseapp.com",projectId:"wish-w",
   storageBucket:"wish-w.firebasestorage.app",messagingSenderId:"472916214379",appId:"1:472916214379:web:e76352027f3e0640ffa72e"
 };
-const ALLOWED_EMAIL    = "syuan920322@gmail.com";
-const CLOUDINARY_CLOUD = "dn2eetxfs";
-const CLOUDINARY_PRESET= "portfolio_upload";
-
 const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
 const db=getFirestore(app);
-const provider=new GoogleAuthProvider();
 
-let allWorks=[], currentFilter='all';
-let coverFile=null, extraFiles=[];
-let editId=null, editImgs=[], editNewFiles=[];
+let allWorks=[];
+let currentLang='en';
+const SIZES=['portrait','landscape','square'];
+let si=0;
 
-// AUTH
-onAuthStateChanged(auth, user=>{
-  if(user&&user.email===ALLOWED_EMAIL){
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('admin-panel').style.display='block';
-    document.getElementById('nav-name').textContent=user.displayName||user.email;
-    document.getElementById('nav-avatar').src=user.photoURL||'';
-    loadWorks();
-  } else {
-    if(user){signOut(auth);document.getElementById('err-msg').textContent='此帳號無後台權限。';}
-    document.getElementById('login-screen').style.display='flex';
-    document.getElementById('admin-panel').style.display='none';
-  }
-});
-getRedirectResult(auth).catch(()=>{});
-window.doGoogleLogin=async()=>{
-  document.getElementById('err-msg').textContent='';
-  const mob=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  try{ if(mob) await signInWithRedirect(auth,provider); else await signInWithPopup(auth,provider); }
-  catch(e){document.getElementById('err-msg').textContent='登入失敗，請再試一次。';}
-};
-window.doLogout=()=>signOut(auth);
-
-// FILE INPUTS (upload)
-setupDropZone('cover-zone','cover-input',false);
-setupDropZone('extras-zone','extras-input',true);
-function setupDropZone(zoneId, inputId, multi){
-  const zone=document.getElementById(zoneId);
-  const input=document.getElementById(inputId);
-  input.addEventListener('change',e=>{
-    if(multi) addExtras(Array.from(e.target.files));
-    else setCover(e.target.files[0]);
-  });
-  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('dragover');});
-  zone.addEventListener('dragleave',()=>zone.classList.remove('dragover'));
-  zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('dragover');
-    if(multi) addExtras(Array.from(e.dataTransfer.files));
-    else setCover(e.dataTransfer.files[0]);
-  });
-}
-function setCover(f){
-  if(!f)return; coverFile=f;
-  const r=new FileReader();
-  r.onload=e=>{const p=document.getElementById('cover-preview');p.src=e.target.result;p.style.display='block';};
-  r.readAsDataURL(f);
-}
-function addExtras(files){
-  files.forEach(f=>{if(extraFiles.length<9)extraFiles.push(f);});
-  renderExtrasPrev();
-}
-function renderExtrasPrev(){
-  const c=document.getElementById('extras-preview'); c.innerHTML='';
-  extraFiles.forEach((f,i)=>{
-    const r=new FileReader(); r.onload=e=>{
-      const d=document.createElement('div');d.className='thumb';
-      d.innerHTML=`<img src="${e.target.result}"><button class="thumb-del" onclick="removeExtra(${i})">✕</button>`;
-      c.appendChild(d);
-    }; r.readAsDataURL(f);
-  });
-}
-window.removeExtra=i=>{extraFiles.splice(i,1);renderExtrasPrev();};
-
-// CLOUDINARY
-async function cloudinaryUpload(file, onP){
-  const fd=new FormData();
-  fd.append('file',file); fd.append('upload_preset',CLOUDINARY_PRESET); fd.append('folder','portfolio');
-  return new Promise((res,rej)=>{
-    const xhr=new XMLHttpRequest();
-    xhr.upload.onprogress=e=>{if(e.lengthComputable&&onP)onP(e.loaded/e.total);};
-    xhr.onload=()=>{const d=JSON.parse(xhr.responseText);if(xhr.status===200)res(d.secure_url);else rej(new Error(d.error?.message||'失敗'));};
-    xhr.onerror=()=>rej(new Error('網路錯誤'));
-    xhr.open('POST',`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`);
-    xhr.send(fd);
-  });
-}
-
-// UPLOAD WORK
-window.uploadWork=async()=>{
-  if(!coverFile){alert('請先選擇封面圖');return;}
-  const title=document.getElementById('f-title').value.trim()||'無題';
-  const year=document.getElementById('f-year').value.trim()||String(new Date().getFullYear());
-  const category=document.getElementById('f-category').value;
-  const medium=document.getElementById('f-medium').value.trim();
-  const btn=document.getElementById('btn-upload');
-  const pWrap=document.getElementById('upload-progress');
-  const bar=document.getElementById('progress-bar');
-  const status=document.getElementById('upload-status');
-  btn.disabled=true; pWrap.style.display='block';
-  const total=1+extraFiles.length; let done=0;
-  const upd=()=>{bar.style.width=Math.round(done/total*100)+'%';};
-  try{
-    status.textContent='上傳封面圖…';
-    const coverUrl=await cloudinaryUpload(coverFile,p=>{bar.style.width=Math.round((done+p)/total*100)+'%';});
-    done++; upd();
-    const images=[];
-    for(let i=0;i<extraFiles.length;i++){
-      status.textContent=`上傳第 ${i+1}/${extraFiles.length} 張…`;
-      images.push(await cloudinaryUpload(extraFiles[i],p=>{bar.style.width=Math.round((done+p)/total*100)+'%';}));
-      done++; upd();
-    }
-    status.textContent='儲存…';
-    const orient=document.getElementById('f-orient').value;
-    await addDoc(collection(db,'works'),{title,year,category,medium,orient,coverUrl,images,sortOrder:allWorks.length,createdAt:new Date()});
-    bar.style.width='100%'; status.textContent='✓ 上傳成功！';
-    setTimeout(()=>{bar.style.width='0%';pWrap.style.display='none';status.textContent='';},2000);
-    coverFile=null; extraFiles=[];
-    document.getElementById('cover-preview').style.display='none';
-    document.getElementById('extras-preview').innerHTML='';
-    ['f-title','f-year','f-medium'].forEach(id=>document.getElementById(id).value='');
-    btn.disabled=false; loadWorks();
-  }catch(e){status.textContent='失敗：'+e.message;btn.disabled=false;}
-};
-
-// LOAD
-function sortW(arr){
+function sortWorks(arr){
   return [...arr].sort((a,b)=>{
-    const ah=a.sortOrder!=null,bh=b.sortOrder!=null;
-    if(ah&&bh)return a.sortOrder-b.sortOrder;
-    if(ah)return -1;if(bh)return 1;
+    const ah=a.sortOrder!=null, bh=b.sortOrder!=null;
+    if(ah&&bh) return a.sortOrder-b.sortOrder;
+    if(ah) return -1; if(bh) return 1;
     return (b.createdAt?.toMillis?.()??0)-(a.createdAt?.toMillis?.()??0);
   });
 }
-const CAT={film:'底片',street:'街頭',portrait:'人像',commercial:'商業',pet:'寵物',digital:'電繪'};
 
-async function loadWorks(){
+function cardHtml(w, type='m') {
+  const imgs=[w.coverUrl,...(w.images||[])].filter(Boolean);
+  const size=type==='h'?SIZES[si++%3]:'';
+  const cls=type==='h'?`gallery-card h ${size}`:'gallery-card m';
+  const lang=currentLang;
+  return `<a class="${cls}" href="work.html?id=${w.id}&lang=${lang}">
+    <img src="${w.coverUrl}" alt="${w.title}" loading="lazy">
+    <div class="gallery-card-overlay">
+      <p class="gallery-card-title">${w.title}</p>
+      <p class="gallery-card-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
+      ${imgs.length>1?`<p class="gallery-card-count">${imgs.length} photos</p>`:''}
+    </div>
+  </a>`;
+}
+
+
+
+function renderAll(){
+  const sorted=sortWorks(allWorks);
+  const grid=document.getElementById('overview-grid');
+  grid.innerHTML=sorted.length?sorted.map(w=>cardHtml(w,'m')).join(''):'<p class="gallery-empty">No works yet.</p>';
+  renderMasonry('t-film','film');
+  renderMasonry('t-street','street');
+  renderMasonry('t-portrait','portrait');
+  renderMasonry('t-commercial','commercial');
+  renderMasonry('t-pet','pet');
+  renderMasonry('t-digital','digital');
+}
+
+function renderMasonry(id, cat){
+  const el=document.getElementById(id);
+  const ws=allWorks.filter(w=>w.category===cat);
+  el.innerHTML=ws.length?sortWorks(ws).map(w=>cardHtml(w,'m')).join(''):'<p class="gallery-empty" style="min-width:100%">No works yet.</p>';
+}
+
+async function load(){
   const snap=await getDocs(collection(db,'works'));
   allWorks=[]; snap.forEach(d=>allWorks.push({id:d.id,...d.data()}));
-  renderWorks();
+  renderAll();
 }
+load();
+</script>
 
-function renderWorks(){
-  const container=document.getElementById('works-list');
-  let ws=currentFilter==='all'?sortW(allWorks):sortW(allWorks).filter(w=>w.category===currentFilter);
-  if(!ws.length){container.innerHTML='<p class="empty-state">這個分類還沒有作品</p>';return;}
-  container.innerHTML=`<div class="works-grid" id="sortable">${ws.map(w=>{
-    const total=1+(w.images?.length||0);
-    return `<div class="work-item" draggable="true" data-id="${w.id}">
-      <div class="drag-handle">⠿</div>
-      <img class="work-cover" src="${w.coverUrl}" alt="${w.title}" loading="lazy">
-      <div class="work-info">
-        <p class="work-name">${w.title}</p>
-        <p class="work-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
-        ${total>1?`<p class="work-count">${total} 張</p>`:''}
-        <span class="work-tag">${CAT[w.category]||w.category}</span>
-      </div>
-      <div class="work-actions">
-        <button class="act-btn" onclick="openEdit('${w.id}')" title="編輯">✎</button>
-        <button class="act-btn del" onclick="quickDelete('${w.id}')" title="刪除">✕</button>
-      </div>
-    </div>`;
-  }).join('')}</div>`;
-  initSort();
-}
+<script>
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function a(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;cursor.style.left=mx+'px';cursor.style.top=my+'px';ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';});
+});
 
-// DRAG SORT
-function initSort(){
-  const grid=document.getElementById('sortable');
-  if(!grid)return;
-  grid.querySelectorAll('.work-item').forEach(item=>{
-    item.addEventListener('dragstart',e=>{item.classList.add('dragging-item');e.dataTransfer.effectAllowed='move';});
-    item.addEventListener('dragend',()=>{item.classList.remove('dragging-item');grid.querySelectorAll('.work-item').forEach(i=>i.classList.remove('drag-over'));});
-    item.addEventListener('dragover',e=>{e.preventDefault();if(item!==document.querySelector('.dragging-item')){grid.querySelectorAll('.work-item').forEach(i=>i.classList.remove('drag-over'));item.classList.add('drag-over');}});
-    item.addEventListener('drop',async e=>{
-      e.preventDefault();item.classList.remove('drag-over');
-      const src=document.querySelector('.dragging-item');
-      if(!src||src===item)return;
-      const items=[...grid.querySelectorAll('.work-item')];
-      if(items.indexOf(src)<items.indexOf(item))item.after(src);else item.before(src);
-      await saveOrder();
-    });
+(function(){const c=document.getElementById('grain-canvas'),ctx=c.getContext('2d');function r(){c.width=innerWidth;c.height=innerHeight;}r();addEventListener('resize',r);function d(){const img=ctx.createImageData(c.width,c.height),dt=img.data;for(let i=0;i<dt.length;i+=4){const v=Math.random()*255|0;dt[i]=dt[i+1]=dt[i+2]=v;dt[i+3]=18;}ctx.putImageData(img,0,0);setTimeout(()=>requestAnimationFrame(d),80);}d();})();
+(function(){const c=document.getElementById('particle-canvas'),ctx=c.getContext('2d');function r(){c.width=innerWidth;c.height=innerHeight;}r();addEventListener('resize',r);const pts=[];document.addEventListener('mousemove',e=>{if(Math.random()>0.55){pts.push({x:e.clientX,y:e.clientY,vx:(Math.random()-.5)*.8,vy:(Math.random()-.5)*.8-.4,life:1,size:Math.random()*2.5+.5,hue:Math.random()*20});if(pts.length>35)pts.shift();}});function loop(){ctx.clearRect(0,0,c.width,c.height);for(let i=pts.length-1;i>=0;i--){const p=pts[i];p.x+=p.vx;p.y+=p.vy;p.life-=.018;if(p.life<=0){pts.splice(i,1);continue;}ctx.globalAlpha=p.life*.6;ctx.fillStyle=`hsl(${38+p.hue},60%,${60+p.hue}%)`;ctx.beginPath();ctx.arc(p.x,p.y,p.size*p.life,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;requestAnimationFrame(loop);}loop();})();
+
+let words=['Seeing','Feeling','Chasing','Framing','Capturing','Drifting'];
+let zhWords=['光','影','時間','靜默','記憶','瞬間'];
+let wi=0,currentLang='en';
+const wordEl=document.getElementById('hero-word');
+setInterval(()=>{wordEl.style.opacity='0';setTimeout(()=>{wi=(wi+1)%words.length;wordEl.textContent=currentLang==='en'?words[wi]:zhWords[wi];wordEl.style.opacity='1';},220);},2200);
+
+window.toggleLang=function(){
+  currentLang=currentLang==='en'?'zh':'en';
+  document.documentElement.lang=currentLang==='zh'?'zh-TW':'en';
+  document.getElementById('lang-toggle').textContent=currentLang==='zh'?'EN ｜ 中':'中 ｜ EN';
+  document.querySelectorAll('[data-en]').forEach(el=>{el.textContent=currentLang==='en'?el.dataset.en:el.dataset.zh;});
+  document.querySelectorAll('[data-en-html]').forEach(el=>{el.innerHTML=currentLang==='en'?el.dataset.enHtml:el.dataset.zhHtml;});
+  document.querySelectorAll('[data-en-text]').forEach(el=>{el.textContent=currentLang==='en'?el.dataset.enText:el.dataset.zhText;});
+  wordEl.textContent=currentLang==='en'?words[wi]:zhWords[wi];
+  // update work.html links with lang param
+  document.querySelectorAll('a[href^="work.html"]').forEach(a=>{
+    const u=new URL(a.href); u.searchParams.set('lang',currentLang); a.href=u.toString();
   });
-}
-async function saveOrder(){
-  const grid=document.getElementById('sortable');if(!grid)return;
-  const items=[...grid.querySelectorAll('.work-item')];
-  const batch=writeBatch(db);
-  items.forEach((el,i)=>batch.update(doc(db,'works',el.dataset.id),{sortOrder:i}));
-  await batch.commit();
-  const hint=document.getElementById('sort-saved');
-  hint.classList.add('show'); setTimeout(()=>hint.classList.remove('show'),2000);
-  items.forEach((el,i)=>{const w=allWorks.find(x=>x.id===el.dataset.id);if(w)w.sortOrder=i;});
-}
-
-// QUICK DELETE
-window.quickDelete=async id=>{
-  if(!confirm('確定要刪除這件作品嗎？'))return;
-  await deleteDoc(doc(db,'works',id));
-  allWorks=allWorks.filter(w=>w.id!==id);
-  renderWorks();
 };
 
-// EDIT MODAL
-window.openEdit=id=>{
-  const w=allWorks.find(x=>x.id===id);if(!w)return;
-  editId=id;
-  editImgs=[w.coverUrl,...(w.images||[])].filter(Boolean);
-  editNewFiles=[];
-  document.getElementById('e-title').value=w.title||'';
-  document.getElementById('e-year').value=w.year||'';
-  document.getElementById('e-category').value=w.category||'film';
-  document.getElementById('e-medium').value=w.medium||'';
-  document.getElementById('e-orient').value=w.orient||'portrait';
-  document.getElementById('e-status').textContent='';
-  document.getElementById('e-add-preview').innerHTML='';
-  renderEditImgs();
-  // setup add zone
-  const addInput=document.getElementById('e-add-input');
-  const addZone=document.getElementById('e-add-zone');
-  addInput.onchange=e=>addEditFiles(Array.from(e.target.files));
-  addZone.ondragover=e=>{e.preventDefault();addZone.classList.add('dragover');};
-  addZone.ondragleave=()=>addZone.classList.remove('dragover');
-  addZone.ondrop=e=>{e.preventDefault();addZone.classList.remove('dragover');addEditFiles(Array.from(e.dataTransfer.files));};
-  document.getElementById('edit-modal').classList.add('open');
-  document.body.style.overflow='hidden';
-};
-window.closeEdit=()=>{
-  document.getElementById('edit-modal').classList.remove('open');
-  document.body.style.overflow='';
-};
 
-function renderEditImgs(){
-  document.getElementById('e-current-imgs').innerHTML=editImgs.map((url,i)=>`
-    <div class="cur-img${i===0?' is-cover':''}">
-      <img src="${url}" loading="lazy">
-      <button class="cur-img-del" onclick="removeEditImg(${i})">✕</button>
-    </div>`).join('');
-}
-window.removeEditImg=i=>{editImgs.splice(i,1);renderEditImgs();};
 
-function addEditFiles(files){
-  files.forEach(f=>{if(editNewFiles.length<9)editNewFiles.push(f);});
-  const c=document.getElementById('e-add-preview');c.innerHTML='';
-  editNewFiles.forEach((f,i)=>{
-    const r=new FileReader();r.onload=e=>{
-      const d=document.createElement('div');d.className='thumb';
-      d.innerHTML=`<img src="${e.target.result}"><button class="thumb-del" onclick="removeEditNew(${i})">✕</button>`;
-      c.appendChild(d);
-    };r.readAsDataURL(f);
-  });
-}
-window.removeEditNew=i=>{editNewFiles.splice(i,1);addEditFiles([]);};
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
-window.saveEdit=async()=>{
-  const title=document.getElementById('e-title').value.trim()||'無題';
-  const year=document.getElementById('e-year').value.trim()||'';
-  const category=document.getElementById('e-category').value;
-  const medium=document.getElementById('e-medium').value.trim();
-  const orient=document.getElementById('e-orient').value;
-  const btn=document.getElementById('e-save-btn');
-  const bar=document.getElementById('e-bar');
-  const pWrap=document.getElementById('e-progress');
-  const status=document.getElementById('e-status');
-  btn.disabled=true; pWrap.style.display='block';
-  try{
-    const newUrls=[];
-    for(let i=0;i<editNewFiles.length;i++){
-      status.textContent=`上傳第 ${i+1}/${editNewFiles.length} 張…`;
-      bar.style.width=Math.round((i+1)/editNewFiles.length*100)+'%';
-      newUrls.push(await cloudinaryUpload(editNewFiles[i]));
-    }
-    const allImgs=[...editImgs,...newUrls];
-    const coverUrl=allImgs[0]||'';
-    const images=allImgs.slice(1);
-    await updateDoc(doc(db,'works',editId),{title,year,category,medium,orient,coverUrl,images});
-    // update local
-    const idx=allWorks.findIndex(x=>x.id===editId);
-    if(idx>-1) allWorks[idx]={...allWorks[idx],title,year,category,medium,orient,coverUrl,images};
-    status.textContent='✓ 儲存成功！';
-    setTimeout(()=>{closeEdit();renderWorks();},800);
-  }catch(e){status.textContent='失敗：'+e.message;}
-  btn.disabled=false;
-};
-
-window.deleteEditWork=async()=>{
-  if(!confirm('確定要刪除這件作品嗎？'))return;
-  await deleteDoc(doc(db,'works',editId));
-  allWorks=allWorks.filter(w=>w.id!==editId);
-  closeEdit(); renderWorks();
-};
-
-window.switchTab=(e,filter)=>{
-  currentFilter=filter;
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  e.target.classList.add('active');
-  renderWorks();
-};
+// prevent image saving
+document.addEventListener('contextmenu',e=>{if(e.target.tagName==='IMG')e.preventDefault();});
+document.addEventListener('dragstart',e=>{if(e.target.tagName==='IMG')e.preventDefault();});
 </script>
 </body>
 </html>
-
