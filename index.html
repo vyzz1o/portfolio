@@ -7,21 +7,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Tenor+Sans&family=DM+Mono:ital@0;1&family=Noto+Serif+TC:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
-:root{
-  --cream:#f2ead8;--sepia:#c4a882;--warm-brown:#8b6b4a;
-  --dark-brown:#3d2b1f;--near-black:#1a1008;--film-grain:#d4c4a8;--gold:#c9a84c;
-}
+:root{--cream:#f2ead8;--sepia:#c4a882;--warm-brown:#8b6b4a;--dark-brown:#3d2b1f;--near-black:#1a1008;--film-grain:#d4c4a8;--gold:#c9a84c;}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--near-black);color:var(--cream);font-family:'Cormorant Garamond',Georgia,serif;cursor:none;overflow-x:hidden;}
-
 #cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;}
 #cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;opacity:0.5;}
 #grain-canvas{position:fixed;inset:0;pointer-events:none;z-index:100;opacity:0.06;mix-blend-mode:overlay;}
 #particle-canvas{position:fixed;inset:0;pointer-events:none;z-index:50;}
 .noise-overlay{position:fixed;inset:0;pointer-events:none;z-index:90;opacity:0.028;mix-blend-mode:screen;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 
-/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(26,16,8,0.92) 0%,transparent 100%);backdrop-filter:blur(2px);}
 .nav-logo{font-family:'Tenor Sans',sans-serif;font-size:0.88rem;letter-spacing:0.38em;color:var(--gold);text-decoration:none;}
 .nav-right{display:flex;align-items:center;gap:2rem;}
@@ -33,7 +28,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 #lang-toggle{font-family:'DM Mono',monospace;font-size:0.56rem;letter-spacing:0.18em;color:var(--sepia);background:transparent;border:1px solid rgba(196,168,130,0.25);padding:0.26rem 0.65rem;cursor:none;transition:all 0.2s;text-transform:uppercase;}
 #lang-toggle:hover{border-color:var(--gold);color:var(--gold);}
 
-/* HERO */
 #hero{height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 3rem;position:relative;overflow:hidden;}
 .hero-bg-text{position:absolute;bottom:-0.1em;right:-0.02em;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(14rem,28vw,26rem);color:transparent;-webkit-text-stroke:1px rgba(196,168,130,0.07);line-height:1;user-select:none;pointer-events:none;}
 .hero-eyebrow{font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.5em;color:var(--gold);margin-bottom:2rem;text-transform:uppercase;}
@@ -44,72 +38,49 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .hero-scroll-line{width:55px;height:1px;background:var(--warm-brown);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:0.3}50%{opacity:1}}
 
-/* COMMON SECTION */
 .portfolio-section{padding:5rem 3rem;border-top:1px solid rgba(196,168,130,0.08);}
 .eyebrow{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.45em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;}
 .sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3.5rem);color:var(--cream);line-height:1.05;letter-spacing:-0.01em;margin-bottom:2.5rem;}
-.sec-divider{width:40px;height:1px;background:rgba(196,168,130,0.3);margin:1.5rem 0 2.5rem;}
 
-/* OVERVIEW — MASONRY */
-#overview .gallery-grid{columns:3;gap:1rem;}
-@media(max-width:900px){#overview .gallery-grid{columns:2;}}
-@media(max-width:500px){#overview .gallery-grid{columns:1;}}
+/* MASONRY OVERVIEW */
+.masonry{columns:3;gap:1rem;}
+@media(max-width:900px){.masonry{columns:2;}}
+@media(max-width:500px){.masonry{columns:1;}}
 
-/* SUB-SECTION (photography / art) */
-.sub-section{margin-bottom:4rem;}
+/* HORIZONTAL TRACK */
+.sub-section{margin-bottom:3.5rem;}
 .sub-section:last-child{margin-bottom:0;}
-.sub-title{font-family:'Tenor Sans',sans-serif;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--sepia);margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem;}
-.sub-title::after{content:'';flex:1;height:1px;background:rgba(196,168,130,0.12);}
-
-/* HORIZONTAL SCROLL TRACK */
-.h-track-wrap{overflow:hidden;margin:0 -3rem;padding:0.5rem 0;}
-.h-track{display:flex;gap:1rem;padding:0 3rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;cursor:grab;}
+.sub-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+.sub-title{font-family:'Tenor Sans',sans-serif;font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--sepia);display:flex;align-items:center;gap:1rem;}
+.sub-title::after{content:'';flex:1;height:1px;background:rgba(196,168,130,0.1);}
+.scroll-nav{display:flex;gap:0.4rem;}
+.scroll-btn{width:32px;height:32px;border:1px solid rgba(196,168,130,0.18);background:transparent;color:var(--sepia);font-size:1rem;cursor:none;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
+.scroll-btn:hover{border-color:var(--gold);color:var(--gold);}
+.h-track-wrap{overflow:hidden;margin:0 -3rem;}
+.h-track{display:flex;gap:0.8rem;padding:0 3rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;cursor:grab;}
 .h-track::-webkit-scrollbar{display:none;}
 .h-track.dragging{cursor:grabbing;}
 .h-track::after{content:'';min-width:3rem;flex-shrink:0;}
 
-/* GALLERY CARD (shared) */
-.gallery-card{flex-shrink:0;position:relative;overflow:hidden;border:1px solid rgba(196,168,130,0.08);cursor:none;break-inside:avoid;margin-bottom:1rem;}
-.gallery-card.h{scroll-snap-align:start;}
-.gallery-card.h.portrait{width:220px;height:310px;}
-.gallery-card.h.landscape{width:360px;height:240px;}
-.gallery-card.h.square{width:260px;height:260px;}
-.gallery-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s ease;}
+/* GALLERY CARD */
+.gallery-card{position:relative;overflow:hidden;border:1px solid rgba(196,168,130,0.08);cursor:none;text-decoration:none;display:block;transition:border-color 0.3s;}
+.gallery-card:hover{border-color:rgba(196,168,130,0.28);}
+/* masonry */
+.gallery-card.m{break-inside:avoid;margin-bottom:1rem;width:100%;}
+.gallery-card.m img{width:100%;height:auto;display:block;transition:transform 0.5s;}
+/* horizontal */
+.gallery-card.h{flex-shrink:0;scroll-snap-align:start;}
+.gallery-card.h.portrait{width:200px;height:280px;}
+.gallery-card.h.landscape{width:340px;height:220px;}
+.gallery-card.h.square{width:240px;height:240px;}
+.gallery-card.h img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;}
 .gallery-card:hover img{transform:scale(1.04);}
-.gallery-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,16,8,0.92) 0%,transparent 55%);opacity:0;transition:opacity 0.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:1.1rem;}
+.gallery-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,16,8,0.9) 0%,transparent 55%);opacity:0;transition:opacity 0.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:1rem;}
 .gallery-card:hover .gallery-card-overlay{opacity:1;}
-.gallery-card-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1rem;color:var(--cream);}
-.gallery-card-meta{font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;margin-top:0.15rem;}
-.gallery-card-count{font-family:'DM Mono',monospace;font-size:0.5rem;color:var(--sepia);margin-top:0.1rem;opacity:0.8;}
-/* masonry card fills column width */
-.gallery-card.m{width:100%;}
-.gallery-card.m img{width:100%;height:auto;}
-
-.gallery-empty{padding:3rem 0;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--warm-brown);font-size:1rem;opacity:0.5;}
-
-/* SECTION NAV (horizontal scroll arrows) */
-.section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:0;}
-.scroll-nav{display:flex;gap:0.4rem;align-items:center;}
-.scroll-btn{width:34px;height:34px;border:1px solid rgba(196,168,130,0.18);background:transparent;color:var(--sepia);font-size:1.1rem;cursor:none;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
-.scroll-btn:hover{border-color:var(--gold);color:var(--gold);}
-
-/* LIGHTBOX */
-#lightbox{position:fixed;inset:0;z-index:1000;background:rgba(8,4,2,0.97);display:none;flex-direction:column;align-items:center;justify-content:center;}
-#lightbox.open{display:flex;}
-#lb-img{max-width:88vw;max-height:76vh;object-fit:contain;display:block;}
-.lb-top{position:absolute;top:0;left:0;right:0;padding:1.4rem 2rem;display:flex;justify-content:space-between;align-items:flex-start;}
-.lb-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.05rem;color:var(--cream);}
-.lb-meta{font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;margin-top:0.15rem;}
-.lb-close{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;color:var(--sepia);background:none;border:1px solid rgba(196,168,130,0.22);padding:0.35rem 0.85rem;cursor:none;text-transform:uppercase;transition:all 0.2s;flex-shrink:0;}
-.lb-close:hover{color:var(--gold);border-color:var(--gold);}
-.lb-bottom{position:absolute;bottom:1.8rem;display:flex;flex-direction:column;align-items:center;gap:0.8rem;}
-.lb-dots{display:flex;gap:0.35rem;}
-.lb-dot{width:5px;height:5px;border-radius:50%;background:rgba(196,168,130,0.22);border:none;cursor:none;transition:background 0.2s;padding:0;}
-.lb-dot.active{background:var(--gold);}
-.lb-nav{display:flex;align-items:center;gap:1rem;}
-.lb-btn{width:40px;height:40px;border:1px solid rgba(196,168,130,0.18);background:transparent;color:var(--sepia);font-size:1.1rem;cursor:none;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
-.lb-btn:hover{border-color:var(--gold);color:var(--gold);}
-.lb-counter{font-family:'DM Mono',monospace;font-size:0.56rem;letter-spacing:0.14em;color:var(--warm-brown);min-width:46px;text-align:center;}
+.gallery-card-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:0.98rem;color:var(--cream);}
+.gallery-card-meta{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;margin-top:0.12rem;}
+.gallery-card-count{font-family:'DM Mono',monospace;font-size:0.48rem;color:var(--sepia);margin-top:0.08rem;opacity:0.8;}
+.gallery-empty{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--warm-brown);font-size:0.95rem;opacity:0.5;padding:2rem 0;}
 
 /* ABOUT */
 #about{padding:6rem 3rem;border-top:1px solid rgba(196,168,130,0.08);display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
@@ -140,16 +111,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .footer-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(196,168,130,0.07);padding-top:1.8rem;margin-top:1.8rem;}
 .footer-copy{font-family:'DM Mono',monospace;font-size:0.54rem;letter-spacing:0.18em;color:var(--warm-brown);text-transform:uppercase;}
 .footer-mark{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:0.92rem;color:var(--sepia);opacity:0.45;}
-
 #float-btn{position:fixed;bottom:2.2rem;right:2.2rem;z-index:300;background:var(--gold);color:var(--near-black);border:none;padding:0.72rem 1.3rem;font-family:'Tenor Sans',sans-serif;font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;cursor:none;display:flex;align-items:center;gap:0.55rem;transition:background 0.2s,transform 0.2s;box-shadow:0 8px 24px rgba(0,0,0,0.4);text-decoration:none;}
 #float-btn:hover{background:var(--cream);transform:translateY(-2px);}
-#float-btn svg{width:12px;height:12px;}
 
 .fade-up{opacity:0;transform:translateY(26px);transition:opacity 0.8s ease,transform 0.8s ease;}
 .fade-up.visible{opacity:1;transform:translateY(0);}
 
-/* CHINESE */
-html[lang="zh-TW"] .hero-title,html[lang="zh-TW"] .sec-title,html[lang="zh-TW"] .contact-title,html[lang="zh-TW"] .gallery-card-title,html[lang="zh-TW"] .lb-title,html[lang="zh-TW"] .footer-mark{font-family:'Noto Serif TC',serif;font-weight:200;letter-spacing:0.04em;}
+html[lang="zh-TW"] .hero-title,html[lang="zh-TW"] .sec-title,html[lang="zh-TW"] .contact-title,html[lang="zh-TW"] .gallery-card-title,html[lang="zh-TW"] .footer-mark{font-family:'Noto Serif TC',serif;font-weight:200;letter-spacing:0.04em;}
 html[lang="zh-TW"] body{font-family:'Noto Serif TC',serif;font-weight:300;}
 html[lang="zh-TW"] .hero-subtitle,html[lang="zh-TW"] .about-text p,html[lang="zh-TW"] .contact-sub{font-family:'Noto Serif TC',serif;font-weight:200;font-style:normal;line-height:2;}
 html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.05;}
@@ -168,7 +136,6 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 </style>
 </head>
 <body>
-
 <div class="noise-overlay"></div>
 <canvas id="grain-canvas"></canvas>
 <canvas id="particle-canvas"></canvas>
@@ -179,17 +146,16 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   <a href="#hero" class="nav-logo">W ✦ STUDIO</a>
   <div class="nav-right">
     <ul class="nav-links">
-      <li><a href="#overview"     data-en="Work"    data-zh="作品">Work</a></li>
-      <li><a href="#photography"  data-en="Photo"   data-zh="攝影">Photo</a></li>
-      <li><a href="#art"          data-en="Art"     data-zh="創作">Art</a></li>
-      <li><a href="#about"        data-en="About"   data-zh="關於">About</a></li>
-      <li><a href="#contact"      data-en="Contact" data-zh="聯絡">Contact</a></li>
+      <li><a href="#overview"    data-en="Work"    data-zh="作品">Work</a></li>
+      <li><a href="#photography" data-en="Photo"   data-zh="攝影">Photo</a></li>
+      <li><a href="#art"         data-en="Art"     data-zh="創作">Art</a></li>
+      <li><a href="#about"       data-en="About"   data-zh="關於">About</a></li>
+      <li><a href="#contact"     data-en="Contact" data-zh="聯絡">Contact</a></li>
     </ul>
     <button id="lang-toggle" onclick="toggleLang()">中 ｜ EN</button>
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-bg-text">W</div>
   <p class="hero-eyebrow" data-en="— Photography · Digital Art · Commercial —" data-zh="— 攝影 · 電繪 · 商業 —">— Photography · Digital Art · Commercial —</p>
@@ -205,62 +171,40 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 <section class="portfolio-section" id="overview">
   <p class="eyebrow fade-up" data-en="— All Works" data-zh="— 全部作品">— All Works</p>
   <h2 class="sec-title fade-up" data-en="Overview" data-zh="作品總覽">Overview</h2>
-  <div class="gallery-grid" id="overview-grid">
-    <p class="gallery-empty">Loading…</p>
-  </div>
+  <div class="masonry" id="overview-grid"><p class="gallery-empty">Loading…</p></div>
 </section>
 
 <!-- PHOTOGRAPHY -->
 <section class="portfolio-section" id="photography">
   <p class="eyebrow fade-up" data-en="— Photography" data-zh="— 攝影">— Photography</p>
   <h2 class="sec-title fade-up" data-en="Through the Lens" data-zh="鏡頭所見">Through the Lens</h2>
-
-  <!-- Film -->
-  <div class="sub-section" id="sub-film">
-    <div class="section-header">
+  <div class="sub-section">
+    <div class="sub-header">
       <p class="sub-title" data-en="Film" data-zh="底片攝影">Film</p>
-      <div class="scroll-nav">
-        <button class="scroll-btn" onclick="scrollTrack('film-track',-1)">‹</button>
-        <button class="scroll-btn" onclick="scrollTrack('film-track',1)">›</button>
-      </div>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollTrack('t-film',-1)">‹</button><button class="scroll-btn" onclick="scrollTrack('t-film',1)">›</button></div>
     </div>
-    <div class="h-track-wrap"><div class="h-track" id="film-track"><p class="gallery-empty">Loading…</p></div></div>
+    <div class="h-track-wrap"><div class="h-track" id="t-film"></div></div>
   </div>
-
-  <!-- Street -->
-  <div class="sub-section" id="sub-street">
-    <div class="section-header">
+  <div class="sub-section">
+    <div class="sub-header">
       <p class="sub-title" data-en="Street" data-zh="街頭攝影">Street</p>
-      <div class="scroll-nav">
-        <button class="scroll-btn" onclick="scrollTrack('street-track',-1)">‹</button>
-        <button class="scroll-btn" onclick="scrollTrack('street-track',1)">›</button>
-      </div>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollTrack('t-street',-1)">‹</button><button class="scroll-btn" onclick="scrollTrack('t-street',1)">›</button></div>
     </div>
-    <div class="h-track-wrap"><div class="h-track" id="street-track"><p class="gallery-empty">Loading…</p></div></div>
+    <div class="h-track-wrap"><div class="h-track" id="t-street"></div></div>
   </div>
-
-  <!-- Portrait -->
-  <div class="sub-section" id="sub-portrait">
-    <div class="section-header">
+  <div class="sub-section">
+    <div class="sub-header">
       <p class="sub-title" data-en="Portrait" data-zh="人像攝影">Portrait</p>
-      <div class="scroll-nav">
-        <button class="scroll-btn" onclick="scrollTrack('portrait-track',-1)">‹</button>
-        <button class="scroll-btn" onclick="scrollTrack('portrait-track',1)">›</button>
-      </div>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollTrack('t-portrait',-1)">‹</button><button class="scroll-btn" onclick="scrollTrack('t-portrait',1)">›</button></div>
     </div>
-    <div class="h-track-wrap"><div class="h-track" id="portrait-track"><p class="gallery-empty">Loading…</p></div></div>
+    <div class="h-track-wrap"><div class="h-track" id="t-portrait"></div></div>
   </div>
-
-  <!-- Commercial -->
-  <div class="sub-section" id="sub-commercial">
-    <div class="section-header">
+  <div class="sub-section">
+    <div class="sub-header">
       <p class="sub-title" data-en="Commercial" data-zh="商業攝影">Commercial</p>
-      <div class="scroll-nav">
-        <button class="scroll-btn" onclick="scrollTrack('commercial-track',-1)">‹</button>
-        <button class="scroll-btn" onclick="scrollTrack('commercial-track',1)">›</button>
-      </div>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollTrack('t-commercial',-1)">‹</button><button class="scroll-btn" onclick="scrollTrack('t-commercial',1)">›</button></div>
     </div>
-    <div class="h-track-wrap"><div class="h-track" id="commercial-track"><p class="gallery-empty">Loading…</p></div></div>
+    <div class="h-track-wrap"><div class="h-track" id="t-commercial"></div></div>
   </div>
 </section>
 
@@ -268,44 +212,29 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 <section class="portfolio-section" id="art">
   <p class="eyebrow fade-up" data-en="— Creative Work" data-zh="— 創作">— Creative Work</p>
   <h2 class="sec-title fade-up" data-en="Ink & Pixels" data-zh="線條與色彩">Ink & Pixels</h2>
-
-  <!-- Pet -->
-  <div class="sub-section" id="sub-pet">
-    <div class="section-header">
+  <div class="sub-section">
+    <div class="sub-header">
       <p class="sub-title" data-en="Pet" data-zh="寵物攝影">Pet</p>
-      <div class="scroll-nav">
-        <button class="scroll-btn" onclick="scrollTrack('pet-track',-1)">‹</button>
-        <button class="scroll-btn" onclick="scrollTrack('pet-track',1)">›</button>
-      </div>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollTrack('t-pet',-1)">‹</button><button class="scroll-btn" onclick="scrollTrack('t-pet',1)">›</button></div>
     </div>
-    <div class="h-track-wrap"><div class="h-track" id="pet-track"><p class="gallery-empty">Loading…</p></div></div>
+    <div class="h-track-wrap"><div class="h-track" id="t-pet"></div></div>
   </div>
-
-  <!-- Digital -->
-  <div class="sub-section" id="sub-digital">
-    <div class="section-header">
+  <div class="sub-section">
+    <div class="sub-header">
       <p class="sub-title" data-en="Digital Art" data-zh="電繪插畫">Digital Art</p>
-      <div class="scroll-nav">
-        <button class="scroll-btn" onclick="scrollTrack('digital-track',-1)">‹</button>
-        <button class="scroll-btn" onclick="scrollTrack('digital-track',1)">›</button>
-      </div>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollTrack('t-digital',-1)">‹</button><button class="scroll-btn" onclick="scrollTrack('t-digital',1)">›</button></div>
     </div>
-    <div class="h-track-wrap"><div class="h-track" id="digital-track"><p class="gallery-empty">Loading…</p></div></div>
+    <div class="h-track-wrap"><div class="h-track" id="t-digital"></div></div>
   </div>
 </section>
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="about-img-frame fade-up">
-    <div class="about-img-placeholder">◯</div>
-  </div>
+  <div class="about-img-frame fade-up"><div class="about-img-placeholder">◯</div></div>
   <div class="about-text fade-up" style="transition-delay:0.15s">
     <p class="eyebrow" data-en="— About" data-zh="— 關於創作者">— About</p>
     <h2 class="sec-title">W</h2>
-    <div class="film-strip">
-      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
-      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
-    </div>
+    <div class="film-strip"><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div></div>
     <p data-en-html="I speak in <strong>film grain and brushstrokes</strong> — a photographer who shoots analog, draws digitally, and finds meaning in the quiet details others walk past." data-zh-html="用<strong>底片顆粒與筆觸</strong>說話——拍底片、畫電繪，在別人走過的角落裡尋找意義。">I speak in <strong>film grain and brushstrokes</strong> — a photographer who shoots analog, draws digitally, and finds meaning in the quiet details others walk past.</p>
     <p data-en-html="From <strong>street corners to studio lights</strong>, from pet portraits to commercial campaigns, every project is an exercise in seeing more carefully." data-zh-html="從<strong>街頭到棚燈</strong>，從寵物到商業品牌，每一個計畫都是一次更仔細觀看世界的練習。">From <strong>street corners to studio lights</strong>, from pet portraits to commercial campaigns, every project is an exercise in seeing more carefully.</p>
     <p data-en-html="Open to <strong>commercial commissions, portrait sessions, and creative collaborations</strong>." data-zh-html="歡迎<strong>商業合作、人像拍攝、寵物攝影</strong>等各類創作邀約。">Open to <strong>commercial commissions, portrait sessions, and creative collaborations</strong>.</p>
@@ -320,7 +249,6 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   </div>
 </section>
 
-<!-- CONTACT -->
 <footer id="contact">
   <div class="contact-grid fade-up">
     <div>
@@ -334,16 +262,13 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
     </div>
     <div class="contact-links">
       <a class="contact-link-item" href="mailto:your@email.com">
-        <span class="contact-link-label">Email</span>
-        <span class="contact-link-value">your@email.com</span>
+        <span class="contact-link-label">Email</span><span class="contact-link-value">your@email.com</span>
       </a>
       <a class="contact-link-item" href="https://instagram.com/你的IG帳號" target="_blank">
-        <span class="contact-link-label">Instagram</span>
-        <span class="contact-link-value">@你的IG帳號</span>
+        <span class="contact-link-label">Instagram</span><span class="contact-link-value">@你的IG帳號</span>
       </a>
       <a class="contact-link-item">
-        <span class="contact-link-label">Location</span>
-        <span class="contact-link-value">Taiwan · Taipei</span>
+        <span class="contact-link-label">Location</span><span class="contact-link-value">Taiwan · Taipei</span>
       </a>
     </div>
   </div>
@@ -354,183 +279,121 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 </footer>
 
 <a href="https://instagram.com/你的IG帳號" id="float-btn" target="_blank" rel="noopener">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="13" height="13"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
   Instagram
 </a>
 
-<!-- LIGHTBOX -->
-<div id="lightbox">
-  <div class="lb-top">
-    <div><p class="lb-title" id="lb-title"></p><p class="lb-meta" id="lb-meta"></p></div>
-    <button class="lb-close" onclick="closeLb()">✕ Close</button>
-  </div>
-  <img id="lb-img" src="" alt="">
-  <div class="lb-bottom">
-    <div class="lb-dots" id="lb-dots"></div>
-    <div class="lb-nav">
-      <button class="lb-btn" onclick="lbNav(-1)">‹</button>
-      <span class="lb-counter" id="lb-counter"></span>
-      <button class="lb-btn" onclick="lbNav(1)">›</button>
-    </div>
-  </div>
-</div>
-
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getFirestore, collection, getDocs, query, orderBy }
+import { getFirestore, collection, getDocs }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
-  apiKey:            "AIzaSyAeG23IjdCrgxLwN7iCW4so1EQtHyWjfoc",
-  authDomain:        "wish-w.firebaseapp.com",
-  projectId:         "wish-w",
-  storageBucket:     "wish-w.firebasestorage.app",
-  messagingSenderId: "472916214379",
-  appId:             "1:472916214379:web:e76352027f3e0640ffa72e"
+  apiKey:"AIzaSyAeG23IjdCrgxLwN7iCW4so1EQtHyWjfoc",authDomain:"wish-w.firebaseapp.com",projectId:"wish-w",
+  storageBucket:"wish-w.firebasestorage.app",messagingSenderId:"472916214379",appId:"1:472916214379:web:e76352027f3e0640ffa72e"
 };
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
 
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+let allWorks=[];
+let currentLang='en';
+const SIZES=['portrait','landscape','square'];
+let si=0;
 
-let allWorks = [];
-const SIZES  = ['portrait','landscape','square'];
-let sizeIdx  = 0;
-
-async function loadWorks() {
-  try {
-    const snap = await getDocs(query(collection(db,'works'), orderBy('sortOrder','asc')));
-    allWorks = [];
-    snap.forEach(d => allWorks.push({ id:d.id, ...d.data() }));
-    // fallback: if no sortOrder, use createdAt
-    if (allWorks.every(w => w.sortOrder == null)) {
-      const snap2 = await getDocs(query(collection(db,'works'), orderBy('createdAt','desc')));
-      allWorks = []; snap2.forEach(d => allWorks.push({ id:d.id, ...d.data() }));
-    }
-    renderAll();
-  } catch(e) {
-    console.error(e);
-    document.getElementById('overview-grid').innerHTML = '<p class="gallery-empty">Failed to load.</p>';
-  }
+function sortWorks(arr){
+  return [...arr].sort((a,b)=>{
+    const ah=a.sortOrder!=null, bh=b.sortOrder!=null;
+    if(ah&&bh) return a.sortOrder-b.sortOrder;
+    if(ah) return -1; if(bh) return 1;
+    return (b.createdAt?.toMillis?.()??0)-(a.createdAt?.toMillis?.()??0);
+  });
 }
 
-function makeCard(w, type='h') {
-  const imgs  = [w.coverUrl, ...(w.images||[])].filter(Boolean);
-  const size  = type==='h' ? SIZES[sizeIdx++ % 3] : '';
-  const cls   = type==='h' ? `gallery-card h ${size}` : 'gallery-card m';
-  return `<div class="${cls}" onclick="openLb('${w.id}')">
+function cardHtml(w, type='m') {
+  const imgs=[w.coverUrl,...(w.images||[])].filter(Boolean);
+  const size=type==='h'?SIZES[si++%3]:'';
+  const cls=type==='h'?`gallery-card h ${size}`:'gallery-card m';
+  const lang=currentLang;
+  return `<a class="${cls}" href="work.html?id=${w.id}&lang=${lang}">
     <img src="${w.coverUrl}" alt="${w.title}" loading="lazy">
     <div class="gallery-card-overlay">
       <p class="gallery-card-title">${w.title}</p>
       <p class="gallery-card-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
       ${imgs.length>1?`<p class="gallery-card-count">${imgs.length} photos</p>`:''}
     </div>
-  </div>`;
+  </a>`;
 }
 
-function renderTrack(trackId, cat) {
-  const track = document.getElementById(trackId);
-  const works = allWorks.filter(w => w.category === cat);
-  if (!works.length) { track.innerHTML = '<p class="gallery-empty" style="min-width:200px">No works yet.</p>'; return; }
-  sizeIdx = 0;
-  track.innerHTML = works.map(w => makeCard(w,'h')).join('');
-  initDrag(track);
+function renderTrack(id, cat) {
+  const t=document.getElementById(id);
+  const ws=allWorks.filter(w=>w.category===cat);
+  if(!ws.length){t.innerHTML='<p class="gallery-empty" style="min-width:180px">No works yet.</p>';return;}
+  si=0; t.innerHTML=ws.map(w=>cardHtml(w,'h')).join('');
+  let down=false,sx,sl;
+  t.addEventListener('mousedown',e=>{down=true;t.classList.add('dragging');sx=e.pageX-t.offsetLeft;sl=t.scrollLeft;});
+  document.addEventListener('mouseup',()=>{down=false;t.classList.remove('dragging');});
+  t.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();t.scrollLeft=sl-(e.pageX-t.offsetLeft-sx);});
 }
 
-function renderAll() {
-  // Overview masonry
-  const grid = document.getElementById('overview-grid');
-  if (!allWorks.length) { grid.innerHTML='<p class="gallery-empty">No works yet.</p>'; }
-  else grid.innerHTML = allWorks.map(w => makeCard(w,'m')).join('');
-
-  // Each category track
-  renderTrack('film-track',       'film');
-  renderTrack('street-track',     'street');
-  renderTrack('portrait-track',   'portrait');
-  renderTrack('commercial-track', 'commercial');
-  renderTrack('pet-track',        'pet');
-  renderTrack('digital-track',    'digital');
+function renderAll(){
+  const sorted=sortWorks(allWorks);
+  document.getElementById('overview-grid').innerHTML=sorted.map(w=>cardHtml(w,'m')).join('')||'<p class="gallery-empty">No works yet.</p>';
+  renderTrack('t-film','film');
+  renderTrack('t-street','street');
+  renderTrack('t-portrait','portrait');
+  renderTrack('t-commercial','commercial');
+  renderTrack('t-pet','pet');
+  renderTrack('t-digital','digital');
 }
 
-function initDrag(track) {
-  let down=false, sx, sl;
-  track.addEventListener('mousedown', e => { down=true; track.classList.add('dragging'); sx=e.pageX-track.offsetLeft; sl=track.scrollLeft; });
-  document.addEventListener('mouseup', () => { down=false; track.classList.remove('dragging'); });
-  track.addEventListener('mousemove', e => { if(!down) return; e.preventDefault(); track.scrollLeft = sl-(e.pageX-track.offsetLeft-sx); });
+async function load(){
+  const snap=await getDocs(collection(db,'works'));
+  allWorks=[]; snap.forEach(d=>allWorks.push({id:d.id,...d.data()}));
+  renderAll();
 }
-
-// LIGHTBOX
-let lbImgs=[], lbIdx=0;
-window.openLb = id => {
-  const w = allWorks.find(x=>x.id===id); if(!w) return;
-  lbImgs = [w.coverUrl,...(w.images||[])].filter(Boolean); lbIdx=0;
-  document.getElementById('lb-title').textContent = w.title;
-  document.getElementById('lb-meta').textContent  = w.year+(w.medium?' · '+w.medium:'');
-  renderLb();
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow='hidden';
-};
-window.closeLb = () => { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow=''; };
-window.lbNav   = d  => { lbIdx=(lbIdx+d+lbImgs.length)%lbImgs.length; renderLb(); };
-function renderLb() {
-  document.getElementById('lb-img').src = lbImgs[lbIdx];
-  document.getElementById('lb-counter').textContent = `${lbIdx+1} / ${lbImgs.length}`;
-  document.getElementById('lb-dots').innerHTML = lbImgs.map((_,i)=>
-    `<button class="lb-dot${i===lbIdx?' active':''}" onclick="lbIdx=${i};renderLb()"></button>`).join('');
-}
-document.getElementById('lightbox').addEventListener('click', e => { if(e.target.id==='lightbox') closeLb(); });
-document.addEventListener('keydown', e => {
-  if(!document.getElementById('lightbox').classList.contains('open')) return;
-  if(e.key==='ArrowRight') lbNav(1); if(e.key==='ArrowLeft') lbNav(-1); if(e.key==='Escape') closeLb();
-});
-
-loadWorks();
+load();
 </script>
 
 <script>
-// CURSOR
 const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
 (function a(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;cursor.style.left=mx+'px';cursor.style.top=my+'px';ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
-document.querySelectorAll('a,button,.gallery-card').forEach(el=>{
+document.querySelectorAll('a,button').forEach(el=>{
   el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';});
   el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';});
 });
 
-// GRAIN
 (function(){const c=document.getElementById('grain-canvas'),ctx=c.getContext('2d');function r(){c.width=innerWidth;c.height=innerHeight;}r();addEventListener('resize',r);function d(){const img=ctx.createImageData(c.width,c.height),dt=img.data;for(let i=0;i<dt.length;i+=4){const v=Math.random()*255|0;dt[i]=dt[i+1]=dt[i+2]=v;dt[i+3]=18;}ctx.putImageData(img,0,0);setTimeout(()=>requestAnimationFrame(d),80);}d();})();
-
-// PARTICLES
 (function(){const c=document.getElementById('particle-canvas'),ctx=c.getContext('2d');function r(){c.width=innerWidth;c.height=innerHeight;}r();addEventListener('resize',r);const pts=[];document.addEventListener('mousemove',e=>{if(Math.random()>0.55){pts.push({x:e.clientX,y:e.clientY,vx:(Math.random()-.5)*.8,vy:(Math.random()-.5)*.8-.4,life:1,size:Math.random()*2.5+.5,hue:Math.random()*20});if(pts.length>35)pts.shift();}});function loop(){ctx.clearRect(0,0,c.width,c.height);for(let i=pts.length-1;i>=0;i--){const p=pts[i];p.x+=p.vx;p.y+=p.vy;p.life-=.018;if(p.life<=0){pts.splice(i,1);continue;}ctx.globalAlpha=p.life*.6;ctx.fillStyle=`hsl(${38+p.hue},60%,${60+p.hue}%)`;ctx.beginPath();ctx.arc(p.x,p.y,p.size*p.life,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;requestAnimationFrame(loop);}loop();})();
 
-// HERO WORDS
 let words=['Seeing','Feeling','Chasing','Framing','Capturing','Drifting'];
 let zhWords=['光','影','時間','靜默','記憶','瞬間'];
 let wi=0,currentLang='en';
 const wordEl=document.getElementById('hero-word');
 setInterval(()=>{wordEl.style.opacity='0';setTimeout(()=>{wi=(wi+1)%words.length;wordEl.textContent=currentLang==='en'?words[wi]:zhWords[wi];wordEl.style.opacity='1';},220);},2200);
 
-// LANG
 window.toggleLang=function(){
   currentLang=currentLang==='en'?'zh':'en';
-  const html=document.documentElement,btn=document.getElementById('lang-toggle');
-  html.lang=currentLang==='zh'?'zh-TW':'en';
-  btn.textContent=currentLang==='zh'?'EN ｜ 中':'中 ｜ EN';
+  document.documentElement.lang=currentLang==='zh'?'zh-TW':'en';
+  document.getElementById('lang-toggle').textContent=currentLang==='zh'?'EN ｜ 中':'中 ｜ EN';
   document.querySelectorAll('[data-en]').forEach(el=>{el.textContent=currentLang==='en'?el.dataset.en:el.dataset.zh;});
   document.querySelectorAll('[data-en-html]').forEach(el=>{el.innerHTML=currentLang==='en'?el.dataset.enHtml:el.dataset.zhHtml;});
   document.querySelectorAll('[data-en-text]').forEach(el=>{el.textContent=currentLang==='en'?el.dataset.enText:el.dataset.zhText;});
   wordEl.textContent=currentLang==='en'?words[wi]:zhWords[wi];
+  // update work.html links with lang param
+  document.querySelectorAll('a[href^="work.html"]').forEach(a=>{
+    const u=new URL(a.href); u.searchParams.set('lang',currentLang); a.href=u.toString();
+  });
 };
 
-// SCROLL TRACK
 window.scrollTrack=function(id,dir){
   const t=document.getElementById(id);
   const items=t.querySelectorAll('.gallery-card');
-  const step=(items[0]?.offsetWidth||260)+16;
+  const step=(items[0]?.offsetWidth||240)+8;
   t.scrollBy({left:dir*step,behavior:'smooth'});
 };
 
-// FADE UP
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:0.1});
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 </script>
