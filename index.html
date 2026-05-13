@@ -42,14 +42,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .eyebrow{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.45em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;}
 .sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3.5rem);color:var(--cream);line-height:1.05;letter-spacing:-0.01em;margin-bottom:2.5rem;}
 
-/* SMART GRID OVERVIEW */
-.smart-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:0.7rem;align-items:start;}
-.smart-grid .gallery-card.m{margin-bottom:0;}
-.smart-grid .gallery-card.m.portrait{grid-column:span 2;}
-.smart-grid .gallery-card.m.landscape{grid-column:span 3;}
-.smart-grid .gallery-card.m.square{grid-column:span 2;}
-@media(max-width:900px){.smart-grid{grid-template-columns:repeat(4,1fr);}.smart-grid .gallery-card.m.landscape{grid-column:span 4;}.smart-grid .gallery-card.m.portrait{grid-column:span 2;}.smart-grid .gallery-card.m.square{grid-column:span 2;}}
-@media(max-width:540px){.smart-grid{grid-template-columns:repeat(2,1fr);}.smart-grid .gallery-card.m.landscape{grid-column:span 2;}.smart-grid .gallery-card.m.portrait{grid-column:span 1;}.smart-grid .gallery-card.m.square{grid-column:span 1;}}
+/* MASONRY OVERVIEW */
+.smart-grid{columns:3;gap:0.7rem;column-gap:0.7rem;}
+.smart-grid .gallery-card.m{break-inside:avoid;margin-bottom:0.7rem;width:100%;}
+.smart-grid .gallery-card.m img{width:100%;height:auto;display:block;}
+@media(max-width:800px){.smart-grid{columns:2;}}
+@media(max-width:480px){.smart-grid{columns:1;}}
 
 
 /* HORIZONTAL TRACK */
@@ -345,22 +343,7 @@ function renderTrack(id, cat) {
 function renderAll(){
   const sorted=sortWorks(allWorks);
   const grid=document.getElementById('overview-grid');
-  if(!sorted.length){grid.innerHTML='<p class="gallery-empty">No works yet.</p>';return;}
-  // First render without orientation class, then detect
-  grid.innerHTML=sorted.map(w=>cardHtml(w,'m')).join('');
-  // Detect image ratios and assign orientation class
-  grid.querySelectorAll('.gallery-card.m img').forEach(img=>{
-    const card=img.closest('.gallery-card');
-    function applyRatio(){
-      const r=img.naturalWidth/img.naturalHeight;
-      card.classList.remove('portrait','landscape','square');
-      if(r>1.2) card.classList.add('landscape');
-      else if(r<0.85) card.classList.add('portrait');
-      else card.classList.add('square');
-    }
-    if(img.complete&&img.naturalWidth) applyRatio();
-    else img.addEventListener('load',applyRatio);
-  });
+  grid.innerHTML=sorted.length?sorted.map(w=>cardHtml(w,'m')).join(''):'<p class="gallery-empty">No works yet.</p>';
   renderTrack('t-film','film');
   renderTrack('t-street','street');
   renderTrack('t-portrait','portrait');
