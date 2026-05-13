@@ -43,15 +43,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.6rem,3.5vw,2.8rem);color:var(--cream);line-height:1.05;letter-spacing:-0.01em;margin-bottom:1.5rem;}
 
 /* UNIFIED MASONRY */
-.masonry{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;max-width:720px;}
 .masonry .gallery-card.m{width:100%;margin:0;}
-.masonry .gallery-card.m.p{grid-row:span 2;align-self:stretch;}
+.masonry{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;max-width:720px;grid-auto-rows:auto;}
+/* portrait: fixed aspect ratio 2:3 */
+.masonry .gallery-card.m.p{aspect-ratio:2/3;}
 .masonry .gallery-card.m.p img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;border-radius:6px;}
-.masonry .gallery-card.m.l img{width:100%;height:auto;display:block;transition:transform 0.5s;border-radius:6px;}
-/* Fix grid row height to match portrait:landscape ratio */
-.masonry{grid-auto-rows:110px;}
-.masonry .gallery-card.m.p{grid-row:span 2;}
-.masonry .gallery-card.m.l{grid-row:span 1;}
+/* landscape: fixed aspect ratio 3:2 */
+.masonry .gallery-card.m.l{aspect-ratio:3/2;}
+.masonry .gallery-card.m.l img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;border-radius:6px;}
 @media(max-width:420px){
   .masonry{grid-template-columns:1fr;}
   .masonry .gallery-card.m.p{grid-row:span 1;}
