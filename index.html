@@ -38,16 +38,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .hero-scroll-line{width:55px;height:1px;background:var(--warm-brown);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:0.3}50%{opacity:1}}
 
-.portfolio-section{padding:5rem 3rem;border-top:1px solid rgba(196,168,130,0.08);}
-.eyebrow{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.45em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;}
-.sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3.5rem);color:var(--cream);line-height:1.05;letter-spacing:-0.01em;margin-bottom:2.5rem;}
+.portfolio-section{padding:3rem 3rem;border-top:1px solid rgba(196,168,130,0.08);}
+.eyebrow{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.45em;color:var(--gold);text-transform:uppercase;margin-bottom:0.6rem;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.6rem,3.5vw,2.8rem);color:var(--cream);line-height:1.05;letter-spacing:-0.01em;margin-bottom:1.5rem;}
 
 /* UNIFIED MASONRY */
 .masonry{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;max-width:720px;}
 .masonry .gallery-card.m{width:100%;margin:0;}
-.masonry .gallery-card.m.p{grid-row:span 2;align-self:stretch;}
+.masonry .gallery-card.m.p{grid-row:span 2;align-self:stretch;max-height:250px;}
 .masonry .gallery-card.m.p img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;border-radius:6px;}
-.masonry .gallery-card.m.l img{width:100%;height:auto;display:block;transition:transform 0.5s;border-radius:6px;}
+.masonry .gallery-card.m.l{max-height:122px;overflow:hidden;}.masonry .gallery-card.m.l img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;border-radius:6px;}
 @media(max-width:420px){
   .masonry{grid-template-columns:1fr;}
   .masonry .gallery-card.m.p{grid-row:span 1;}
@@ -68,7 +68,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 
 
 /* SUB SECTIONS */
-.sub-section{margin-bottom:3.5rem;}
+.sub-section{margin-bottom:2rem;}
 .sub-section:last-child{margin-bottom:0;}
 .sub-header{display:flex;align-items:center;margin-bottom:1.2rem;}
 .sub-title{font-family:'Tenor Sans',sans-serif;font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--sepia);display:flex;align-items:center;gap:1rem;flex:1;}
@@ -441,4 +441,3 @@ document.addEventListener('dragstart',e=>{if(e.target.tagName==='IMG')e.preventD
 </script>
 </body>
 </html>
-
