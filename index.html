@@ -42,12 +42,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .eyebrow{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.45em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;}
 .sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3.5rem);color:var(--cream);line-height:1.05;letter-spacing:-0.01em;margin-bottom:2.5rem;}
 
-/* TWO-COLUMN GRID OVERVIEW */
-.smart-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;max-width:780px;}
+/* SMART LAYOUT OVERVIEW */
+.smart-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;max-width:820px;align-items:start;}
 .smart-grid .gallery-card.m{width:100%;margin:0;}
 .smart-grid .gallery-card.m img{width:100%;height:auto;display:block;}
-.smart-grid .gallery-card.m.portrait{grid-row:span 2;}
-@media(max-width:600px){.smart-grid{grid-template-columns:1fr;max-width:100%;}.smart-grid .gallery-card.m.portrait{grid-row:span 1;}}
+/* portrait spans multiple landscape rows */
+.smart-grid .gallery-card.m.orient-portrait{grid-row:span 3;}
+.smart-grid .gallery-card.m.orient-square{grid-row:span 2;}
+.smart-grid .gallery-card.m.orient-landscape{grid-row:span 1;}
+@media(max-width:580px){
+  .smart-grid{grid-template-columns:1fr;max-width:100%;}
+  .smart-grid .gallery-card.m.orient-portrait,.smart-grid .gallery-card.m.orient-square{grid-row:span 1;}
+}
 
 
 /* HORIZONTAL TRACK */
@@ -345,17 +351,40 @@ function renderAll(){
   const grid=document.getElementById('overview-grid');
   if(!sorted.length){grid.innerHTML='<p class="gallery-empty">No works yet.</p>';}
   else{
-    grid.innerHTML=sorted.map(w=>cardHtml(w,'m')).join('');
-    // detect ratio and assign portrait class
-    grid.querySelectorAll('.gallery-card.m img').forEach(img=>{
-      const card=img.closest('.gallery-card');
-      function check(){
-        if(img.naturalWidth&&img.naturalHeight){
-          if(img.naturalHeight>img.naturalWidth) card.classList.add('portrait');
+    // Build layout: group portrait+its landscapes, then continue
+    // Each portrait spans 3 landscape-rows; max 3 landscapes per portrait
+    // Leftover landscapes start new row
+    let html='';
+    let i=0;
+    while(i<sorted.length){
+      const w=sorted[i];
+      const orient=w.orient||'portrait';
+      if(orient==='portrait'||orient==='square'){
+        // portrait in left col, fill right col with landscapes
+        html+=cardHtml(w,'m','orient-'+orient);
+        i++;
+        // collect up to 3 landscapes for the right col
+        let lCount=0;
+        const maxL=orient==='square'?2:3;
+        while(i<sorted.length&&lCount<maxL){
+          const next=sorted[i];
+          const no=next.orient||'portrait';
+          if(no==='landscape'){
+            html+=cardHtml(next,'m','orient-landscape');
+            i++; lCount++;
+          } else break;
+        }
+      } else {
+        // landscape without a portrait — pair them in twos
+        html+=cardHtml(w,'m','orient-landscape');
+        i++;
+        if(i<sorted.length&&(sorted[i].orient||'portrait')==='landscape'){
+          html+=cardHtml(sorted[i],'m','orient-landscape');
+          i++;
         }
       }
-      if(img.complete) check(); else img.addEventListener('load',check);
-    });
+    }
+    grid.innerHTML=html;
   }
   renderTrack('t-film','film');
   renderTrack('t-street','street');
