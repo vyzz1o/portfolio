@@ -323,10 +323,19 @@ window.uploadWork = async () => {
 const CAT_LABEL={film:'底片',street:'街頭',portrait:'人像',commercial:'商業',pet:'寵物',digital:'電繪'};
 
 async function loadWorks() {
-  let snap;
-  try { snap=await getDocs(query(collection(db,'works'),orderBy('sortOrder','asc'))); }
-  catch(e){ snap=await getDocs(query(collection(db,'works'),orderBy('createdAt','desc'))); }
-  allWorks=[]; snap.forEach(d=>allWorks.push({id:d.id,...d.data()}));
+  const snap = await getDocs(collection(db,'works'));
+  allWorks = [];
+  snap.forEach(d => allWorks.push({ id:d.id, ...d.data() }));
+  allWorks.sort((a,b) => {
+    const aHas = a.sortOrder != null;
+    const bHas = b.sortOrder != null;
+    if (aHas && bHas) return a.sortOrder - b.sortOrder;
+    if (aHas) return -1;
+    if (bHas) return 1;
+    const aT = a.createdAt?.toMillis?.() || 0;
+    const bT = b.createdAt?.toMillis?.() || 0;
+    return bT - aT;
+  });
   renderWorks();
 }
 
