@@ -43,11 +43,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3.5rem);color:var(--cream);line-height:1.05;letter-spacing:-0.01em;margin-bottom:2.5rem;}
 
 /* UNIFIED MASONRY */
-.masonry{columns:3;column-gap:0.8rem;}
-.masonry .gallery-card.m{break-inside:avoid;margin-bottom:0.8rem;width:100%;}
-.masonry .gallery-card.m img{width:100%;height:auto;display:block;}
-@media(max-width:900px){.masonry{columns:2;}}
-@media(max-width:480px){.masonry{columns:1;}}
+.masonry{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;max-width:700px;}
+.masonry .gallery-card.m{width:100%;margin:0;overflow:hidden;border-radius:6px;}
+.masonry .gallery-card.m img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;}
+/* portrait: fixed height, spans 2 rows */
+.masonry .gallery-card.m.p{height:300px;grid-row:span 2;}
+/* landscape: half height */
+.masonry .gallery-card.m.l{height:147px;}
+@media(max-width:700px){
+  .masonry{max-width:100%;}
+  .masonry .gallery-card.m.p{height:220px;}
+  .masonry .gallery-card.m.l{height:107px;}
+}
+@media(max-width:480px){
+  .masonry{grid-template-columns:1fr;}
+  .masonry .gallery-card.m.p,.masonry .gallery-card.m.l{grid-row:span 1;height:200px;}
+}
 
 
 /* SUB SECTIONS */
@@ -312,22 +323,32 @@ function cardHtml(w, type='m') {
 
 
 
-function renderAll(){
-  const sorted=sortWorks(allWorks);
-  const grid=document.getElementById('overview-grid');
-  grid.innerHTML=sorted.length?sorted.map(w=>cardHtml(w,'m')).join(''):'<p class="gallery-empty">No works yet.</p>';
-  renderMasonry('t-film','film');
-  renderMasonry('t-street','street');
-  renderMasonry('t-portrait','portrait');
-  renderMasonry('t-commercial','commercial');
-  renderMasonry('t-pet','pet');
-  renderMasonry('t-digital','digital');
+// orient class: 'p' = portrait/square, 'l' = landscape
+function orientClass(w){ return (w.orient==='landscape')?'l':'p'; }
+
+function buildGrid(works){
+  if(!works.length) return '<p class="gallery-empty">No works yet.</p>';
+  return sortWorks(works).map(w=>{
+    const oc=orientClass(w);
+    const imgs=[w.coverUrl,...(w.images||[])].filter(Boolean);
+    return `<a class="gallery-card m ${oc}" href="work.html?id=${w.id}&lang=${currentLang}">
+      <img src="${w.coverUrl}" alt="${w.title}" loading="lazy">
+      <div class="gallery-card-overlay">
+        <p class="gallery-card-title">${w.title}</p>
+        <p class="gallery-card-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
+        ${imgs.length>1?`<p class="gallery-card-count">${imgs.length} photos</p>`:''}
+      </div>
+    </a>`;
+  }).join('');
 }
 
-function renderMasonry(id, cat){
-  const el=document.getElementById(id);
-  const ws=allWorks.filter(w=>w.category===cat);
-  el.innerHTML=ws.length?sortWorks(ws).map(w=>cardHtml(w,'m')).join(''):'<p class="gallery-empty" style="min-width:100%">No works yet.</p>';
+function renderAll(){
+  const sorted=sortWorks(allWorks);
+  document.getElementById('overview-grid').innerHTML=buildGrid(sorted);
+  ['film','street','portrait','commercial','pet','digital'].forEach(cat=>{
+    const el=document.getElementById('t-'+cat);
+    el.innerHTML=buildGrid(allWorks.filter(w=>w.category===cat));
+  });
 }
 
 async function load(){
