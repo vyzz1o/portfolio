@@ -379,18 +379,31 @@ function makeCard(w){
 function renderCatRow(el, ws){
   el.className='cat-row';
   const sorted=sortWorks(ws);
-  const portraits=sorted.filter(w=>w.orient!=='landscape');
-  const landscapes=sorted.filter(w=>w.orient==='landscape');
 
-  // portraits each get their own slot
-  // landscapes grouped into stacks of 2, each group fills row height
-  let html=portraits.map(w=>makeCard(w)).join('');
+  // Process in upload order: portraits get own slot, landscapes pair up in groups of 2
+  let html='';
+  let landscapeBuf=[];
 
-  // group landscapes in pairs (each pair stacks to fill row height)
-  for(let i=0;i<landscapes.length;i+=2){
-    const group=landscapes.slice(i,i+2);
-    html+=`<div class="cat-l-group">${group.map(w=>makeCard(w)).join('')}</div>`;
+  function flushLandscapes(){
+    for(let i=0;i<landscapeBuf.length;i+=2){
+      const group=landscapeBuf.slice(i,i+2);
+      html+=`<div class="cat-l-group">${group.map(w=>makeCard(w)).join('')}</div>`;
+    }
+    landscapeBuf=[];
   }
+
+  sorted.forEach(w=>{
+    if(w.orient==='landscape'){
+      landscapeBuf.push(w);
+    } else {
+      // flush any pending landscapes before this portrait
+      flushLandscapes();
+      html+=makeCard(w);
+    }
+  });
+  // flush remaining landscapes
+  flushLandscapes();
+
   el.innerHTML=html;
 }
 
