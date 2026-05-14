@@ -99,8 +99,8 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
 .focal-wrap{position:relative;margin-top:0.8rem;display:none;}
 .focal-wrap.show{display:block;}
 .focal-label{font-size:0.6rem;letter-spacing:0.2em;color:var(--sepia);text-transform:uppercase;margin-bottom:0.4rem;display:block;}
-.focal-frame{position:relative;width:100%;max-width:320px;overflow:hidden;border:1px solid rgba(196,168,130,0.2);border-radius:4px;cursor:crosshair;user-select:none;}
-.focal-frame img{width:100%;height:180px;object-fit:cover;display:block;pointer-events:none;transition:height 0.2s;}
+.focal-frame{position:relative;width:100%;max-width:320px;overflow:hidden;border:1px solid rgba(196,168,130,0.2);border-radius:4px;cursor:crosshair;user-select:none;transition:aspect-ratio 0.2s;}
+.focal-frame img{width:100%;height:auto;object-fit:cover;display:block;pointer-events:none;}
 .focal-dot{position:absolute;width:16px;height:16px;border-radius:50%;background:var(--gold);border:2px solid #fff;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,0.5);top:50%;left:50%;}
 .focal-hint{font-size:0.58rem;color:var(--warm-brown);font-style:italic;margin-top:0.4rem;opacity:0.7;}
 .focal-val{font-size:0.58rem;color:var(--gold);font-family:monospace;margin-top:0.2rem;}
@@ -619,11 +619,11 @@ window.switchTab=(e,filter)=>{
 
 // ── FOCAL POINT PICKER ──
 window.updateFocalHeight=function(frameId, orient){
-  const img=document.getElementById(frameId)?.querySelector('img');
-  if(!img) return;
-  if(orient==='portrait') img.style.height='280px';
-  else if(orient==='landscape') img.style.height='120px';
-  else img.style.height='180px';
+  const frame=document.getElementById(frameId);
+  if(!frame) return;
+  if(orient==='portrait') frame.style.aspectRatio='1668/2388';
+  else if(orient==='landscape') frame.style.aspectRatio='2388/1668';
+  else frame.style.aspectRatio='1/1';
 };
 function initFocalPicker(frameId, dotId, xId, yId, imgSrc, orient){
   const frame=document.getElementById(frameId);
@@ -633,10 +633,14 @@ function initFocalPicker(frameId, dotId, xId, yId, imgSrc, orient){
   if(!frame||!imgSrc) return;
   const img=frame.querySelector('img');
   img.src=imgSrc;
-  // Adjust preview height based on orientation
-  if(orient==='portrait') img.style.height='280px';
-  else if(orient==='landscape') img.style.height='120px';
-  else img.style.height='180px';
+  // Adjust preview aspect-ratio based on orientation
+  if(orient==='portrait') frame.style.aspectRatio='1668/2388';
+  else if(orient==='landscape') frame.style.aspectRatio='2388/1668';
+  else frame.style.aspectRatio='1/1';
+  img.style.height='100%';
+  img.style.position='absolute';
+  img.style.inset='0';
+  frame.style.position='relative';
   frame.closest('.focal-wrap').classList.add('show');
 
   function setPos(e){
