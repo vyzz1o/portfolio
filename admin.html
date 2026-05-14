@@ -155,9 +155,9 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
             <option value="film">底片攝影 Film</option>
             <option value="street">街頭攝影 Street</option>
             <option value="portrait">人像攝影 Portrait</option>
-            <option value="commercial">商業攝影 Commercial</option>
-            <option value="pet">寵物 Pet</option>
-            <option value="digital">電繪 Digital Art</option>
+            <option value="styling">風格排版 Styling</option>
+            <option value="pet">寵物電繪 Pet</option>
+            <option value="digital">電繪插畫 Digital Art</option>
           </select>
         </div>
         <div class="form-field"><label>媒材 / 備注</label><input type="text" id="f-medium" placeholder="35mm · Kodak Gold 200"></div>
@@ -245,7 +245,7 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
         <button class="tab" onclick="switchTab(event,'film')">底片</button>
         <button class="tab" onclick="switchTab(event,'street')">街頭</button>
         <button class="tab" onclick="switchTab(event,'portrait')">人像</button>
-        <button class="tab" onclick="switchTab(event,'commercial')">商業</button>
+        <button class="tab" onclick="switchTab(event,'styling')">風格排版</button>
         <button class="tab" onclick="switchTab(event,'pet')">寵物</button>
         <button class="tab" onclick="switchTab(event,'digital')">電繪</button>
       </div>
@@ -271,9 +271,9 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
           <option value="film">底片攝影 Film</option>
           <option value="street">街頭攝影 Street</option>
           <option value="portrait">人像攝影 Portrait</option>
-          <option value="commercial">商業攝影 Commercial</option>
-          <option value="pet">寵物 Pet</option>
-          <option value="digital">電繪 Digital Art</option>
+          <option value="styling">風格排版 Styling</option>
+          <option value="pet">寵物電繪 Pet</option>
+          <option value="digital">電繪插畫 Digital Art</option>
         </select>
       </div>
       <div class="form-field"><label>媒材 / 備注</label><input type="text" id="e-medium"></div>
@@ -491,7 +491,7 @@ function sortW(arr){
     return (b.createdAt?.toMillis?.()??0)-(a.createdAt?.toMillis?.()??0);
   });
 }
-const CAT={film:'底片',street:'街頭',portrait:'人像',commercial:'商業',pet:'寵物',digital:'電繪'};
+const CAT={film:'底片',street:'街頭',portrait:'人像',styling:'風格排版',pet:'寵物電繪',digital:'電繪插畫'};
 
 async function loadWorks(){
   const snap=await getDocs(collection(db,'works'));
