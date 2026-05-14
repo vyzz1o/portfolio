@@ -43,25 +43,38 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3.5rem);color:var(--cream);line-height:1.05;letter-spacing:-0.01em;margin-bottom:2.5rem;}
 
 /* UNIFIED MASONRY */
-.masonry{columns:3;column-gap:0.8rem;max-width:75%;}
-.masonry .gallery-card.m{break-inside:avoid;margin-bottom:0.8rem;width:100%;}
-.masonry .gallery-card.m img{width:100%;height:auto;display:block;}
-@media(max-width:900px){.masonry{columns:2;}}
-@media(max-width:480px){.masonry{columns:1;}}
+/* CATEGORY OVERVIEW - 3x2 grid of category cards */
+.cat-overview{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:860px;}
+.cat-card{position:relative;overflow:hidden;border:1px solid rgba(196,168,130,0.08);cursor:none;text-decoration:none;display:block;border-radius:6px;aspect-ratio:3/2;transition:border-color 0.3s,box-shadow 0.3s;}
+.cat-card:hover{border-color:rgba(196,168,130,0.28);box-shadow:0 12px 40px rgba(0,0,0,0.5);}
+.cat-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;}
+.cat-card:hover img{transform:scale(1.04);}
+.cat-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,16,8,0.88) 0%,transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:1rem;}
+.cat-card-name{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.2rem;color:var(--cream);}
+.cat-card-count{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-top:0.15rem;}
+.cat-card-empty{background:rgba(61,43,31,0.3);border:1px solid rgba(196,168,130,0.08);border-radius:6px;aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;}
+.cat-card-empty span{font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:var(--warm-brown);text-transform:uppercase;opacity:0.5;}
+@media(max-width:700px){.cat-overview{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:420px){.cat-overview{grid-template-columns:1fr;}}
 
-/* CATEGORY ROW — one row per section, portrait sets height */
-.cat-row{display:flex;gap:0.6rem;align-items:stretch;max-width:860px;}
-.cat-row .gallery-card.m{flex-shrink:0;flex-grow:0;margin:0;}
-/* portrait: fixed width, stretches to full row height */
-.cat-row .gallery-card.m.p{width:180px;}
-.cat-row .gallery-card.m.p img{width:100%;height:100%;object-fit:cover;display:block;border-radius:6px;transition:transform 0.5s;}
-/* landscape: auto width based on aspect ratio, fills height */
-.cat-row .gallery-card.m.l{flex:1;max-width:260px;}
-.cat-row .gallery-card.m.l img{width:100%;height:100%;object-fit:cover;display:block;border-radius:6px;transition:transform 0.5s;}
-.gallery-card:hover img{transform:scale(1.04);}
+/* CATEGORY ROW - 1 portrait + 2 landscape stacked */
+.cat-row{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:0.6rem;max-width:860px;height:257px;}
+.cat-row .gallery-card.m{margin:0;overflow:hidden;border-radius:6px;border:1px solid rgba(196,168,130,0.08);transition:border-color 0.3s,box-shadow 0.3s;}
+.cat-row .gallery-card.m:hover{border-color:rgba(196,168,130,0.28);box-shadow:0 8px 30px rgba(0,0,0,0.5);}
+.cat-row .gallery-card.m img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;}
+.cat-row .gallery-card.m:hover img{transform:scale(1.04);}
+/* portrait spans both rows */
+.cat-row .gallery-card.m.p{grid-column:1;grid-row:1/3;}
+/* landscape fills one row each */
+.cat-row .gallery-card.m.l{grid-column:2;}
+/* if only one landscape, span both rows */
+.cat-row .gallery-card.m.l:only-of-type{grid-row:1/3;}
+/* all landscape (no portrait) */
+.cat-row.all-landscape{grid-template-columns:repeat(3,1fr);grid-template-rows:1fr;height:160px;}
+.cat-row.all-landscape .gallery-card.m.l{grid-column:auto;grid-row:1;}
 @media(max-width:600px){
-  .cat-row{flex-wrap:wrap;}
-  .cat-row .gallery-card.m.p,.cat-row .gallery-card.m.l{width:100%;max-width:100%;height:160px;}
+  .cat-row{height:180px;}
+  .cat-row.all-landscape{height:120px;}
 }
 
 
@@ -178,7 +191,7 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 <section class="portfolio-section" id="overview">
   <p class="eyebrow fade-up" data-en="— All Works" data-zh="— 全部作品">— All Works</p>
   <h2 class="sec-title fade-up" data-en="Overview" data-zh="作品總覽">Overview</h2>
-  <div class="masonry" id="overview-grid"><p class="gallery-empty">Loading…</p></div>
+  <div class="cat-overview" id="overview-grid"><p class="gallery-empty">Loading…</p></div>
 </section>
 
 <!-- PHOTOGRAPHY -->
@@ -327,36 +340,80 @@ function cardHtml(w, type='m') {
 
 
 
-function cardHtmlRow(w){
+const CAT_INFO=[
+  {id:'film',    en:'Film',        zh:'底片攝影'},
+  {id:'street',  en:'Street',      zh:'街頭攝影'},
+  {id:'portrait',en:'Portrait',    zh:'人像攝影'},
+  {id:'commercial',en:'Commercial',zh:'商業攝影'},
+  {id:'pet',     en:'Pet',         zh:'寵物攝影'},
+  {id:'digital', en:'Digital Art', zh:'電繪插畫'},
+];
+
+function focalPos(w){ return w.focalPoint||'center'; }
+
+function makeCard(w){
   const isL=(w.orient==='landscape');
   const oc=isL?'l':'p';
   const imgs=[w.coverUrl,...(w.images||[])].filter(Boolean);
+  const pos=focalPos(w);
   return `<a class="gallery-card m ${oc}" href="work.html?id=${w.id}&lang=${currentLang}">
-    <img src="${w.coverUrl}" alt="${w.title}" loading="lazy">
+    <img src="${w.coverUrl}" alt="${w.title}" loading="lazy" style="object-position:${pos};">
     <div class="gallery-card-overlay">
       <p class="gallery-card-title">${w.title}</p>
       <p class="gallery-card-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
-      ${imgs.length>1?`<p class="gallery-card-count">${imgs.length} photos</p>`:''}
+      ${imgs.length>1?`<p class="gallery-card-count">${imgs.length-1} more</p>`:''}
     </div>
   </a>`;
 }
 
+function renderCatRow(el, ws){
+  const sorted=sortWorks(ws);
+  const hasPortrait=sorted.some(w=>w.orient!=='landscape');
+  el.className=hasPortrait?'cat-row':'cat-row all-landscape';
+  // Put portrait first, then landscapes
+  const portraits=sorted.filter(w=>w.orient!=='landscape');
+  const landscapes=sorted.filter(w=>w.orient==='landscape');
+  const ordered=[...portraits,...landscapes];
+  el.innerHTML=ordered.map(w=>makeCard(w)).join('');
+}
+
 function renderAll(){
-  const sorted=sortWorks(allWorks);
+  // Overview: category cards
   const grid=document.getElementById('overview-grid');
-  grid.innerHTML=sorted.length?sorted.map(w=>cardHtml(w,'m')).join(''):'<p class="gallery-empty">No works yet.</p>';
-  ['film','street','portrait','commercial','pet','digital'].forEach(cat=>{
-    const el=document.getElementById('t-'+cat);
-    const ws=sortWorks(allWorks.filter(w=>w.category===cat));
-    if(!ws.length){el.innerHTML='<p class="gallery-empty">No works yet.</p>';return;}
-    el.className='cat-row';
-    el.innerHTML=ws.map(w=>cardHtmlRow(w)).join('');
-    // Set row height based on portrait width and aspect ratio (2388:1668 ≈ 1.43)
-    const portraitW=180;
-    const rowH=Math.round(portraitW*1.43);
-    el.style.height=rowH+'px';
+  grid.innerHTML=CAT_INFO.map(cat=>{
+    const ws=allWorks.filter(w=>w.category===cat.id);
+    const label=currentLang==='zh'?cat.zh:cat.en;
+    if(!ws.length) return `<div class="cat-card-empty"><span>${label}</span></div>`;
+    const cover=sortWorks(ws)[0];
+    const pos=focalPos(cover);
+    return `<a class="cat-card" href="#${cat.id}" onclick="event.preventDefault();scrollToCat('${cat.id}')">
+      <img src="${cover.coverUrl}" alt="${label}" loading="lazy" style="object-position:${pos};">
+      <div class="cat-card-overlay">
+        <p class="cat-card-name">${label}</p>
+        <p class="cat-card-count">${ws.length} works</p>
+      </div>
+    </a>`;
+  }).join('');
+
+  // Each category row
+  CAT_INFO.forEach(cat=>{
+    const el=document.getElementById('t-'+cat.id);
+    if(!el) return;
+    const ws=allWorks.filter(w=>w.category===cat.id);
+    if(!ws.length){el.innerHTML='<p class="gallery-empty">No works yet.</p>';el.className='';return;}
+    renderCatRow(el, ws);
   });
 }
+
+window.scrollToCat=function(catId){
+  const photoSection=['film','street','portrait','commercial'];
+  const target=document.getElementById(photoSection.includes(catId)?'photography':'art');
+  if(target) target.scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>{
+    const el=document.getElementById('t-'+catId);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },600);
+};
 
 async function load(){
   const snap=await getDocs(collection(db,'works'));
