@@ -21,7 +21,7 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
 
 #admin-panel{display:none;}
 .admin-nav{position:sticky;top:0;z-index:100;background:#1a1008;border-bottom:1px solid rgba(196,168,130,0.1);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;}
-.admin-nav-logo{font-style:italic;color:var(--gold);font-size:1.1rem;}
+.admin-nav-logo{display:flex;align-items:center;gap:0.3rem;}
 .nav-user{display:flex;align-items:center;gap:0.8rem;font-size:0.7rem;color:var(--warm-brown);}
 .nav-avatar{width:28px;height:28px;border-radius:50%;border:1px solid rgba(196,168,130,0.3);object-fit:cover;}
 .btn-sm{background:transparent;border:1px solid rgba(196,168,130,0.2);color:var(--sepia);padding:0.3rem 0.8rem;font-size:0.65rem;letter-spacing:0.15em;cursor:pointer;font-family:Georgia,serif;text-transform:uppercase;transition:all 0.2s;}
@@ -124,7 +124,12 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
 
 <div id="admin-panel">
   <nav class="admin-nav">
-    <span class="admin-nav-logo">W Studio — 後台</span>
+    <span class="admin-nav-logo">
+    <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:0.5rem;">
+      <text x="0" y="19" font-family="Cormorant Garamond, Georgia, serif" font-size="20" font-weight="300" letter-spacing="2" fill="#c9a84c">Wish</text>
+    </svg>
+    <span style="font-size:0.65rem;letter-spacing:0.3em;color:var(--warm-brown);text-transform:uppercase;vertical-align:middle;">— 後台</span>
+  </span>
     <div class="nav-user">
       <img class="nav-avatar" id="nav-avatar" src="" alt="">
       <span id="nav-name"></span>
