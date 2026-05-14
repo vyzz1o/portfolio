@@ -192,6 +192,37 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
       <button class="btn-primary" id="btn-upload" onclick="uploadWork()">↑ 上傳作品</button>
     </div>
 
+
+    <!-- ABOUT SETTINGS -->
+    <div class="card" id="about-card">
+      <p class="card-title">✦ 關於我 About</p>
+      <div class="form-grid">
+        <div class="form-field full">
+          <label>個人照片</label>
+          <div class="drop-zone" id="about-zone" onclick="document.getElementById('about-input').click()">
+            <p><strong>點擊選擇</strong>或拖曳個人照片</p>
+          </div>
+          <img class="cover-preview" id="about-preview">
+          <input type="file" id="about-input" accept="image/*" style="display:none">
+        </div>
+        <div class="form-field full">
+          <label>第一段介紹</label>
+          <textarea id="about-p1" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
+        </div>
+        <div class="form-field full">
+          <label>第二段介紹</label>
+          <textarea id="about-p2" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
+        </div>
+        <div class="form-field full">
+          <label>第三段介紹</label>
+          <textarea id="about-p3" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
+        </div>
+      </div>
+      <div class="upload-progress" id="about-progress"><div class="upload-progress-bar" id="about-bar"></div></div>
+      <p class="upload-status" id="about-status"></p>
+      <button class="btn-primary" id="about-save-btn" onclick="saveAbout()">儲存關於我</button>
+    </div>
+
     <!-- WORKS LIST -->
     <div class="card">
       <p class="card-title">
@@ -321,6 +352,7 @@ onAuthStateChanged(auth, user=>{
     document.getElementById('nav-name').textContent=user.displayName||user.email;
     document.getElementById('nav-avatar').src=user.photoURL||'';
     loadWorks();
+  loadAbout();
   } else {
     if(user){signOut(auth);document.getElementById('err-msg').textContent='此帳號無後台權限。';}
     document.getElementById('login-screen').style.display='flex';
@@ -689,6 +721,74 @@ function setFocalDot(frameId, dotId, xId, yId, focalPoint){
     frame.closest('.focal-wrap').querySelector('.focal-val').textContent=x+'% '+y+'%';
   }
 }
+
+
+// ── ABOUT SETTINGS ──
+let aboutPhotoFile = null;
+
+// Load existing about data
+async function loadAbout(){
+  try {
+    const snap = await getDocs(collection(db,'settings'));
+    snap.forEach(d => {
+      if(d.id === 'about'){
+        const data = d.data();
+        if(data.photoUrl){
+          const p = document.getElementById('about-preview');
+          p.src = data.photoUrl; p.style.display='block';
+        }
+        if(data.p1) document.getElementById('about-p1').value = data.p1;
+        if(data.p2) document.getElementById('about-p2').value = data.p2;
+        if(data.p3) document.getElementById('about-p3').value = data.p3;
+      }
+    });
+  } catch(e){ console.log('no about data yet'); }
+}
+
+// About photo drop zone
+const aboutInput = document.getElementById('about-input');
+const aboutZone  = document.getElementById('about-zone');
+const aboutPrev  = document.getElementById('about-preview');
+aboutInput.addEventListener('change', e => setAboutPhoto(e.target.files[0]));
+aboutZone.addEventListener('dragover',  e => { e.preventDefault(); aboutZone.classList.add('dragover'); });
+aboutZone.addEventListener('dragleave', () => aboutZone.classList.remove('dragover'));
+aboutZone.addEventListener('drop', e => { e.preventDefault(); aboutZone.classList.remove('dragover'); setAboutPhoto(e.dataTransfer.files[0]); });
+function setAboutPhoto(f){
+  if(!f) return; aboutPhotoFile = f;
+  const r = new FileReader();
+  r.onload = e => { aboutPrev.src=e.target.result; aboutPrev.style.display='block'; };
+  r.readAsDataURL(f);
+}
+
+window.saveAbout = async () => {
+  const btn    = document.getElementById('about-save-btn');
+  const pWrap  = document.getElementById('about-progress');
+  const bar    = document.getElementById('about-bar');
+  const status = document.getElementById('about-status');
+  const p1 = document.getElementById('about-p1').value.trim();
+  const p2 = document.getElementById('about-p2').value.trim();
+  const p3 = document.getElementById('about-p3').value.trim();
+  btn.disabled = true; pWrap.style.display='block'; status.textContent='儲存中…';
+  try {
+    let photoUrl = null;
+    if(aboutPhotoFile){
+      status.textContent='上傳照片…'; bar.style.width='30%';
+      photoUrl = await cloudinaryUpload(aboutPhotoFile);
+      bar.style.width='70%';
+    }
+    // Use setDoc to upsert the about document
+    const { doc: firestoreDoc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const ref = firestoreDoc(db,'settings','about');
+    const existing = {};
+    if(photoUrl) existing.photoUrl = photoUrl;
+    existing.p1 = p1; existing.p2 = p2; existing.p3 = p3;
+    existing.updatedAt = new Date();
+    await setDoc(ref, existing, {merge:true});
+    bar.style.width='100%'; status.textContent='✓ 儲存成功！';
+    setTimeout(()=>{ pWrap.style.display='none'; bar.style.width='0%'; status.textContent=''; },2000);
+    btn.disabled = false; aboutPhotoFile = null;
+  } catch(e){ status.textContent='失敗：'+e.message; btn.disabled=false; }
+};
 
 </script>
 </body>
