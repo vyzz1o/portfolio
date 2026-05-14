@@ -190,19 +190,18 @@ async function init() {
     catLabel   ? `<div class="work-meta-item"><span class="work-meta-label">Category</span><span class="work-meta-value">${catLabel}</span></div>` : '',
   ].join('');
 
-  // images
-  images = [w.coverUrl, ...(w.images||[])].filter(Boolean);
+  // images: show extras if exist, otherwise show cover
+  const extraImgs = (w.images||[]).filter(Boolean);
+  images = extraImgs.length ? extraImgs : [w.coverUrl].filter(Boolean);
 
   // strip
   const track = document.getElementById('strip-track');
-  // skip cover, show only extra images
-  track.innerHTML = images.length ? images.map((url,i) => `
+  track.innerHTML = images.map((url,i) => `
     <div class="strip-img-wrap" onclick="openLb(${i})">
       <img src="${url}" alt="${w.title} ${i+1}" loading="${i===0?'eager':'lazy'}">
       <span class="strip-img-num">${String(i+1).padStart(2,'0')}</span>
     </div>`).join('');
-  if(!images.length){document.getElementById('strip-hint').textContent='No additional images.';document.getElementById('strip-track').innerHTML='';}
-  else document.getElementById('strip-hint').textContent=images.length>1?`← drag to explore  ·  ${images.length} images →`:'1 image';
+  document.getElementById('strip-hint').textContent = images.length>1 ? `← drag to explore  ·  ${images.length} images →` : '1 image';
   document.getElementById('strip-counter').textContent = `01 / ${String(images.length).padStart(2,'0')}`;
 
   // drag strip
