@@ -65,23 +65,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 @media(max-width:420px){.cat-overview{grid-template-columns:1fr;}}
 
 /* CATEGORY ROW - 1 portrait + 2 landscape stacked */
-.cat-row{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto;gap:0.6rem;max-width:560px;}
-.cat-row .gallery-card.m{margin:0;overflow:hidden;border-radius:6px;border:1px solid rgba(196,168,130,0.08);transition:border-color 0.3s,box-shadow 0.3s;}
+.cat-row{display:flex;flex-wrap:wrap;gap:0.6rem;max-width:860px;align-items:flex-start;}
+.cat-row .gallery-card.m{margin:0;overflow:hidden;border-radius:6px;border:1px solid rgba(196,168,130,0.08);transition:border-color 0.3s,box-shadow 0.3s;flex-shrink:0;}
 .cat-row .gallery-card.m:hover{border-color:rgba(196,168,130,0.28);box-shadow:0 8px 30px rgba(0,0,0,0.5);}
 .cat-row .gallery-card.m img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;}
 .cat-row .gallery-card.m:hover img{transform:scale(1.04);}
-/* portrait: natural ratio 2388:1668, spans both rows */
-.cat-row .gallery-card.m.p{grid-column:1;grid-row:1/3;aspect-ratio:1668/2388;}
-/* landscape: natural ratio 2388:1668, each takes one row */
-.cat-row .gallery-card.m.l{grid-column:2;aspect-ratio:2388/1668;}
-/* if only one landscape, span both rows */
-.cat-row.one-landscape .gallery-card.m.l{grid-row:1/3;aspect-ratio:1668/2388;}
-/* multiple portraits - side by side */
-.cat-row.multi-portrait{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));grid-template-rows:auto;}
-.cat-row.multi-portrait .gallery-card.m.p{grid-column:auto;grid-row:auto;aspect-ratio:1668/2388;}
-/* all landscape (no portrait) */
-.cat-row.all-landscape{grid-template-columns:repeat(3,1fr);grid-template-rows:auto;}
-.cat-row.all-landscape .gallery-card.m.l{grid-column:auto;grid-row:1;aspect-ratio:2388/1668;}
+/* portrait: fixed height, width from ratio */
+.cat-row .gallery-card.m.p{height:260px;width:calc(260px * 1668/2388);}
+/* landscape: fixed height, width from ratio */
+.cat-row .gallery-card.m.l{height:150px;width:calc(150px * 2388/1668);}
+@media(max-width:600px){
+  .cat-row .gallery-card.m.p{height:200px;width:calc(200px * 1668/2388);}
+  .cat-row .gallery-card.m.l{height:115px;width:calc(115px * 2388/1668);}
+}
 
 
 /* SUB SECTIONS */
