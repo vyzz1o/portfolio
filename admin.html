@@ -100,7 +100,7 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
 .focal-wrap.show{display:block;}
 .focal-label{font-size:0.6rem;letter-spacing:0.2em;color:var(--sepia);text-transform:uppercase;margin-bottom:0.4rem;display:block;}
 .focal-frame{position:relative;width:100%;max-width:320px;overflow:hidden;border:1px solid rgba(196,168,130,0.2);border-radius:4px;cursor:crosshair;user-select:none;}
-.focal-frame img{width:100%;height:180px;object-fit:cover;display:block;pointer-events:none;}
+.focal-frame img{width:100%;height:180px;object-fit:cover;display:block;pointer-events:none;transition:height 0.2s;}
 .focal-dot{position:absolute;width:16px;height:16px;border-radius:50%;background:var(--gold);border:2px solid #fff;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,0.5);top:50%;left:50%;}
 .focal-hint{font-size:0.58rem;color:var(--warm-brown);font-style:italic;margin-top:0.4rem;opacity:0.7;}
 .focal-val{font-size:0.58rem;color:var(--gold);font-family:monospace;margin-top:0.2rem;}
@@ -151,7 +151,7 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
         </div>
         <div class="form-field"><label>媒材 / 備注</label><input type="text" id="f-medium" placeholder="35mm · Kodak Gold 200"></div>
         <div class="form-field"><label>封面圖方向</label>
-          <select id="f-orient">
+          <select id="f-orient" onchange="updateFocalHeight('f-focal-frame',this.value)">
             <option value="portrait">直式 Portrait（高 &gt; 寬）</option>
             <option value="landscape">橫式 Landscape（寬 &gt; 高）</option>
             <option value="square">方形 Square</option>
@@ -236,7 +236,7 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
       </div>
       <div class="form-field"><label>媒材 / 備注</label><input type="text" id="e-medium"></div>
       <div class="form-field"><label>封面圖方向</label>
-        <select id="e-orient">
+        <select id="e-orient" onchange="updateFocalHeight('e-focal-frame',this.value)">
           <option value="portrait">直式 Portrait</option>
           <option value="landscape">橫式 Landscape</option>
           <option value="square">方形 Square</option>
@@ -366,7 +366,8 @@ function setCover(f){
   const r=new FileReader();
   r.onload=e=>{
     const p=document.getElementById('cover-preview');p.src=e.target.result;p.style.display='block';
-    initFocalPicker('f-focal-frame','f-focal-dot','f-focal-x','f-focal-y',e.target.result);
+    const orient=document.getElementById('f-orient')?.value||'portrait';
+    initFocalPicker('f-focal-frame','f-focal-dot','f-focal-x','f-focal-y',e.target.result,orient);
   };
   r.readAsDataURL(f);
 }
@@ -528,7 +529,7 @@ window.openEdit=id=>{
   document.getElementById('e-medium').value=w.medium||'';
   document.getElementById('e-orient').value=w.orient||'portrait';
   document.getElementById('e-focal-frame').querySelector('img').src=w.coverUrl;
-  initFocalPicker('e-focal-frame','e-focal-dot','e-focal-x','e-focal-y',w.coverUrl);
+  initFocalPicker('e-focal-frame','e-focal-dot','e-focal-x','e-focal-y',w.coverUrl,w.orient||'portrait');
   setFocalDot('e-focal-frame','e-focal-dot','e-focal-x','e-focal-y',w.focalPoint||'50% 50%');
   document.getElementById('e-status').textContent='';
   document.getElementById('e-add-preview').innerHTML='';
@@ -617,13 +618,25 @@ window.switchTab=(e,filter)=>{
 };
 
 // ── FOCAL POINT PICKER ──
-function initFocalPicker(frameId, dotId, xId, yId, imgSrc){
+window.updateFocalHeight=function(frameId, orient){
+  const img=document.getElementById(frameId)?.querySelector('img');
+  if(!img) return;
+  if(orient==='portrait') img.style.height='280px';
+  else if(orient==='landscape') img.style.height='120px';
+  else img.style.height='180px';
+};
+function initFocalPicker(frameId, dotId, xId, yId, imgSrc, orient){
   const frame=document.getElementById(frameId);
   const dot=document.getElementById(dotId);
   const xIn=document.getElementById(xId);
   const yIn=document.getElementById(yId);
   if(!frame||!imgSrc) return;
-  frame.querySelector('img').src=imgSrc;
+  const img=frame.querySelector('img');
+  img.src=imgSrc;
+  // Adjust preview height based on orientation
+  if(orient==='portrait') img.style.height='280px';
+  else if(orient==='landscape') img.style.height='120px';
+  else img.style.height='180px';
   frame.closest('.focal-wrap').classList.add('show');
 
   function setPos(e){
