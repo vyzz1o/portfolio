@@ -38,40 +38,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .hero-scroll-line{width:55px;height:1px;background:var(--warm-brown);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:0.3}50%{opacity:1}}
 
-.portfolio-section{padding:3rem 3rem;border-top:1px solid rgba(196,168,130,0.08);}
-.eyebrow{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.45em;color:var(--gold);text-transform:uppercase;margin-bottom:0.6rem;}
-.sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.6rem,3.5vw,2.8rem);color:var(--cream);line-height:1.05;letter-spacing:-0.01em;margin-bottom:1.5rem;}
+.portfolio-section{padding:5rem 3rem;border-top:1px solid rgba(196,168,130,0.08);}
+.eyebrow{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.45em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3.5rem);color:var(--cream);line-height:1.05;letter-spacing:-0.01em;margin-bottom:2.5rem;}
 
 /* UNIFIED MASONRY */
-.masonry .gallery-card.m{width:100%;margin:0;}
-.masonry{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;max-width:720px;grid-auto-rows:auto;}
-/* portrait: fixed aspect ratio 2:3 */
-.masonry .gallery-card.m.p{aspect-ratio:2/3;}
-.masonry .gallery-card.m.p img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;border-radius:6px;}
-/* landscape: fixed aspect ratio 3:2 */
-.masonry .gallery-card.m.l{aspect-ratio:3/2;}
-.masonry .gallery-card.m.l img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;border-radius:6px;}
-@media(max-width:420px){
-  .masonry{grid-template-columns:1fr;}
-  .masonry .gallery-card.m.p{grid-row:span 1;}
-  .masonry .gallery-card.m.p img{height:auto;}
-}
-/* CATEGORY OVERVIEW GRID */
-.cat-overview{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:860px;}
-.cat-card{position:relative;overflow:hidden;border:1px solid rgba(196,168,130,0.08);cursor:none;text-decoration:none;display:block;border-radius:6px;aspect-ratio:4/3;transition:border-color 0.3s,box-shadow 0.3s;}
-.cat-card:hover{border-color:rgba(196,168,130,0.28);box-shadow:0 12px 40px rgba(0,0,0,0.5);}
-.cat-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;border-radius:6px;}
-.cat-card:hover img{transform:scale(1.04);}
-.cat-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,16,8,0.88) 0%,rgba(26,16,8,0.1) 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem;}
-.cat-card-name{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.3rem;color:var(--cream);}
-.cat-card-count{font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-top:0.2rem;opacity:0.8;}
-.cat-card-empty{background:var(--dark-brown);display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;border-radius:6px;border:1px solid rgba(196,168,130,0.08);}
-@media(max-width:700px){.cat-overview{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:420px){.cat-overview{grid-template-columns:1fr;}}
+.masonry{columns:3;column-gap:0.8rem;max-width:75%;}
+.masonry .gallery-card.m{break-inside:avoid;margin-bottom:0.8rem;width:100%;}
+.masonry .gallery-card.m img{width:100%;height:auto;display:block;}
+@media(max-width:900px){.masonry{columns:2;}}
+@media(max-width:480px){.masonry{columns:1;}}
 
 
 /* SUB SECTIONS */
-.sub-section{margin-bottom:2rem;}
+.sub-section{margin-bottom:3.5rem;}
 .sub-section:last-child{margin-bottom:0;}
 .sub-header{display:flex;align-items:center;margin-bottom:1.2rem;}
 .sub-title{font-family:'Tenor Sans',sans-serif;font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--sepia);display:flex;align-items:center;gap:1rem;flex:1;}
@@ -83,7 +63,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 /* film grain on cards */
 .gallery-card::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");opacity:0.04;mix-blend-mode:overlay;pointer-events:none;border-radius:6px;z-index:2;}
 /* masonry */
-.gallery-card.m{width:100%;margin:0;}
+.gallery-card.m{break-inside:avoid;margin-bottom:0.7rem;width:100%;}
+.gallery-card.m img{width:100%;height:auto;display:block;transition:transform 0.5s;border-radius:6px;}
 
 .gallery-card:hover img{transform:scale(1.04);}
 .gallery-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,16,8,0.9) 0%,transparent 55%);opacity:0;transition:opacity 0.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:1rem;}
@@ -182,7 +163,7 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 <section class="portfolio-section" id="overview">
   <p class="eyebrow fade-up" data-en="— All Works" data-zh="— 全部作品">— All Works</p>
   <h2 class="sec-title fade-up" data-en="Overview" data-zh="作品總覽">Overview</h2>
-  <div class="cat-overview" id="overview-grid"><p class="gallery-empty">Loading…</p></div>
+  <div class="masonry" id="overview-grid"><p class="gallery-empty">Loading…</p></div>
 </section>
 
 <!-- PHOTOGRAPHY -->
@@ -331,66 +312,23 @@ function cardHtml(w, type='m') {
 
 
 
-const CAT_INFO=[
-  {id:'film',    en:'Film',        zh:'底片攝影'},
-  {id:'street',  en:'Street',      zh:'街頭攝影'},
-  {id:'portrait',en:'Portrait',    zh:'人像攝影'},
-  {id:'commercial',en:'Commercial',zh:'商業攝影'},
-  {id:'pet',     en:'Pet',         zh:'寵物攝影'},
-  {id:'digital', en:'Digital Art', zh:'電繪插畫'},
-];
-
-function buildMasonry(works){
-  if(!works.length) return '<p class="gallery-empty">No works yet.</p>';
-  return sortWorks(works).map(w=>{
-    const isL=(w.orient==='landscape');
-    const oc=isL?'l':'p';
-    const imgs=[w.coverUrl,...(w.images||[])].filter(Boolean);
-    return `<a class="gallery-card m ${oc}" href="work.html?id=${w.id}&lang=${currentLang}">
-      <img src="${w.coverUrl}" alt="${w.title}" loading="lazy">
-      <div class="gallery-card-overlay">
-        <p class="gallery-card-title">${w.title}</p>
-        <p class="gallery-card-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
-        ${imgs.length>1?`<p class="gallery-card-count">${imgs.length} photos</p>`:''}
-      </div>
-    </a>`;
-  }).join('');
-}
-
 function renderAll(){
-  // Overview: category cards
+  const sorted=sortWorks(allWorks);
   const grid=document.getElementById('overview-grid');
-  grid.innerHTML=CAT_INFO.map(cat=>{
-    const ws=allWorks.filter(w=>w.category===cat.id);
-    const label=currentLang==='zh'?cat.zh:cat.en;
-    if(!ws.length) return `<div class="cat-card-empty"><span style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--warm-brown);text-transform:uppercase;opacity:0.5">${label}</span></div>`;
-    const sorted=sortWorks(ws);
-    const cover=sorted[0].coverUrl;
-    return `<a class="cat-card" href="#${cat.id}" onclick="scrollToSection('${cat.id}')">
-      <img src="${cover}" alt="${label}" loading="lazy">
-      <div class="cat-card-overlay">
-        <p class="cat-card-name">${label}</p>
-        <p class="cat-card-count">${ws.length} works</p>
-      </div>
-    </a>`;
-  }).join('');
-
-  // Each category section
-  CAT_INFO.forEach(cat=>{
-    const el=document.getElementById('t-'+cat.id);
-    if(el) el.innerHTML=buildMasonry(allWorks.filter(w=>w.category===cat.id));
-  });
+  grid.innerHTML=sorted.length?sorted.map(w=>cardHtml(w,'m')).join(''):'<p class="gallery-empty">No works yet.</p>';
+  renderMasonry('t-film','film');
+  renderMasonry('t-street','street');
+  renderMasonry('t-portrait','portrait');
+  renderMasonry('t-commercial','commercial');
+  renderMasonry('t-pet','pet');
+  renderMasonry('t-digital','digital');
 }
 
-window.scrollToSection=function(catId){
-  event.preventDefault();
-  const target=document.getElementById(catId==='film'||catId==='street'||catId==='portrait'||catId==='commercial'?'photography':'art');
-  if(target) target.scrollIntoView({behavior:'smooth'});
-  setTimeout(()=>{
-    const el=document.getElementById('t-'+catId);
-    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
-  },500);
-};
+function renderMasonry(id, cat){
+  const el=document.getElementById(id);
+  const ws=allWorks.filter(w=>w.category===cat);
+  el.innerHTML=ws.length?sortWorks(ws).map(w=>cardHtml(w,'m')).join(''):'<p class="gallery-empty" style="min-width:100%">No works yet.</p>';
+}
 
 async function load(){
   const snap=await getDocs(collection(db,'works'));
