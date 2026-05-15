@@ -46,7 +46,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .hero-scroll-line{width:55px;height:1px;background:var(--warm-brown);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:0.3}50%{opacity:1}}
 
-.portfolio-section{padding:5rem 0;border-top:1px solid rgba(196,168,130,0.08);}
+.portfolio-section{padding:3rem 0;border-top:1px solid rgba(196,168,130,0.08);}
 .eyebrow{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.45em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;}
 .sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3.5rem);color:var(--cream);line-height:1.05;letter-spacing:-0.01em;margin-bottom:2.5rem;}
 
@@ -80,8 +80,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 
 
 /* SUB SECTIONS */
-.portfolio-section-inner{max-width:1100px;margin:0 auto;padding:0 3rem;}
-.sub-section{margin-bottom:2.5rem;max-width:1100px;margin-left:auto;margin-right:auto;padding:0 3rem;}
+.portfolio-section-inner{padding:0 1.5rem;}
+.sub-section{margin-bottom:2.5rem;padding:0 1.5rem;}
 .sub-section:last-child{margin-bottom:0;}
 .sub-header{display:flex;align-items:center;margin-bottom:1.2rem;}
 .cat-row-wrap{position:relative;}
@@ -152,19 +152,24 @@ html[lang="zh-TW"] body{font-family:'Noto Serif TC',serif;font-weight:300;}
 html[lang="zh-TW"] .hero-subtitle,html[lang="zh-TW"] .about-text p,html[lang="zh-TW"] .contact-sub{font-family:'Noto Serif TC',serif;font-weight:200;font-style:normal;line-height:2;}
 html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.05;}
 
+@media(min-width:769px){
+  .portfolio-section-inner{max-width:1100px;margin:0 auto;padding:0 3rem;}
+  .sub-section{max-width:1100px;margin-left:auto;margin-right:auto;padding:0 3rem;}
+  .portfolio-section{padding:5rem 0;}
+  .cat-overview-wrap{max-width:1100px;margin:0 auto;}
+  #about>div{padding:0 3rem;}
+  #contact .portfolio-section-inner{padding:0 3rem;}
+}
+
 @media(max-width:768px){
   nav{padding:1rem 1.5rem;}
-  /* On mobile: override max-width centering, go back to full width with padding */
-  .portfolio-section{padding:3rem 1.5rem;}
-  .portfolio-section-inner{max-width:100%;padding:0;}
-  .sub-section{max-width:100%;padding:0;}
+  .portfolio-section{padding:3rem 0;}
   #hero{padding:0 1.5rem;}
-  #about{padding:3rem 1.5rem;}
-  #about>div{grid-template-columns:1fr;gap:2rem;padding:0;}
-  #contact{padding:3rem 1.5rem 2rem;}
+  #about{padding:3rem 0;}
+  #about>div{grid-template-columns:1fr;gap:2rem;}
+  #contact{padding:3rem 0 2rem;}
   .contact-grid{grid-template-columns:1fr;gap:2rem;}
   .nav-links{gap:1.2rem;}
-  .cat-overview-wrap{max-width:100% !important;padding:0 !important;}
   .cat-row-wrap .scroll-nav{display:none;}
 }
 </style>
