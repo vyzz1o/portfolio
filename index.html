@@ -88,6 +88,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .sub-section{margin-bottom:2.5rem;max-width:1100px;margin-left:auto;margin-right:auto;padding:0 3rem;}
 .sub-section:last-child{margin-bottom:0;}
 .sub-header{display:flex;align-items:center;margin-bottom:1.2rem;}
+.cat-row-wrap{position:relative;}
+.scroll-nav{position:absolute;top:0;bottom:0;display:flex;align-items:center;z-index:10;pointer-events:none;}
+.scroll-nav.left{left:0;}
+.scroll-nav.right{right:0;}
+.scroll-btn{width:40px;height:100%;border:none;background:linear-gradient(to right,rgba(26,16,8,0.7),rgba(26,16,8,0));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:rgba(242,234,216,0.7);font-size:1.3rem;cursor:none;transition:all 0.25s;display:flex;align-items:center;justify-content:center;pointer-events:all;}
+.scroll-nav.right .scroll-btn{background:linear-gradient(to left,rgba(26,16,8,0.7),rgba(26,16,8,0));}
+.scroll-btn:hover{color:var(--gold);background:linear-gradient(to right,rgba(26,16,8,0.9),rgba(26,16,8,0));}
+.scroll-nav.right .scroll-btn:hover{background:linear-gradient(to left,rgba(26,16,8,0.9),rgba(26,16,8,0));}
 .sub-title{font-family:'Tenor Sans',sans-serif;font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--sepia);display:flex;align-items:center;gap:1rem;flex:1;}
 .sub-title::after{content:'';flex:1;height:1px;background:rgba(196,168,130,0.1);}
 
@@ -109,7 +117,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .gallery-empty{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--warm-brown);font-size:0.95rem;opacity:0.5;padding:2rem 0;}
 
 /* ABOUT */
-#about{padding:6rem 0;border-top:1px solid rgba(196,168,130,0.08);}
+#about{padding:6rem 0;border-top:1px solid rgba(196,168,130,0.08);overflow:hidden;}
 .about-img-frame{position:relative;aspect-ratio:4/5;max-width:400px;border-radius:8px;overflow:hidden;}
 .about-img-frame::before{content:'';position:absolute;top:-10px;left:-10px;right:10px;bottom:10px;border:1px solid rgba(196,168,130,0.16);pointer-events:none;}
 .about-img-placeholder{width:100%;height:100%;background:var(--dark-brown);display:flex;align-items:center;justify-content:center;font-size:4rem;opacity:0.1;border:1px solid rgba(196,168,130,0.08);border-radius:8px;}
@@ -211,68 +219,93 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 
 <!-- PHOTOGRAPHY -->
 <section class="portfolio-section" id="photography">
-  <p class="eyebrow fade-up" data-en="— Photography" data-zh="— 攝影">— Photography</p>
-  <h2 class="sec-title fade-up" data-en="Through the Lens" data-zh="鏡頭所見">Through the Lens</h2>
+  <div class="portfolio-section-inner">
+    <p class="eyebrow fade-up" data-en="— Photography" data-zh="— 攝影">— Photography</p>
+    <h2 class="sec-title fade-up" data-en="Through the Lens" data-zh="鏡頭所見">Through the Lens</h2>
+  </div>
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Film" data-zh="底片攝影">Film</p>
-      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('film',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('film',1)">›</button></div>
     </div>
-    <div class="masonry" id="t-film"><p class="gallery-empty">Loading…</p></div>
+    <div class="cat-row-wrap">
+      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('film',-1)">‹</button></div>
+      <div class="masonry" id="t-film"><p class="gallery-empty">Loading…</p></div>
+      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('film',1)">›</button></div>
+    </div>
   </div>
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Street" data-zh="街頭攝影">Street</p>
-      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('street',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('street',1)">›</button></div>
     </div>
-    <div class="masonry" id="t-street"><p class="gallery-empty">Loading…</p></div>
+    <div class="cat-row-wrap">
+      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('street',-1)">‹</button></div>
+      <div class="masonry" id="t-street"><p class="gallery-empty">Loading…</p></div>
+      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('street',1)">›</button></div>
+    </div>
   </div>
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Portrait" data-zh="人像攝影">Portrait</p>
-      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('portrait',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('portrait',1)">›</button></div>
     </div>
-    <div class="masonry" id="t-portrait"><p class="gallery-empty">Loading…</p></div>
+    <div class="cat-row-wrap">
+      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('portrait',-1)">‹</button></div>
+      <div class="masonry" id="t-portrait"><p class="gallery-empty">Loading…</p></div>
+      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('portrait',1)">›</button></div>
+    </div>
   </div>
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Styling" data-zh="風格排版">Styling</p>
-      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('styling',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('styling',1)">›</button></div>
     </div>
-    <div class="masonry" id="t-styling"><p class="gallery-empty">Loading…</p></div>
+    <div class="cat-row-wrap">
+      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('styling',-1)">‹</button></div>
+      <div class="masonry" id="t-styling"><p class="gallery-empty">Loading…</p></div>
+      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('styling',1)">›</button></div>
+    </div>
   </div>
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Atmosphere" data-zh="氛圍攝影">Atmosphere</p>
-      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('atmosphere',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('atmosphere',1)">›</button></div>
     </div>
-    <div class="cat-row" id="t-atmosphere"></div>
+    <div class="cat-row-wrap">
+      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('atmosphere',-1)">‹</button></div>
+      <div class="cat-row" id="t-atmosphere"></div>
+      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('atmosphere',1)">›</button></div>
+    </div>
   </div>
 </section>
 
 <!-- ART -->
 <section class="portfolio-section" id="art">
-  <p class="eyebrow fade-up" data-en="— Creative Work" data-zh="— 創作">— Creative Work</p>
-  <h2 class="sec-title fade-up" data-en="Ink & Pixels" data-zh="線條與色彩">Ink & Pixels</h2>
+  <div class="portfolio-section-inner">
+    <p class="eyebrow fade-up" data-en="— Creative Work" data-zh="— 創作">— Creative Work</p>
+    <h2 class="sec-title fade-up" data-en="Ink & Pixels" data-zh="線條與色彩">Ink & Pixels</h2>
+  </div>
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Pet" data-zh="寵物電繪">Pet</p>
-      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('pet',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('pet',1)">›</button></div>
     </div>
-    <div class="masonry" id="t-pet"><p class="gallery-empty">Loading…</p></div>
+    <div class="cat-row-wrap">
+      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('pet',-1)">‹</button></div>
+      <div class="masonry" id="t-pet"><p class="gallery-empty">Loading…</p></div>
+      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('pet',1)">›</button></div>
+    </div>
   </div>
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Digital Art" data-zh="電繪插畫">Digital Art</p>
-      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('digital',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('digital',1)">›</button></div>
     </div>
-    <div class="masonry" id="t-digital"><p class="gallery-empty">Loading…</p></div>
+    <div class="cat-row-wrap">
+      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('digital',-1)">‹</button></div>
+      <div class="masonry" id="t-digital"><p class="gallery-empty">Loading…</p></div>
+      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('digital',1)">›</button></div>
+    </div>
   </div>
 </section>
 
 <!-- ABOUT -->
 <section id="about">
-  <div style="max-width:1100px;margin:0 auto;padding:0 3rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 3rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;box-sizing:border-box;width:100%;">
   <div class="about-img-frame fade-up" id="about-img-frame">
     <div class="about-img-placeholder" id="about-img-placeholder">◯</div>
   </div>
