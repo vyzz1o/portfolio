@@ -154,29 +154,18 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 
 @media(max-width:768px){
   nav{padding:1rem 1.5rem;}
-  .portfolio-section{padding:3rem 0;}
-  .portfolio-section-inner,.sub-section{padding:0 1.5rem;}
+  /* On mobile: override max-width centering, go back to full width with padding */
+  .portfolio-section{padding:3rem 1.5rem;}
+  .portfolio-section-inner{max-width:100%;padding:0;}
+  .sub-section{max-width:100%;padding:0;}
   #hero{padding:0 1.5rem;}
-  #about{padding:3rem 0;}
-  #contact{padding:3rem 0 2rem;}
+  #about{padding:3rem 1.5rem;}
+  #about>div{grid-template-columns:1fr;gap:2rem;padding:0;}
+  #contact{padding:3rem 1.5rem 2rem;}
   .contact-grid{grid-template-columns:1fr;gap:2rem;}
   .nav-links{gap:1.2rem;}
-
-  /* Overview - 2 row horizontal scroll, smaller cards */
-  .cat-overview-wrap{padding:0 1.5rem !important;max-width:100% !important;}
-  .cat-overview{grid-template-rows:repeat(2,110px);gap:0.5rem;}
-  .cat-card{width:150px;}
-
-  /* Category rows - scale down proportionally */
-  .cat-row{height:160px;}
-  .cat-row .gallery-card.m.p{width:calc(160px * 1668/2388);}
-  .cat-l-group{gap:0.4rem;}
-  .cat-l-group .gallery-card.m{width:calc(160px * 2388/1668 / 2);}
+  .cat-overview-wrap{max-width:100% !important;padding:0 !important;}
   .cat-row-wrap .scroll-nav{display:none;}
-
-  /* About single column */
-  #about>div{grid-template-columns:1fr !important;gap:2rem !important;}
-  .about-img-frame{max-width:100% !important;aspect-ratio:3/2 !important;}
 }
 </style>
 </head>
