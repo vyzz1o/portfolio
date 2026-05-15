@@ -156,6 +156,7 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
             <option value="street">街頭攝影 Street</option>
             <option value="portrait">人像攝影 Portrait</option>
             <option value="styling">風格排版 Styling</option>
+            <option value="stilllife">靜物攝影 Still Life</option>
             <option value="pet">寵物電繪 Pet</option>
             <option value="digital">電繪插畫 Digital Art</option>
           </select>
@@ -246,6 +247,7 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
         <button class="tab" onclick="switchTab(event,'street')">街頭</button>
         <button class="tab" onclick="switchTab(event,'portrait')">人像</button>
         <button class="tab" onclick="switchTab(event,'styling')">風格排版</button>
+        <button class="tab" onclick="switchTab(event,'stilllife')">靜物</button>
         <button class="tab" onclick="switchTab(event,'pet')">寵物</button>
         <button class="tab" onclick="switchTab(event,'digital')">電繪</button>
       </div>
@@ -272,6 +274,7 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
           <option value="street">街頭攝影 Street</option>
           <option value="portrait">人像攝影 Portrait</option>
           <option value="styling">風格排版 Styling</option>
+            <option value="stilllife">靜物攝影 Still Life</option>
           <option value="pet">寵物電繪 Pet</option>
           <option value="digital">電繪插畫 Digital Art</option>
         </select>
@@ -491,7 +494,7 @@ function sortW(arr){
     return (b.createdAt?.toMillis?.()??0)-(a.createdAt?.toMillis?.()??0);
   });
 }
-const CAT={film:'底片',street:'街頭',portrait:'人像',styling:'風格排版',pet:'寵物電繪',digital:'電繪插畫'};
+const CAT={film:'底片',street:'街頭',portrait:'人像',styling:'風格排版',stilllife:'靜物攝影',pet:'寵物電繪',digital:'電繪插畫'};
 
 async function loadWorks(){
   const snap=await getDocs(collection(db,'works'));
