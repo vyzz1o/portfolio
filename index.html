@@ -182,6 +182,23 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   /* About single column */
   #about>div{grid-template-columns:1fr !important;gap:2rem !important;}
 }
+
+/* HAMBURGER MENU */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px;}
+.hamburger span{display:block;width:22px;height:1px;background:var(--cream);transition:all 0.3s;}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,16,8,0.97);z-index:490;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Tenor Sans',sans-serif;font-size:1.4rem;letter-spacing:0.3em;color:var(--film-grain);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
+.mobile-menu a:hover{color:var(--gold);}
+.mobile-menu-lang{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;color:var(--sepia);background:transparent;border:1px solid rgba(196,168,130,0.25);padding:0.4rem 0.9rem;cursor:none;text-transform:uppercase;margin-top:1rem;}
+@media(max-width:768px){
+  .nav-links{display:none;}
+  #lang-toggle{display:none;}
+  .hamburger{display:flex;}
+}
 </style>
 </head>
 <body>
@@ -207,8 +224,20 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
       <li><a href="#contact"     data-en="Contact" data-zh="聯絡">Contact</a></li>
     </ul>
     <button id="lang-toggle" onclick="toggleLang()">中 ｜ EN</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
   </div></div>
 </nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#overview"    onclick="closeMenu()" data-en="Work"    data-zh="作品">Work</a>
+  <a href="#photography" onclick="closeMenu()" data-en="Photo"   data-zh="攝影">Photo</a>
+  <a href="#art"         onclick="closeMenu()" data-en="Art"     data-zh="創作">Art</a>
+  <a href="#about"       onclick="closeMenu()" data-en="About"   data-zh="關於">About</a>
+  <a href="#contact"     onclick="closeMenu()" data-en="Contact" data-zh="聯絡">Contact</a>
+  <button class="mobile-menu-lang" onclick="toggleLang();updateMenuLang();">中 ｜ EN</button>
+</div>
 
 <section id="hero">
   <div class="hero-bg-text">W</div>
@@ -631,6 +660,26 @@ document.addEventListener('touchmove', e=>{
     row.scrollLeft = row._scrollLeft - dx;
   }
 },{passive:false});
+
+
+// HAMBURGER
+window.toggleMenu=function(){
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+  document.body.style.overflow=document.getElementById('mobile-menu').classList.contains('open')?'hidden':'';
+};
+window.closeMenu=function(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.body.style.overflow='';
+};
+window.updateMenuLang=function(){
+  const lang=document.documentElement.lang==='zh-TW'?'zh':'en';
+  document.querySelectorAll('.mobile-menu a[data-en]').forEach(el=>{
+    el.textContent=lang==='en'?el.dataset.en:el.dataset.zh;
+  });
+  document.querySelector('.mobile-menu-lang').textContent=lang==='zh'?'EN ｜ 中':'中 ｜ EN';
+};
 
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:0.1});
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
