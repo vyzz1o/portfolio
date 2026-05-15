@@ -215,30 +215,35 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Film" data-zh="底片攝影">Film</p>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('film',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('film',1)">›</button></div>
     </div>
     <div class="masonry" id="t-film"><p class="gallery-empty">Loading…</p></div>
   </div>
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Street" data-zh="街頭攝影">Street</p>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('street',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('street',1)">›</button></div>
     </div>
     <div class="masonry" id="t-street"><p class="gallery-empty">Loading…</p></div>
   </div>
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Portrait" data-zh="人像攝影">Portrait</p>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('portrait',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('portrait',1)">›</button></div>
     </div>
     <div class="masonry" id="t-portrait"><p class="gallery-empty">Loading…</p></div>
   </div>
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Styling" data-zh="風格排版">Styling</p>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('styling',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('styling',1)">›</button></div>
     </div>
     <div class="masonry" id="t-styling"><p class="gallery-empty">Loading…</p></div>
   </div>
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Atmosphere" data-zh="氛圍攝影">Atmosphere</p>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('atmosphere',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('atmosphere',1)">›</button></div>
     </div>
     <div class="cat-row" id="t-atmosphere"></div>
   </div>
@@ -251,12 +256,14 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Pet" data-zh="寵物電繪">Pet</p>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('pet',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('pet',1)">›</button></div>
     </div>
     <div class="masonry" id="t-pet"><p class="gallery-empty">Loading…</p></div>
   </div>
   <div class="sub-section">
     <div class="sub-header">
       <p class="sub-title" data-en="Digital Art" data-zh="電繪插畫">Digital Art</p>
+      <div class="scroll-nav"><button class="scroll-btn" onclick="scrollCat('digital',-1)">‹</button><button class="scroll-btn" onclick="scrollCat('digital',1)">›</button></div>
     </div>
     <div class="masonry" id="t-digital"><p class="gallery-empty">Loading…</p></div>
   </div>
@@ -450,6 +457,13 @@ function renderAll(){
     renderCatRow(el, ws);
   });
 }
+
+window.scrollCat=function(catId, dir){
+  const el=document.getElementById('t-'+catId);
+  if(!el) return;
+  const itemW=(el.querySelector('.gallery-card')||el.querySelector('.cat-l-group'))?.offsetWidth||200;
+  el.scrollBy({left:dir*(itemW+8),behavior:'smooth'});
+};
 
 window.scrollToCat=function(catId){
   const photoSection=['film','street','portrait','styling','atmosphere'];
