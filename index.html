@@ -200,7 +200,7 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 <section class="portfolio-section" id="overview">
   <p class="eyebrow fade-up" data-en="— All Works" data-zh="— 全部作品">— All Works</p>
   <h2 class="sec-title fade-up" data-en="Overview" data-zh="作品總覽">Overview</h2>
-  <div class="cat-overview" id="overview-grid"><p class="gallery-empty">Loading…</p></div>
+  <div class="cat-overview-wrap"><div class="cat-overview" id="overview-grid"><p class="gallery-empty">Loading…</p></div></div>
 </section>
 
 <!-- PHOTOGRAPHY -->
@@ -233,9 +233,9 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   </div>
   <div class="sub-section">
     <div class="sub-header">
-      <p class="sub-title" data-en="Still Life" data-zh="靜物攝影">Still Life</p>
+      <p class="sub-title" data-en="Atmosphere" data-zh="氛圍攝影">Atmosphere</p>
     </div>
-    <div class="cat-row" id="t-stilllife"></div>
+    <div class="cat-row" id="t-atmosphere"></div>
   </div>
 </section>
 
@@ -362,7 +362,7 @@ const CAT_INFO=[
   {id:'street',  en:'Street',      zh:'街頭攝影'},
   {id:'portrait',en:'Portrait',    zh:'人像攝影'},
   {id:'styling',  en:'Styling',    zh:'風格排版'},
-  {id:'stilllife',en:'Still Life', zh:'靜物攝影'},
+  {id:'atmosphere',en:'Atmosphere', zh:'氛圍攝影'},
   {id:'pet',     en:'Pet',         zh:'寵物電繪'},
   {id:'digital', en:'Digital Art', zh:'電繪插畫'},
 ];
@@ -444,7 +444,7 @@ function renderAll(){
 }
 
 window.scrollToCat=function(catId){
-  const photoSection=['film','street','portrait','styling','stilllife'];
+  const photoSection=['film','street','portrait','styling','atmosphere'];
   const target=document.getElementById(photoSection.includes(catId)?'photography':'art');
   if(target) target.scrollIntoView({behavior:'smooth'});
   setTimeout(()=>{
