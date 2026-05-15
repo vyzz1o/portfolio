@@ -259,6 +259,20 @@ function renderLb() {
   document.getElementById('lb-next').style.display = images.length>1?'flex':'none';
 }
 document.getElementById('lightbox').addEventListener('click', e=>{ if(e.target.id==='lightbox') closeLb(); });
+
+// Swipe right to go back
+let touchStartX = 0;
+document.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+}, {passive:true});
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  // swipe right from left edge = go back
+  if(dx > 80 && touchStartX < 40){
+    history.back();
+  }
+}, {passive:true});
+
 document.addEventListener('keydown', e=>{
   if(!document.getElementById('lightbox').classList.contains('open')) return;
   if(e.key==='ArrowRight') lbNav(1); if(e.key==='ArrowLeft') lbNav(-1); if(e.key==='Escape') closeLb();
