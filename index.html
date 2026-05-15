@@ -23,6 +23,7 @@ body{background:var(--near-black);color:var(--cream);font-family:'Cormorant Gara
 #particle-canvas{position:fixed;inset:0;pointer-events:none;z-index:50;}
 .noise-overlay{position:fixed;inset:0;pointer-events:none;z-index:90;opacity:0.028;mix-blend-mode:screen;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 2rem;}
 nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(26,16,8,0.92) 0%,transparent 100%);backdrop-filter:blur(2px);}
 .nav-logo{text-decoration:none;display:flex;align-items:center;opacity:0.92;transition:opacity 0.2s;}
 .nav-logo:hover{opacity:1;}
@@ -107,7 +108,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .gallery-empty{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--warm-brown);font-size:0.95rem;opacity:0.5;padding:2rem 0;}
 
 /* ABOUT */
-#about{padding:6rem 3rem;border-top:1px solid rgba(196,168,130,0.08);display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+#about{padding:6rem 0;border-top:1px solid rgba(196,168,130,0.08);display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
 .about-img-frame{position:relative;aspect-ratio:4/5;max-width:400px;border-radius:8px;overflow:hidden;}
 .about-img-frame::before{content:'';position:absolute;top:-10px;left:-10px;right:10px;bottom:10px;border:1px solid rgba(196,168,130,0.16);pointer-events:none;}
 .about-img-placeholder{width:100%;height:100%;background:var(--dark-brown);display:flex;align-items:center;justify-content:center;font-size:4rem;opacity:0.1;border:1px solid rgba(196,168,130,0.08);border-radius:8px;}
@@ -119,7 +120,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .film-hole{width:11px;height:17px;border:1px solid rgba(196,168,130,0.16);border-radius:2px;flex-shrink:0;}
 
 /* CONTACT */
-#contact{padding:6rem 3rem 3rem;border-top:1px solid rgba(196,168,130,0.1);background:rgba(0,0,0,0.26);}
+#contact{padding:6rem 0 3rem;border-top:1px solid rgba(196,168,130,0.1);background:rgba(0,0,0,0.26);}
 .contact-grid{display:grid;grid-template-columns:1fr auto;gap:6rem;align-items:start;margin-bottom:4rem;}
 .contact-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.8rem,6vw,5.5rem);color:var(--cream);line-height:0.95;margin-bottom:1.5rem;letter-spacing:-0.02em;}
 .contact-sub{font-style:italic;color:var(--sepia);font-size:0.88rem;line-height:1.75;max-width:360px;}
@@ -167,6 +168,7 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 <div id="cursor-ring"></div>
 
 <nav>
+  <div class="page-wrap" style="display:flex;justify-content:space-between;align-items:center;width:100%;max-width:1100px;margin:0 auto;padding:0 2rem;">
   <a href="#hero" class="nav-logo">
     <svg width="110" height="28" viewBox="0 0 72 28" fill="none" xmlns="http://www.w3.org/2000/svg">
       <text x="0" y="22" font-family="Cormorant Garamond, Georgia, serif" font-size="24" font-weight="300" letter-spacing="3" fill="white" opacity="0.92">Wish W</text>
@@ -181,11 +183,12 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
       <li><a href="#contact"     data-en="Contact" data-zh="聯絡">Contact</a></li>
     </ul>
     <button id="lang-toggle" onclick="toggleLang()">中 ｜ EN</button>
-  </div>
+  </div></div>
 </nav>
 
 <section id="hero">
   <div class="hero-bg-text">W</div>
+  <div class="page-wrap" style="position:relative;z-index:1;">
   <p class="hero-eyebrow" data-en="— Photography · Digital Art · Styling —" data-zh="— 攝影 · 電繪 · 風格排版 —">— Photography · Digital Art · Styling —</p>
   <h1 class="hero-title">
     <span class="ch" id="hero-word">Seeing</span><br>
@@ -193,14 +196,15 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   </h1>
   <p class="hero-subtitle" data-en-html="Film, streets, portraits, creatures —<br><em>every frame is an act of remembering.</em>" data-zh-html="底片、街頭、人像、寵物——<br><em>每一格快門，都是一次記憶的練習。</em>">Film, streets, portraits, creatures —<br><em>every frame is an act of remembering.</em></p>
   <div class="hero-scroll"><div class="hero-scroll-line"></div>scroll to explore</div>
+  </div>
 </section>
 
 <!-- OVERVIEW -->
 <section class="portfolio-section" id="overview">
   <div class="portfolio-section-inner">
-  <p class="eyebrow fade-up" data-en="— All Works" data-zh="— 全部作品">— All Works</p>
-  <h2 class="sec-title fade-up" data-en="Overview" data-zh="作品總覽">Overview</h2>
-  </div><div class="cat-overview-wrap"><div class="cat-overview" id="overview-grid"><p class="gallery-empty">Loading…</p></div></div>
+  <div class="portfolio-section-inner"><p class="eyebrow fade-up" data-en="— All Works" data-zh="— 全部作品">— All Works</p>
+  <h2 class="sec-title fade-up" data-en="Overview" data-zh="作品總覽">Overview</h2></div>
+  <div class="cat-overview-wrap" style="padding:0 3rem;"><div class="cat-overview" id="overview-grid"><p class="gallery-empty">Loading…</p></div></div>
 </section>
 
 <!-- PHOTOGRAPHY -->
@@ -259,6 +263,7 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 
 <!-- ABOUT -->
 <section id="about">
+  <div class="portfolio-section-inner" style="display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;">
   <div class="about-img-frame fade-up" id="about-img-frame">
     <div class="about-img-placeholder" id="about-img-placeholder">◯</div>
   </div>
@@ -277,39 +282,41 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
       <span class="tag" data-en="Digital Art" data-zh="電繪">Digital Art</span>
       <span class="tag" data-en="Styling" data-zh="風格排版">Styling</span>
     </div>
-  </div>
+  </div></div>
 </section>
 
 <footer id="contact">
+  <div class="portfolio-section-inner">
   <div class="contact-grid fade-up">
     <div>
       <p class="eyebrow" data-en="— Get in touch" data-zh="— 合作邀約">— Get in touch</p>
       <h2 class="contact-title" data-en-html="Let's<br><em>work together</em>" data-zh-html="歡迎<br><em>合作邀約</em>">Let's<br><em>work together</em></h2>
       <p class="contact-sub" data-en="Available for portrait sessions, commercial shoots, pet photography, and digital art commissions." data-zh="人像、商業、寵物攝影，以及電繪委託，都歡迎聯絡洽談。">Available for portrait sessions, commercial shoots, pet photography, and digital art commissions.</p>
-      <a class="ig-btn" href="https://instagram.com/你的IG帳號" target="_blank" rel="noopener">
+      <a class="ig-btn" href="#" id="ig-btn-main" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
         <span data-en="Find me on Instagram" data-zh="在 Instagram 找到我">Find me on Instagram</span>
       </a>
     </div>
     <div class="contact-links">
-      <a class="contact-link-item" href="mailto:your@email.com">
-        <span class="contact-link-label">Email</span><span class="contact-link-value">your@email.com</span>
+      <a class="contact-link-item" id="c-email-link" href="#">
+        <span class="contact-link-label">Email</span><span class="contact-link-value" id="c-email-val">—</span>
       </a>
-      <a class="contact-link-item" href="https://instagram.com/你的IG帳號" target="_blank">
-        <span class="contact-link-label">Instagram</span><span class="contact-link-value">@你的IG帳號</span>
+      <a class="contact-link-item" id="c-ig-link" href="#" target="_blank">
+        <span class="contact-link-label">Instagram</span><span class="contact-link-value" id="c-ig-val">—</span>
       </a>
       <a class="contact-link-item">
-        <span class="contact-link-label">Location</span><span class="contact-link-value">Taiwan · Taipei</span>
+        <span class="contact-link-label">Location</span><span class="contact-link-value" id="c-location-val">Taiwan · Taipei</span>
       </a>
     </div>
   </div>
-  <div class="footer-bottom">
+  </div>
+  <div class="portfolio-section-inner"><div class="footer-bottom">
     <span class="footer-copy">© 2025 W Studio — All Rights Reserved</span>
     <span class="footer-mark" data-en="Photography · Art · Vision" data-zh="攝影 · 電繪 · 創作">Photography · Art · Vision</span>
-  </div>
+  </div></div>
 </footer>
 
-<a href="https://instagram.com/你的IG帳號" id="float-btn" target="_blank" rel="noopener">
+<a href="#" id="float-btn" target="_blank" rel="noopener">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="13" height="13"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
   Instagram
 </a>
@@ -479,6 +486,28 @@ async function loadAbout(){
   } catch(e){ console.log('about load error',e); }
 }
 loadAbout();
+
+async function loadContact(){
+  try {
+    const snap = await getDoc(doc(db,'settings','contact'));
+    if(!snap.exists()) return;
+    const d = snap.data();
+    if(d.email){
+      document.getElementById('c-email-val').textContent = d.email;
+      document.getElementById('c-email-link').href = 'mailto:'+d.email;
+    }
+    if(d.ig) document.getElementById('c-ig-val').textContent = '@'+d.ig.replace('@','');
+    if(d.igUrl){
+      document.getElementById('c-ig-link').href = d.igUrl;
+      const igBtn = document.getElementById('ig-btn-main');
+      if(igBtn) igBtn.href = d.igUrl;
+      const floatBtn = document.getElementById('float-btn');
+      if(floatBtn) floatBtn.href = d.igUrl;
+    }
+    if(d.location) document.getElementById('c-location-val').textContent = d.location;
+  } catch(e){ console.log('no contact data'); }
+}
+loadContact();
 </script>
 
 <script>
