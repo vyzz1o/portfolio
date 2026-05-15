@@ -437,7 +437,7 @@ function renderAll(){
 }
 
 window.scrollToCat=function(catId){
-  const photoSection=['film','street','portrait','styling'];
+  const photoSection=['film','street','portrait','styling','stilllife'];
   const target=document.getElementById(photoSection.includes(catId)?'photography':'art');
   if(target) target.scrollIntoView({behavior:'smooth'});
   setTimeout(()=>{
