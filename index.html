@@ -165,8 +165,22 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   #contact{padding:4rem 0 2.5rem;}
   .contact-grid{grid-template-columns:1fr;gap:2.5rem;}
   .nav-links{gap:1.2rem;}
-  .h-track-wrap{margin:0 -1.5rem;}
-  .h-track{padding:0 1.5rem;}
+
+  /* Overview: allow horizontal scroll, contain within screen */
+  .cat-overview-wrap{overflow-x:auto;overflow-y:hidden;padding:0 1.5rem !important;max-width:100% !important;box-sizing:border-box;}
+  .cat-overview{grid-template-rows:repeat(2,110px);gap:0.5rem;}
+  .cat-card{width:150px;}
+
+  /* Cat row: remove arrow padding, fix height and widths */
+  .cat-row{height:180px;padding-left:0 !important;padding-right:0 !important;}
+  .cat-row .gallery-card.m.p{width:calc(180px * 1668/2388);}
+  .cat-l-group .gallery-card.m{width:calc(180px * 2388/1668 / 2);}
+
+  /* Hide arrows on mobile */
+  .cat-row-wrap .scroll-nav{display:none;}
+
+  /* About single column */
+  #about>div{grid-template-columns:1fr !important;gap:2rem !important;}
 }
 </style>
 </head>
