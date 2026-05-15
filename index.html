@@ -65,7 +65,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 
 
 /* CATEGORY ROW - 1 portrait + 2 landscape stacked */
-.cat-row{display:flex;gap:0.6rem;align-items:stretch;height:260px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-left:44px;padding-right:44px;}
+.cat-row{display:flex;gap:0.6rem;align-items:stretch;height:260px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
 .cat-row::-webkit-scrollbar{display:none;}
 .cat-row .gallery-card.m{margin:0;overflow:hidden;border-radius:6px;border:1px solid rgba(196,168,130,0.08);transition:border-color 0.3s,box-shadow 0.3s;flex-shrink:0;}
 .cat-row .gallery-card.m:hover{border-color:rgba(196,168,130,0.28);box-shadow:0 8px 30px rgba(0,0,0,0.5);}
@@ -212,9 +212,8 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 <!-- OVERVIEW -->
 <section class="portfolio-section" id="overview">
   <div class="portfolio-section-inner">
-    <p class="eyebrow fade-up" data-en="— All Works" data-zh="— 全部作品">— All Works</p>
-    <h2 class="sec-title fade-up" data-en="Overview" data-zh="作品總覽">Overview</h2>
-  </div>
+  <div class="portfolio-section-inner"><p class="eyebrow fade-up" data-en="— All Works" data-zh="— 全部作品">— All Works</p>
+  <h2 class="sec-title fade-up" data-en="Overview" data-zh="作品總覽">Overview</h2></div>
   <div class="cat-overview-wrap" style="padding:0 3rem;"><div class="cat-overview" id="overview-grid"><p class="gallery-empty">Loading…</p></div></div>
 </section>
 
