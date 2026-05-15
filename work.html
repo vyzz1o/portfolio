@@ -71,6 +71,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .lb-side{width:44px;height:44px;border:1px solid rgba(196,168,130,0.18);background:rgba(26,16,8,0.6);color:var(--sepia);font-size:1.2rem;cursor:none;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
 .lb-side:hover{border-color:var(--gold);color:var(--gold);}
 .lb-bottom{position:absolute;bottom:1.5rem;display:flex;flex-direction:column;align-items:center;gap:0.6rem;}
+.lb-nav-row{display:flex;align-items:center;gap:1rem;}
+.lb-counter{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;color:var(--warm-brown);min-width:50px;text-align:center;}
 .lb-dots{display:flex;gap:0.35rem;}
 .lb-dot{width:5px;height:5px;border-radius:50%;background:rgba(196,168,130,0.22);border:none;cursor:none;transition:background 0.2s;padding:0;}
 .lb-dot.active{background:var(--gold);}
@@ -142,11 +144,14 @@ html[lang="zh-TW"] .work-title{font-family:'Noto Serif TC',serif;font-weight:200
     <span class="lb-counter-top" id="lb-counter-top"></span>
     <button class="lb-close" onclick="closeLb()">✕ Close</button>
   </div>
-  <button class="lb-side" id="lb-prev" onclick="lbNav(-1)">‹</button>
   <img id="lb-img" src="" alt="">
-  <button class="lb-side" id="lb-next" onclick="lbNav(1)">›</button>
   <div class="lb-bottom">
     <div class="lb-dots" id="lb-dots"></div>
+    <div class="lb-nav-row">
+      <button class="lb-side" id="lb-prev" onclick="lbNav(-1)">‹</button>
+      <span class="lb-counter" id="lb-counter"></span>
+      <button class="lb-side" id="lb-next" onclick="lbNav(1)">›</button>
+    </div>
   </div>
 </div>
 
