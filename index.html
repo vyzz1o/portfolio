@@ -25,7 +25,7 @@ body{background:var(--near-black);color:var(--cream);font-family:'Cormorant Gara
 
 .page-wrap{max-width:1100px;margin:0 auto;padding:0 2rem;width:100%;}
 nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(26,16,8,0.92) 0%,transparent 100%);backdrop-filter:blur(2px);}
-.nav-logo{text-decoration:none;display:flex;align-items:center;opacity:0.92;transition:opacity 0.2s;}
+.nav-logo{text-decoration:none;display:flex;align-items:center;opacity:0.92;transition:opacity 0.2s;z-index:600;}
 .nav-logo:hover{opacity:1;}
 .nav-right{display:flex;align-items:center;gap:2rem;}
 .nav-links{display:flex;gap:2rem;list-style:none;}
@@ -35,6 +35,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .nav-links a:hover::after{transform:scaleX(1);}
 #lang-toggle{font-family:'DM Mono',monospace;font-size:0.56rem;letter-spacing:0.18em;color:var(--sepia);background:transparent;border:1px solid rgba(196,168,130,0.25);padding:0.26rem 0.65rem;cursor:none;transition:all 0.2s;text-transform:uppercase;}
 #lang-toggle:hover{border-color:var(--gold);color:var(--gold);}
+
+/* 漢堡選單按鈕樣式 */
+.hamburger{display:none;flex-direction:column;gap:6px;background:transparent;border:none;cursor:none;padding:0.5rem;z-index:600;}
+.hamburger span{display:block;width:24px;height:1px;background-color:var(--cream);transition:all 0.3s ease-in-out;}
+.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg);background-color:var(--gold);}
+.hamburger.active span:nth-child(2){opacity:0;}
+.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);background-color:var(--gold);}
 
 #hero{height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 3rem;position:relative;overflow:hidden;}
 .hero-bg-text{position:absolute;bottom:-0.1em;right:-0.02em;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(14rem,28vw,26rem);color:transparent;-webkit-text-stroke:1px rgba(196,168,130,0.07);line-height:1;user-select:none;pointer-events:none;}
@@ -160,13 +167,41 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 
 @media(max-width:768px){
   nav{padding:1rem 1.5rem;}
+  /* RWD 漢堡選單機制 */
+  .hamburger{display:flex;}
+  .nav-right{
+    position:fixed;
+    top:0;
+    right:-100%;
+    width:75%;
+    max-width:300px;
+    height:100vh;
+    background:rgba(26,16,8,0.98);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    box-shadow:-5px 0 25px rgba(0,0,0,0.6);
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:3rem;
+    padding:2rem;
+    transition:right 0.4s cubic-bezier(0.25,1,0.5,1);
+    z-index:550;
+  }
+  .nav-right.active{right:0;}
+  .nav-links{flex-direction:column;align-items:center;gap:2rem;}
+  .nav-links a{font-size:0.95rem;letter-spacing:0.25em;}
+  
+  /* 手機版直接隱藏左右滑動控制按鈕 */
+  .scroll-nav{display:none !important;}
+  .cat-row{padding-left:0;padding-right:0;}
+  
   .portfolio-section{padding:4rem 0;}
   .portfolio-section-inner,.sub-section{padding:0 1.5rem;}
   #hero{padding:0 1.5rem;}
   #about{padding:4rem 0;}
   #contact{padding:4rem 0 2.5rem;}
   .contact-grid{grid-template-columns:1fr;gap:2.5rem;}
-  .nav-links{gap:1.2rem;}
   .h-track-wrap{margin:0 -1.5rem;}
   .h-track{padding:0 1.5rem;}
   .cat-overview-wrap{max-width:100% !important;padding:0 !important;}
@@ -192,7 +227,14 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
       <text x="0" y="22" font-family="Cormorant Garamond, Georgia, serif" font-size="24" font-weight="300" letter-spacing="3" fill="white" opacity="0.92">Wish W</text>
     </svg>
   </a>
-  <div class="nav-right">
+  
+  <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div class="nav-right" id="nav-menu">
     <ul class="nav-links">
       <li><a href="#overview"    data-en="Work"    data-zh="作品">Work</a></li>
       <li><a href="#photography" data-en="Photo"   data-zh="攝影">Photo</a></li>
@@ -217,7 +259,6 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   </div>
 </section>
 
-<!-- OVERVIEW -->
 <section class="portfolio-section" id="overview">
   <div class="portfolio-section-inner">
     <p class="eyebrow fade-up" data-en="— All Works" data-zh="— 全部作品">— All Works</p>
@@ -230,7 +271,6 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   </div>
 </section>
 
-<!-- PHOTOGRAPHY -->
 <section class="portfolio-section" id="photography">
   <div class="portfolio-section-inner">
     <p class="eyebrow fade-up" data-en="— Photography" data-zh="— 攝影">— Photography</p>
@@ -298,7 +338,6 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   </div>
 </section>
 
-<!-- ART -->
 <section class="portfolio-section" id="art">
   <div class="portfolio-section-inner">
     <p class="eyebrow fade-up" data-en="— Creative Work" data-zh="— 創作">— Creative Work</p>
@@ -326,7 +365,6 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div style="max-width:1100px;margin:0 auto;padding:0 3rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;box-sizing:border-box;width:100%;">
   <div class="about-img-frame fade-up" id="about-img-frame">
@@ -622,8 +660,31 @@ window.toggleLang=function(){
   });
 };
 
+// 漢堡選單邏輯控制開關
+const hamburgerBtn = document.getElementById('hamburger-btn');
+const navMenu = document.getElementById('nav-menu');
 
+hamburgerBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  hamburgerBtn.classList.toggle('active');
+  navMenu.classList.toggle('active');
+});
 
+// 點擊選單連結後自動關閉選單，並平滑滾動
+document.querySelectorAll('.nav-links a, #lang-toggle').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburgerBtn.classList.remove('active');
+    navMenu.classList.remove('active');
+  });
+});
+
+// 點擊選單外部區域也自動關閉
+document.addEventListener('click', (e) => {
+  if (!navMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+    hamburgerBtn.classList.remove('active');
+    navMenu.classList.remove('active');
+  }
+});
 
 // Prevent page horizontal scroll when swiping cat-row
 document.addEventListener('touchstart', e=>{
