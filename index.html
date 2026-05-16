@@ -89,9 +89,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 .sub-section:last-child{margin-bottom:0;}
 .sub-header{display:flex;align-items:center;margin-bottom:1.2rem;}
 .cat-row-wrap{position:relative;overflow:hidden;}
-.scroll-nav{position:absolute;top:0;bottom:0;display:flex;align-items:center;z-index:10;pointer-events:none;}
-.scroll-nav.left{left:0;}
-.scroll-nav.right{right:0;}
+.cat-row-wrap .scroll-nav{position:absolute;top:0;bottom:0;display:flex;align-items:center;z-index:10;pointer-events:none;}
+.cat-row-wrap .scroll-nav.left{left:0;}
+.cat-row-wrap .scroll-nav.right{right:0;}
 .scroll-btn{width:40px;height:100%;border:none;background:linear-gradient(to right,rgba(26,16,8,0.7),rgba(26,16,8,0));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:rgba(242,234,216,0.7);font-size:1.3rem;cursor:none;transition:all 0.25s;display:flex;align-items:center;justify-content:center;pointer-events:all;}
 .scroll-nav.right .scroll-btn{background:linear-gradient(to left,rgba(26,16,8,0.7),rgba(26,16,8,0));}
 .scroll-btn:hover{color:var(--gold);background:linear-gradient(to right,rgba(26,16,8,0.9),rgba(26,16,8,0));}
