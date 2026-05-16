@@ -8,14 +8,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Wish W 後台">
 <meta name="theme-color" content="#c9a84c">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23c9a84c'/><text x='256' y='360' font-family='Georgia,serif' font-size='320' font-weight='300' text-anchor='middle' fill='%231a1008'>W</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>W Studio — 後台管理</title>
 <style>
-:root{--cream:#f2ead8;--sepia:#c4a882;--warm-brown:#8b6b4a;--dark-brown:#3d2b1f;--near-black:#1a1008;--gold:#c9a84c;}
+
+:root{–cream:#f2ead8;–sepia:#c4a882;–warm-brown:#8b6b4a;–dark-brown:#3d2b1f;–near-black:#1a1008;–gold:#c9a84c;}
 *{margin:0;padding:0;box-sizing:border-box;}
 a{color:inherit;text-decoration:none;}
-body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100vh;}
+body{background:#1a1008;color:#f2ead8;font-family:‘Georgia’,serif;min-height:100vh;}
 
 #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#2a1a0e 0%,#1a1008 70%);}
 .login-box{border:1px solid rgba(196,168,130,0.2);padding:3rem;width:380px;background:rgba(61,43,31,0.4);text-align:center;}
@@ -115,13 +115,13 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
 
 /* ADMIN TABS */
 .admin-tabs{display:flex;gap:0;border-bottom:1px solid rgba(196,168,130,0.15);margin-bottom:2rem;}
-.admin-tab{font-family:‘Georgia’,serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(–warm-brown);background:none;border:none;border-bottom:2px solid transparent;padding:0.8rem 1.5rem;cursor:pointer;transition:all 0.2s;}
+.admin-tab{font-family:‘Georgia’,serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(–warm-brown) !important;-webkit-text-fill-color:var(–warm-brown) !important;background:none;border:none;border-bottom:2px solid transparent;padding:0.8rem 1.5rem;cursor:pointer;transition:all 0.2s;}
 .admin-tab:hover{color:var(–sepia);}
-.admin-tab.active{color:var(–gold);border-bottom-color:var(–gold);}
+.admin-tab.active{color:var(–gold) !important;-webkit-text-fill-color:var(–gold) !important;border-bottom-color:var(–gold);}
 .admin-pane{display:none;}
 .admin-pane.active{display:block;}
-</style>
 
+</style>
 </head>
 <body>
 
@@ -142,11 +142,11 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
 <div id="admin-panel">
   <nav class="admin-nav">
     <span class="admin-nav-logo">
-    <svg width="90" height="24" viewBox="0 0 90 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:0.5rem;">
-      <text x="0" y="19" font-family="Cormorant Garamond, Georgia, serif" font-size="20" font-weight="300" letter-spacing="2" fill="#c9a84c">Wish W</text>
-    </svg>
-    <span style="font-size:0.62rem;letter-spacing:0.28em;color:var(--warm-brown);text-transform:uppercase;vertical-align:middle;">— 後台</span>
-  </span>
+      <svg width="90" height="24" viewBox="0 0 90 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:0.5rem;">
+        <text x="0" y="19" font-family="Cormorant Garamond, Georgia, serif" font-size="20" font-weight="300" letter-spacing="2" fill="#c9a84c">Wish W</text>
+      </svg>
+      <span style="font-size:0.62rem;letter-spacing:0.28em;color:var(--warm-brown);text-transform:uppercase;vertical-align:middle;">— 後台</span>
+    </span>
     <div class="nav-user">
       <img class="nav-avatar" id="nav-avatar" src="" alt="">
       <span id="nav-name"></span>
@@ -162,141 +162,137 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
     </div>
 
 ```
+<!-- PANE: UPLOAD -->
 <div class="admin-pane active" id="pane-upload">
-<!-- UPLOAD -->
-<div class="card">
-  <p class="card-title">✦ 上傳新作品</p>
-  <div class="form-grid">
-    <div class="form-field"><label>作品名稱</label><input type="text" id="f-title" placeholder="無題 #001"></div>
-    <div class="form-field"><label>年份</label><input type="text" id="f-year" placeholder="2024"></div>
-    <div class="form-field"><label>類別</label>
-      <select id="f-category">
-        <option value="film">底片攝影 Film</option>
-        <option value="street">街頭攝影 Street</option>
-        <option value="portrait">人像攝影 Portrait</option>
-        <option value="styling">風格排版 Styling</option>
-        <option value="atmosphere">氛圍攝影 Atmosphere</option>
-        <option value="product">商品攝影 Product</option>
-        <option value="pet">寵物電繪 Pet</option>
-        <option value="digital">電繪插畫 Digital Art</option>
-      </select>
-    </div>
-    <div class="form-field"><label>媒材 / 備注</label><input type="text" id="f-medium" placeholder="35mm · Kodak Gold 200"></div>
-    <div class="form-field"><label>封面圖方向</label>
-      <select id="f-orient" onchange="updateFocalHeight('f-focal-frame',this.value)">
-        <option value="portrait">直式 Portrait（高 &gt; 寬）</option>
-        <option value="landscape">橫式 Landscape（寬 &gt; 高）</option>
-        <option value="square">方形 Square</option>
-      </select>
-    </div>
-    <div class="form-field full">
-      <label>封面顯示焦點</label>
-      <div class="focal-wrap" id="f-focal-wrap">
-        <div class="focal-frame" id="f-focal-frame">
-          <img src="" alt="封面預覽">
-          <div class="focal-dot" id="f-focal-dot"></div>
+  <div class="card">
+    <p class="card-title">✦ 上傳新作品</p>
+    <div class="form-grid">
+      <div class="form-field"><label>作品名稱</label><input type="text" id="f-title" placeholder="無題 #001"></div>
+      <div class="form-field"><label>年份</label><input type="text" id="f-year" placeholder="2024"></div>
+      <div class="form-field"><label>類別</label>
+        <select id="f-category">
+          <option value="film">底片攝影 Film</option>
+          <option value="street">街頭攝影 Street</option>
+          <option value="portrait">人像攝影 Portrait</option>
+          <option value="styling">風格排版 Styling</option>
+          <option value="atmosphere">氛圍攝影 Atmosphere</option>
+          <option value="product">商品攝影 Product</option>
+          <option value="pet">寵物電繪 Pet</option>
+          <option value="digital">電繪插畫 Digital Art</option>
+        </select>
+      </div>
+      <div class="form-field"><label>媒材 / 備注</label><input type="text" id="f-medium" placeholder="35mm · Kodak Gold 200"></div>
+      <div class="form-field"><label>封面圖方向</label>
+        <select id="f-orient" onchange="updateFocalHeight('f-focal-frame',this.value)">
+          <option value="portrait">直式 Portrait（高 &gt; 寬）</option>
+          <option value="landscape">橫式 Landscape（寬 &gt; 高）</option>
+          <option value="square">方形 Square</option>
+        </select>
+      </div>
+      <div class="form-field full">
+        <label>封面顯示焦點</label>
+        <div class="focal-wrap" id="f-focal-wrap">
+          <div class="focal-frame" id="f-focal-frame">
+            <img src="" alt="封面預覽">
+            <div class="focal-dot" id="f-focal-dot"></div>
+          </div>
+          <p class="focal-hint">點擊或拖曳選擇焦點位置</p>
+          <p class="focal-val">50% 50%</p>
         </div>
-        <p class="focal-hint">點擊或拖曳選擇焦點位置</p>
-        <p class="focal-val">50% 50%</p>
+        <input type="hidden" id="f-focal-x" value="50">
+        <input type="hidden" id="f-focal-y" value="50">
       </div>
-      <input type="hidden" id="f-focal-x" value="50">
-      <input type="hidden" id="f-focal-y" value="50">
-    </div>
-    <div class="form-field full">
-      <label>封面圖（主圖）</label>
-      <div class="drop-zone" id="cover-zone" onclick="document.getElementById('cover-input').click()">
-        <p><strong>點擊選擇</strong>或拖曳封面圖<br><span style="font-size:0.65rem;opacity:0.6">建議 2000px 以上</span></p>
+      <div class="form-field full">
+        <label>封面圖（主圖）</label>
+        <div class="drop-zone" id="cover-zone" onclick="document.getElementById('cover-input').click()">
+          <p><strong>點擊選擇</strong>或拖曳封面圖<br><span style="font-size:0.65rem;opacity:0.6">建議 2000px 以上</span></p>
+        </div>
+        <img class="cover-preview" id="cover-preview">
+        <input type="file" id="cover-input" accept="image/*" style="display:none">
       </div>
-      <img class="cover-preview" id="cover-preview">
-      <input type="file" id="cover-input" accept="image/*" style="display:none">
-    </div>
-    <div class="form-field full">
-      <label>其他照片（最多 9 張）</label>
-      <div class="drop-zone" id="extras-zone" onclick="document.getElementById('extras-input').click()">
-        <p><strong>點擊選擇</strong>或拖曳其他照片</p>
+      <div class="form-field full">
+        <label>其他照片（最多 9 張）</label>
+        <div class="drop-zone" id="extras-zone" onclick="document.getElementById('extras-input').click()">
+          <p><strong>點擊選擇</strong>或拖曳其他照片</p>
+        </div>
+        <div class="thumbs" id="extras-preview"></div>
+        <input type="file" id="extras-input" accept="image/*" multiple style="display:none">
       </div>
-      <div class="thumbs" id="extras-preview"></div>
-      <input type="file" id="extras-input" accept="image/*" multiple style="display:none">
     </div>
+    <div class="upload-progress" id="upload-progress"><div class="upload-progress-bar" id="progress-bar"></div></div>
+    <p class="upload-status" id="upload-status"></p>
+    <button class="btn-primary" id="btn-upload" onclick="uploadWork()">↑ 上傳作品</button>
   </div>
-  <div class="upload-progress" id="upload-progress"><div class="upload-progress-bar" id="progress-bar"></div></div>
-  <p class="upload-status" id="upload-status"></p>
-  <button class="btn-primary" id="btn-upload" onclick="uploadWork()">↑ 上傳作品</button>
 </div>
 
-
-
-</div><!-- end pane-about -->
-
-<div class="admin-pane" id="pane-contact">
-<!-- CONTACT SETTINGS -->
-<div class="card">
-  <p class="card-title">✦ 聯絡資訊</p>
-  <div class="form-grid">
-    <div class="form-field"><label>Instagram 帳號</label><input type="text" id="c-ig" placeholder="@yourhandle"></div>
-    <div class="form-field"><label>Email</label><input type="text" id="c-email" placeholder="your@email.com"></div>
-    <div class="form-field"><label>Instagram 網址</label><input type="text" id="c-ig-url" placeholder="https://instagram.com/yourhandle"></div>
-    <div class="form-field"><label>地點</label><input type="text" id="c-location" placeholder="Taiwan · Taipei"></div>
-  </div>
-  <p class="upload-status" id="contact-status"></p>
-  <button class="btn-primary" onclick="saveContact()">儲存聯絡資訊</button>
-</div>
-
-</div><!-- end pane-works -->
-
-<div class="admin-pane" id="pane-about">
-<!-- ABOUT SETTINGS -->
-<div class="card" id="about-card">
-  <p class="card-title">✦ 關於我 About</p>
-  <div class="form-grid">
-    <div class="form-field full">
-      <label>個人照片</label>
-      <div class="drop-zone" id="about-zone" onclick="document.getElementById('about-input').click()">
-        <p><strong>點擊選擇</strong>或拖曳個人照片</p>
-      </div>
-      <img class="cover-preview" id="about-preview">
-      <input type="file" id="about-input" accept="image/*" style="display:none">
-    </div>
-    <div class="form-field full">
-      <label>第一段介紹</label>
-      <textarea id="about-p1" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
-    </div>
-    <div class="form-field full">
-      <label>第二段介紹</label>
-      <textarea id="about-p2" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
-    </div>
-    <div class="form-field full">
-      <label>第三段介紹</label>
-      <textarea id="about-p3" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
-    </div>
-  </div>
-  <div class="upload-progress" id="about-progress"><div class="upload-progress-bar" id="about-bar"></div></div>
-  <p class="upload-status" id="about-status"></p>
-  <button class="btn-primary" id="about-save-btn" onclick="saveAbout()">儲存關於我</button>
-</div>
-
-</div><!-- end pane-upload -->
-
+<!-- PANE: WORKS -->
 <div class="admin-pane" id="pane-works">
-<!-- WORKS LIST -->
-<div class="card">
-  <p class="card-title">
-    <span>✦ 已上傳作品</span>
-    <span class="sort-saved" id="sort-saved">已儲存順序 ✓</span>
-  </p>
-  <div class="tab-bar">
-    <button class="tab active" onclick="switchTab(event,'all')">全部</button>
-    <button class="tab" onclick="switchTab(event,'film')">底片</button>
-    <button class="tab" onclick="switchTab(event,'street')">街頭</button>
-    <button class="tab" onclick="switchTab(event,'portrait')">人像</button>
-    <button class="tab" onclick="switchTab(event,'styling')">風格排版</button>
-    <button class="tab" onclick="switchTab(event,'atmosphere')">氛圍</button>
-    <button class="tab" onclick="switchTab(event,'product')">商品</button>
-    <button class="tab" onclick="switchTab(event,'pet')">寵物</button>
-    <button class="tab" onclick="switchTab(event,'digital')">電繪</button>
+  <div class="card">
+    <p class="card-title">
+      <span>✦ 已上傳作品</span>
+      <span class="sort-saved" id="sort-saved">已儲存順序 ✓</span>
+    </p>
+    <div class="tab-bar">
+      <button class="tab active" onclick="switchTab(event,'all')">全部</button>
+      <button class="tab" onclick="switchTab(event,'film')">底片</button>
+      <button class="tab" onclick="switchTab(event,'street')">街頭</button>
+      <button class="tab" onclick="switchTab(event,'portrait')">人像</button>
+      <button class="tab" onclick="switchTab(event,'styling')">風格排版</button>
+      <button class="tab" onclick="switchTab(event,'atmosphere')">氛圍</button>
+      <button class="tab" onclick="switchTab(event,'product')">商品</button>
+      <button class="tab" onclick="switchTab(event,'pet')">寵物</button>
+      <button class="tab" onclick="switchTab(event,'digital')">電繪</button>
+    </div>
+    <p class="sort-hint">☰ 拖曳卡片調整前台顯示順序</p>
+    <div id="works-list"><p class="empty-state">載入中…</p></div>
   </div>
-  <p class="sort-hint">☰ 拖曳卡片調整前台顯示順序</p>
-  <div id="works-list"><p class="empty-state">載入中…</p></div>
+</div>
+
+<!-- PANE: ABOUT -->
+<div class="admin-pane" id="pane-about">
+  <div class="card" id="about-card">
+    <p class="card-title">✦ 關於我 About</p>
+    <div class="form-grid">
+      <div class="form-field full">
+        <label>個人照片</label>
+        <div class="drop-zone" id="about-zone" onclick="document.getElementById('about-input').click()">
+          <p><strong>點擊選擇</strong>或拖曳個人照片</p>
+        </div>
+        <img class="cover-preview" id="about-preview">
+        <input type="file" id="about-input" accept="image/*" style="display:none">
+      </div>
+      <div class="form-field full">
+        <label>第一段介紹</label>
+        <textarea id="about-p1" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
+      </div>
+      <div class="form-field full">
+        <label>第二段介紹</label>
+        <textarea id="about-p2" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
+      </div>
+      <div class="form-field full">
+        <label>第三段介紹</label>
+        <textarea id="about-p3" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
+      </div>
+    </div>
+    <div class="upload-progress" id="about-progress"><div class="upload-progress-bar" id="about-bar"></div></div>
+    <p class="upload-status" id="about-status"></p>
+    <button class="btn-primary" id="about-save-btn" onclick="saveAbout()">儲存關於我</button>
+  </div>
+</div>
+
+<!-- PANE: CONTACT -->
+<div class="admin-pane" id="pane-contact">
+  <div class="card">
+    <p class="card-title">✦ 聯絡資訊</p>
+    <div class="form-grid">
+      <div class="form-field"><label>Instagram 帳號</label><input type="text" id="c-ig" placeholder="@yourhandle"></div>
+      <div class="form-field"><label>Email</label><input type="text" id="c-email" placeholder="your@email.com"></div>
+      <div class="form-field"><label>Instagram 網址</label><input type="text" id="c-ig-url" placeholder="https://instagram.com/yourhandle"></div>
+      <div class="form-field"><label>地點</label><input type="text" id="c-location" placeholder="Taiwan · Taipei"></div>
+    </div>
+    <p class="upload-status" id="contact-status"></p>
+    <button class="btn-primary" onclick="saveContact()">儲存聯絡資訊</button>
+  </div>
 </div>
 ```
 
@@ -320,8 +316,8 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
           <option value="street">街頭攝影 Street</option>
           <option value="portrait">人像攝影 Portrait</option>
           <option value="styling">風格排版 Styling</option>
-            <option value="atmosphere">氛圍攝影 Atmosphere</option>
-            <option value="product">商品攝影 Product</option>
+          <option value="atmosphere">氛圍攝影 Atmosphere</option>
+          <option value="product">商品攝影 Product</option>
           <option value="pet">寵物電繪 Pet</option>
           <option value="digital">電繪插畫 Digital Art</option>
         </select>
@@ -366,7 +362,6 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
       <button class="btn-primary" id="e-save-btn" onclick="saveEdit()">儲存變更</button>
       <button class="btn-danger" onclick="deleteEditWork()">刪除作品</button>
     </div>
-    </div><!-- end pane-contact -->
   </div>
 </div>
 
@@ -900,4 +895,3 @@ window.saveAbout = async () => {
 </script>
 
 </body>
-</html>
