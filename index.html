@@ -475,7 +475,7 @@ const CAT_INFO=[
 function focalPos(w){ return w.focalPoint||'center'; }
 
 function makeCard(w){
-  const isL=(w.orient==='landscape');
+  const isL=(w.orient==='landscape'||w.orient==='square');
   const oc=isL?'l':'p';
   const imgs=[w.coverUrl,...(w.images||[])].filter(Boolean);
   const pos=focalPos(w);
@@ -506,7 +506,7 @@ function renderCatRow(el, ws){
   }
 
   sorted.forEach(w=>{
-    if(w.orient==='landscape'){
+    if(w.orient==='landscape'||w.orient==='square'){
       landscapeBuf.push(w);
     } else {
       // flush any pending landscapes before this portrait
