@@ -52,6 +52,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:
 
 /* UNIFIED MASONRY */
 /* CATEGORY OVERVIEW - 3x2 grid of category cards */
+.cat-overview-wrap{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.cat-overview-wrap::-webkit-scrollbar{display:none;}
 .cat-overview{display:grid;grid-auto-flow:column;grid-template-rows:repeat(2,140px);gap:0.8rem;width:max-content;}
 .cat-card{position:relative;overflow:hidden;border:1px solid rgba(196,168,130,0.08);cursor:none;text-decoration:none;display:block;border-radius:6px;aspect-ratio:3/2;transition:border-color 0.3s,box-shadow 0.3s;}
 .cat-card:hover{border-color:rgba(196,168,130,0.28);box-shadow:0 12px 40px rgba(0,0,0,0.5);}
@@ -221,7 +223,11 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
     <p class="eyebrow fade-up" data-en="— All Works" data-zh="— 全部作品">— All Works</p>
     <h2 class="sec-title fade-up" data-en="Overview" data-zh="作品總覽">Overview</h2>
   </div>
-  <div class="cat-overview-wrap" style="padding:0 3rem;max-width:1100px;margin:0 auto;"><div class="cat-overview" id="overview-grid"><p class="gallery-empty">Loading…</p></div></div>
+  <div style="position:relative;max-width:1100px;margin:0 auto;">
+    <div class="scroll-nav left" style="z-index:10;"><button class="scroll-btn" onclick="scrollOverview(-1)">‹</button></div>
+    <div class="cat-overview-wrap" style="padding:0 44px;"><div class="cat-overview" id="overview-grid"><p class="gallery-empty">Loading…</p></div></div>
+    <div class="scroll-nav right" style="z-index:10;"><button class="scroll-btn" onclick="scrollOverview(1)">›</button></div>
+  </div>
 </section>
 
 <!-- PHOTOGRAPHY -->
@@ -508,6 +514,12 @@ function renderAll(){
     renderCatRow(el, ws);
   });
 }
+
+window.scrollOverview=function(dir){
+  const el=document.querySelector('.cat-overview-wrap');
+  if(!el) return;
+  el.scrollBy({left:dir*300,behavior:'smooth'});
+};
 
 window.scrollCat=function(catId, dir){
   const el=document.getElementById('t-'+catId);
