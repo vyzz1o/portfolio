@@ -169,7 +169,7 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   .nav-links{gap:1.2rem;}
   .h-track-wrap{margin:0 -1.5rem;}
   .h-track{padding:0 1.5rem;}
-  .cat-overview-wrap{max-width:100% !important;padding:0 1.5rem !important;}
+  .cat-overview-wrap{max-width:100% !important;padding:0 !important;}
   .cat-card{width:160px !important;}
   .cat-row{height:180px;}
   .cat-row .gallery-card.m.p{width:calc(180px * 1668/2388);}
@@ -225,7 +225,7 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   </div>
   <div style="position:relative;max-width:1100px;margin:0 auto;">
     <div class="scroll-nav left" style="z-index:10;"><button class="scroll-btn" onclick="scrollOverview(-1)">‹</button></div>
-    <div class="cat-overview-wrap" style="padding:0 44px;"><div class="cat-overview" id="overview-grid"><p class="gallery-empty">Loading…</p></div></div>
+    <div class="cat-overview-wrap" style="padding:0 44px 0 44px;"><div class="cat-overview" id="overview-grid"><p class="gallery-empty">Loading…</p></div></div>
     <div class="scroll-nav right" style="z-index:10;"><button class="scroll-btn" onclick="scrollOverview(1)">›</button></div>
   </div>
 </section>
@@ -435,6 +435,7 @@ const CAT_INFO=[
   {id:'portrait',en:'Portrait',    zh:'人像攝影'},
   {id:'styling',  en:'Styling',    zh:'風格排版'},
   {id:'atmosphere',en:'Atmosphere', zh:'氛圍攝影'},
+  {id:'product',   en:'Product',    zh:'商品攝影'},
   {id:'pet',     en:'Pet',         zh:'寵物電繪'},
   {id:'digital', en:'Digital Art', zh:'電繪插畫'},
 ];
