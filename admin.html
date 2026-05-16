@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
@@ -17,108 +18,109 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
 
 #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#2a1a0e 0%,#1a1008 70%);}
 .login-box{border:1px solid rgba(196,168,130,0.2);padding:3rem;width:380px;background:rgba(61,43,31,0.4);text-align:center;}
-.login-logo{font-size:2.2rem;font-style:italic;color:var(--gold);margin-bottom:0.3rem;}
-.login-sub{font-size:0.65rem;letter-spacing:0.35em;color:var(--warm-brown);text-transform:uppercase;margin-bottom:0.5rem;}
-.login-desc{font-size:0.82rem;color:var(--sepia);font-style:italic;margin-bottom:2.5rem;line-height:1.6;}
-.btn-google{width:100%;padding:0.9rem 1.5rem;background:var(--gold);color:#1a1008;border:none;font-family:Georgia,serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.8rem;transition:background 0.2s;}
+.login-logo{font-size:2.2rem;font-style:italic;color:var(–gold);margin-bottom:0.3rem;}
+.login-sub{font-size:0.65rem;letter-spacing:0.35em;color:var(–warm-brown);text-transform:uppercase;margin-bottom:0.5rem;}
+.login-desc{font-size:0.82rem;color:var(–sepia);font-style:italic;margin-bottom:2.5rem;line-height:1.6;}
+.btn-google{width:100%;padding:0.9rem 1.5rem;background:var(–gold);color:#1a1008;border:none;font-family:Georgia,serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.8rem;transition:background 0.2s;}
 .btn-google:hover{background:#e0bc5a;}
-.login-note{font-size:0.65rem;color:var(--warm-brown);margin-top:1.2rem;opacity:0.7;}
+.login-note{font-size:0.65rem;color:var(–warm-brown);margin-top:1.2rem;opacity:0.7;}
 .err-msg{color:#e07070;font-size:0.78rem;margin-top:1rem;min-height:1.2rem;}
 
 #admin-panel{display:none;}
 .admin-nav{position:sticky;top:0;z-index:100;background:#1a1008;border-bottom:1px solid rgba(196,168,130,0.1);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;}
 .admin-nav-logo{display:flex;align-items:center;gap:0.3rem;}
-.nav-user{display:flex;align-items:center;gap:0.8rem;font-size:0.7rem;color:var(--warm-brown);}
+.nav-user{display:flex;align-items:center;gap:0.8rem;font-size:0.7rem;color:var(–warm-brown);}
 .nav-avatar{width:28px;height:28px;border-radius:50%;border:1px solid rgba(196,168,130,0.3);object-fit:cover;}
-.btn-sm{background:transparent;border:1px solid rgba(196,168,130,0.2);color:var(--sepia);padding:0.3rem 0.8rem;font-size:0.65rem;letter-spacing:0.15em;cursor:pointer;font-family:Georgia,serif;text-transform:uppercase;transition:all 0.2s;}
-.btn-sm:hover{border-color:var(--gold);color:var(--gold);}
+.btn-sm{background:transparent;border:1px solid rgba(196,168,130,0.2);color:var(–sepia);padding:0.3rem 0.8rem;font-size:0.65rem;letter-spacing:0.15em;cursor:pointer;font-family:Georgia,serif;text-transform:uppercase;transition:all 0.2s;}
+.btn-sm:hover{border-color:var(–gold);color:var(–gold);}
 
 .admin-body{padding:2rem;max-width:1100px;margin:0 auto;}
 .card{border:1px solid rgba(196,168,130,0.15);padding:2rem;background:rgba(61,43,31,0.25);margin-bottom:2.5rem;}
-.card-title{font-size:0.7rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(196,168,130,0.1);display:flex;align-items:center;justify-content:space-between;}
+.card-title{font-size:0.7rem;letter-spacing:0.3em;color:var(–gold);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(196,168,130,0.1);display:flex;align-items:center;justify-content:space-between;}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
 .form-field{margin-bottom:1rem;}
 .form-field.full{grid-column:1/-1;}
-.form-field label{display:block;font-size:0.6rem;letter-spacing:0.2em;color:var(--sepia);text-transform:uppercase;margin-bottom:0.4rem;}
-.form-field input,.form-field select{width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;transition:border-color 0.2s;}
-.form-field input:focus,.form-field select:focus{border-color:var(--gold);}
+.form-field label{display:block;font-size:0.6rem;letter-spacing:0.2em;color:var(–sepia);text-transform:uppercase;margin-bottom:0.4rem;}
+.form-field input,.form-field select{width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(–cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;transition:border-color 0.2s;}
+.form-field input:focus,.form-field select:focus{border-color:var(–gold);}
 .form-field select option{background:#3d2b1f;}
 .drop-zone{border:1px dashed rgba(196,168,130,0.3);padding:2rem;text-align:center;cursor:pointer;transition:all 0.2s;background:rgba(0,0,0,0.15);margin-bottom:0.8rem;}
-.drop-zone.dragover{border-color:var(--gold);background:rgba(201,168,76,0.05);}
-.drop-zone p{color:var(--warm-brown);font-size:0.78rem;line-height:1.7;}
-.drop-zone strong{color:var(--gold);}
+.drop-zone.dragover{border-color:var(–gold);background:rgba(201,168,76,0.05);}
+.drop-zone p{color:var(–warm-brown);font-size:0.78rem;line-height:1.7;}
+.drop-zone strong{color:var(–gold);}
 .cover-preview{width:100%;max-height:180px;object-fit:cover;display:none;border:1px solid rgba(196,168,130,0.2);margin-top:0.8rem;}
 .thumbs{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.8rem;}
 .thumb{position:relative;width:76px;height:76px;}
 .thumb img{width:100%;height:100%;object-fit:cover;border:1px solid rgba(196,168,130,0.2);}
 .thumb-del{position:absolute;top:-5px;right:-5px;width:17px;height:17px;border-radius:50%;background:rgba(26,16,8,0.9);border:1px solid rgba(255,100,100,0.4);color:#e07070;font-size:0.55rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
 .upload-progress{height:2px;background:rgba(196,168,130,0.1);margin-top:1rem;display:none;}
-.upload-progress-bar{height:100%;background:var(--gold);width:0%;transition:width 0.3s;}
-.upload-status{font-size:0.72rem;color:var(--sepia);margin-top:0.5rem;min-height:1rem;}
-.btn-primary{background:var(--gold);color:#1a1008;border:none;padding:0.65rem 1.8rem;font-family:Georgia,serif;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;display:inline-flex;align-items:center;gap:0.5rem;margin-top:0.5rem;}
+.upload-progress-bar{height:100%;background:var(–gold);width:0%;transition:width 0.3s;}
+.upload-status{font-size:0.72rem;color:var(–sepia);margin-top:0.5rem;min-height:1rem;}
+.btn-primary{background:var(–gold);color:#1a1008;border:none;padding:0.65rem 1.8rem;font-family:Georgia,serif;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;display:inline-flex;align-items:center;gap:0.5rem;margin-top:0.5rem;}
 .btn-primary:hover{background:#e0bc5a;}
 .btn-primary:disabled{opacity:0.4;cursor:not-allowed;}
 .btn-danger{background:transparent;border:1px solid rgba(255,100,100,0.3);color:#e07070;padding:0.65rem 1.2rem;font-family:Georgia,serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-top:0.5rem;margin-left:0.5rem;}
 .btn-danger:hover{background:rgba(224,112,112,0.1);}
 
 .tab-bar{display:flex;margin-bottom:1rem;border-bottom:1px solid rgba(196,168,130,0.1);flex-wrap:wrap;}
-.tab{padding:0.55rem 1.1rem;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;color:var(--warm-brown);border:none;border-bottom:2px solid transparent;transition:all 0.2s;background:none;font-family:Georgia,serif;}
-.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
-.sort-hint{font-size:0.62rem;color:var(--warm-brown);font-style:italic;margin-bottom:0.8rem;opacity:0.65;}
-.sort-saved{font-size:0.62rem;color:var(--gold);margin-left:0.8rem;opacity:0;transition:opacity 0.3s;font-style:italic;}
+.tab{padding:0.55rem 1.1rem;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;color:var(–warm-brown);border:none;border-bottom:2px solid transparent;transition:all 0.2s;background:none;font-family:Georgia,serif;}
+.tab.active{color:var(–gold);border-bottom-color:var(–gold);}
+.sort-hint{font-size:0.62rem;color:var(–warm-brown);font-style:italic;margin-bottom:0.8rem;opacity:0.65;}
+.sort-saved{font-size:0.62rem;color:var(–gold);margin-left:0.8rem;opacity:0;transition:opacity 0.3s;font-style:italic;}
 .sort-saved.show{opacity:1;}
 
 .works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:1rem;}
 .work-item{border:1px solid rgba(196,168,130,0.1);background:rgba(61,43,31,0.2);overflow:hidden;position:relative;transition:box-shadow 0.2s;}
-.work-item.drag-over{box-shadow:0 0 0 2px var(--gold);}
+.work-item.drag-over{box-shadow:0 0 0 2px var(–gold);}
 .work-item.dragging-item{opacity:0.4;}
 .work-cover{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
 .work-info{padding:0.6rem;}
-.work-name{font-size:0.8rem;color:var(--cream);margin-bottom:0.12rem;}
-.work-meta{font-size:0.58rem;color:var(--warm-brown);text-transform:uppercase;}
-.work-count{font-size:0.52rem;color:var(--sepia);margin-top:0.08rem;}
-.work-tag{display:inline-block;font-size:0.5rem;border:1px solid rgba(196,168,130,0.18);padding:0.08rem 0.35rem;text-transform:uppercase;color:var(--sepia);margin-top:0.2rem;}
+.work-name{font-size:0.8rem;color:var(–cream);margin-bottom:0.12rem;}
+.work-meta{font-size:0.58rem;color:var(–warm-brown);text-transform:uppercase;}
+.work-count{font-size:0.52rem;color:var(–sepia);margin-top:0.08rem;}
+.work-tag{display:inline-block;font-size:0.5rem;border:1px solid rgba(196,168,130,0.18);padding:0.08rem 0.35rem;text-transform:uppercase;color:var(–sepia);margin-top:0.2rem;}
 .work-actions{position:absolute;top:0.4rem;right:0.4rem;display:flex;gap:0.3rem;opacity:0;transition:opacity 0.2s;}
 .work-item:hover .work-actions{opacity:1;}
-.act-btn{width:26px;height:26px;background:rgba(26,16,8,0.88);border:1px solid rgba(196,168,130,0.2);color:var(--sepia);font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:all 0.2s;}
-.act-btn:hover{border-color:var(--gold);color:var(--gold);}
+.act-btn{width:26px;height:26px;background:rgba(26,16,8,0.88);border:1px solid rgba(196,168,130,0.2);color:var(–sepia);font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:all 0.2s;}
+.act-btn:hover{border-color:var(–gold);color:var(–gold);}
 .act-btn.del{border-color:rgba(255,100,100,0.3);color:#e07070;}
 .act-btn.del:hover{border-color:#e07070;}
-.drag-handle{position:absolute;top:0.4rem;left:0.4rem;width:24px;height:24px;background:rgba(26,16,8,0.75);border:1px solid rgba(196,168,130,0.18);color:var(--sepia);display:flex;align-items:center;justify-content:center;font-size:0.65rem;cursor:grab;opacity:0;transition:opacity 0.2s;}
+.drag-handle{position:absolute;top:0.4rem;left:0.4rem;width:24px;height:24px;background:rgba(26,16,8,0.75);border:1px solid rgba(196,168,130,0.18);color:var(–sepia);display:flex;align-items:center;justify-content:center;font-size:0.65rem;cursor:grab;opacity:0;transition:opacity 0.2s;}
 .work-item:hover .drag-handle{opacity:1;}
-.empty-state{text-align:center;padding:3rem;color:var(--warm-brown);font-style:italic;}
+.empty-state{text-align:center;padding:3rem;color:var(–warm-brown);font-style:italic;}
 
 /* EDIT MODAL */
 #edit-modal{position:fixed;inset:0;z-index:900;background:rgba(10,5,2,0.9);display:none;align-items:center;justify-content:center;padding:1rem;}
 #edit-modal.open{display:flex;}
 .modal-box{background:#1e100a;border:1px solid rgba(196,168,130,0.2);padding:2rem;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;}
-.modal-title{font-size:0.7rem;letter-spacing:0.28em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(196,168,130,0.1);display:flex;justify-content:space-between;align-items:center;}
-.modal-close{background:none;border:none;color:var(--sepia);font-size:1.2rem;cursor:pointer;transition:color 0.2s;}
-.modal-close:hover{color:var(--gold);}
+.modal-title{font-size:0.7rem;letter-spacing:0.28em;color:var(–gold);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(196,168,130,0.1);display:flex;justify-content:space-between;align-items:center;}
+.modal-close{background:none;border:none;color:var(–sepia);font-size:1.2rem;cursor:pointer;transition:color 0.2s;}
+.modal-close:hover{color:var(–gold);}
 .current-imgs{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;}
 .cur-img{position:relative;width:76px;height:76px;}
 .cur-img img{width:100%;height:100%;object-fit:cover;border:1px solid rgba(196,168,130,0.2);}
-.cur-img.is-cover::after{content:'Cover';position:absolute;bottom:0;left:0;right:0;background:rgba(201,168,76,0.85);color:#1a1008;font-size:0.45rem;letter-spacing:0.1em;text-align:center;padding:0.15rem;text-transform:uppercase;}
+.cur-img.is-cover::after{content:‘Cover’;position:absolute;bottom:0;left:0;right:0;background:rgba(201,168,76,0.85);color:#1a1008;font-size:0.45rem;letter-spacing:0.1em;text-align:center;padding:0.15rem;text-transform:uppercase;}
 .cur-img-del{position:absolute;top:-5px;right:-5px;width:17px;height:17px;border-radius:50%;background:rgba(26,16,8,0.9);border:1px solid rgba(255,100,100,0.4);color:#e07070;font-size:0.55rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
 
 /* FOCAL POINT PICKER */
 .focal-wrap{position:relative;margin-top:0.8rem;display:none;}
 .focal-wrap.show{display:block;}
-.focal-label{font-size:0.6rem;letter-spacing:0.2em;color:var(--sepia);text-transform:uppercase;margin-bottom:0.4rem;display:block;}
+.focal-label{font-size:0.6rem;letter-spacing:0.2em;color:var(–sepia);text-transform:uppercase;margin-bottom:0.4rem;display:block;}
 .focal-frame{position:relative;width:100%;max-width:320px;overflow:hidden;border:1px solid rgba(196,168,130,0.2);border-radius:4px;cursor:crosshair;user-select:none;transition:aspect-ratio 0.2s;}
 .focal-frame img{width:100%;height:auto;object-fit:cover;display:block;pointer-events:none;}
-.focal-dot{position:absolute;width:16px;height:16px;border-radius:50%;background:var(--gold);border:2px solid #fff;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,0.5);top:50%;left:50%;}
-.focal-hint{font-size:0.58rem;color:var(--warm-brown);font-style:italic;margin-top:0.4rem;opacity:0.7;}
-.focal-val{font-size:0.58rem;color:var(--gold);font-family:monospace;margin-top:0.2rem;}
+.focal-dot{position:absolute;width:16px;height:16px;border-radius:50%;background:var(–gold);border:2px solid #fff;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,0.5);top:50%;left:50%;}
+.focal-hint{font-size:0.58rem;color:var(–warm-brown);font-style:italic;margin-top:0.4rem;opacity:0.7;}
+.focal-val{font-size:0.58rem;color:var(–gold);font-family:monospace;margin-top:0.2rem;}
 
 /* ADMIN TABS */
 .admin-tabs{display:flex;gap:0;border-bottom:1px solid rgba(196,168,130,0.15);margin-bottom:2rem;}
-.admin-tab{font-family:'Georgia',serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--warm-brown);background:none;border:none;border-bottom:2px solid transparent;padding:0.8rem 1.5rem;cursor:pointer;transition:all 0.2s;}
-.admin-tab:hover{color:var(--sepia);}
-.admin-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.admin-tab{font-family:‘Georgia’,serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(–warm-brown);background:none;border:none;border-bottom:2px solid transparent;padding:0.8rem 1.5rem;cursor:pointer;transition:all 0.2s;}
+.admin-tab:hover{color:var(–sepia);}
+.admin-tab.active{color:var(–gold);border-bottom-color:var(–gold);}
 .admin-pane{display:none;}
 .admin-pane.active{display:block;}
 </style>
+
 </head>
 <body>
 
@@ -152,149 +154,156 @@ body{background:#1a1008;color:#f2ead8;font-family:'Georgia',serif;min-height:100
   </nav>
   <div class="admin-body">
     <div class="admin-tabs">
-      <button class="admin-tab active" onclick="switchPane('works')">✦ 作品管理</button>
+      <button class="admin-tab active" onclick="switchPane('upload')">✦ 上傳作品</button>
+      <button class="admin-tab" onclick="switchPane('works')">✦ 已上傳作品</button>
       <button class="admin-tab" onclick="switchPane('about')">✦ 關於我</button>
       <button class="admin-tab" onclick="switchPane('contact')">✦ 聯絡資訊</button>
     </div>
 
-    <div class="admin-pane active" id="pane-works">
-    <!-- UPLOAD -->
-    <div class="card">
-      <p class="card-title">✦ 上傳新作品</p>
-      <div class="form-grid">
-        <div class="form-field"><label>作品名稱</label><input type="text" id="f-title" placeholder="無題 #001"></div>
-        <div class="form-field"><label>年份</label><input type="text" id="f-year" placeholder="2024"></div>
-        <div class="form-field"><label>類別</label>
-          <select id="f-category">
-            <option value="film">底片攝影 Film</option>
-            <option value="street">街頭攝影 Street</option>
-            <option value="portrait">人像攝影 Portrait</option>
-            <option value="styling">風格排版 Styling</option>
-            <option value="atmosphere">氛圍攝影 Atmosphere</option>
-            <option value="product">商品攝影 Product</option>
-            <option value="pet">寵物電繪 Pet</option>
-            <option value="digital">電繪插畫 Digital Art</option>
-          </select>
-        </div>
-        <div class="form-field"><label>媒材 / 備注</label><input type="text" id="f-medium" placeholder="35mm · Kodak Gold 200"></div>
-        <div class="form-field"><label>封面圖方向</label>
-          <select id="f-orient" onchange="updateFocalHeight('f-focal-frame',this.value)">
-            <option value="portrait">直式 Portrait（高 &gt; 寬）</option>
-            <option value="landscape">橫式 Landscape（寬 &gt; 高）</option>
-            <option value="square">方形 Square</option>
-          </select>
-        </div>
-        <div class="form-field full">
-          <label>封面顯示焦點</label>
-          <div class="focal-wrap" id="f-focal-wrap">
-            <div class="focal-frame" id="f-focal-frame">
-              <img src="" alt="封面預覽">
-              <div class="focal-dot" id="f-focal-dot"></div>
-            </div>
-            <p class="focal-hint">點擊或拖曳選擇焦點位置</p>
-            <p class="focal-val">50% 50%</p>
-          </div>
-          <input type="hidden" id="f-focal-x" value="50">
-          <input type="hidden" id="f-focal-y" value="50">
-        </div>
-        <div class="form-field full">
-          <label>封面圖（主圖）</label>
-          <div class="drop-zone" id="cover-zone" onclick="document.getElementById('cover-input').click()">
-            <p><strong>點擊選擇</strong>或拖曳封面圖<br><span style="font-size:0.65rem;opacity:0.6">建議 2000px 以上</span></p>
-          </div>
-          <img class="cover-preview" id="cover-preview">
-          <input type="file" id="cover-input" accept="image/*" style="display:none">
-        </div>
-        <div class="form-field full">
-          <label>其他照片（最多 9 張）</label>
-          <div class="drop-zone" id="extras-zone" onclick="document.getElementById('extras-input').click()">
-            <p><strong>點擊選擇</strong>或拖曳其他照片</p>
-          </div>
-          <div class="thumbs" id="extras-preview"></div>
-          <input type="file" id="extras-input" accept="image/*" multiple style="display:none">
-        </div>
-      </div>
-      <div class="upload-progress" id="upload-progress"><div class="upload-progress-bar" id="progress-bar"></div></div>
-      <p class="upload-status" id="upload-status"></p>
-      <button class="btn-primary" id="btn-upload" onclick="uploadWork()">↑ 上傳作品</button>
+```
+<div class="admin-pane active" id="pane-upload">
+<!-- UPLOAD -->
+<div class="card">
+  <p class="card-title">✦ 上傳新作品</p>
+  <div class="form-grid">
+    <div class="form-field"><label>作品名稱</label><input type="text" id="f-title" placeholder="無題 #001"></div>
+    <div class="form-field"><label>年份</label><input type="text" id="f-year" placeholder="2024"></div>
+    <div class="form-field"><label>類別</label>
+      <select id="f-category">
+        <option value="film">底片攝影 Film</option>
+        <option value="street">街頭攝影 Street</option>
+        <option value="portrait">人像攝影 Portrait</option>
+        <option value="styling">風格排版 Styling</option>
+        <option value="atmosphere">氛圍攝影 Atmosphere</option>
+        <option value="product">商品攝影 Product</option>
+        <option value="pet">寵物電繪 Pet</option>
+        <option value="digital">電繪插畫 Digital Art</option>
+      </select>
     </div>
-
-
-
-    </div><!-- end pane-about -->
-
-    <div class="admin-pane" id="pane-contact">
-    <!-- CONTACT SETTINGS -->
-    <div class="card">
-      <p class="card-title">✦ 聯絡資訊</p>
-      <div class="form-grid">
-        <div class="form-field"><label>Instagram 帳號</label><input type="text" id="c-ig" placeholder="@yourhandle"></div>
-        <div class="form-field"><label>Email</label><input type="text" id="c-email" placeholder="your@email.com"></div>
-        <div class="form-field"><label>Instagram 網址</label><input type="text" id="c-ig-url" placeholder="https://instagram.com/yourhandle"></div>
-        <div class="form-field"><label>地點</label><input type="text" id="c-location" placeholder="Taiwan · Taipei"></div>
-      </div>
-      <p class="upload-status" id="contact-status"></p>
-      <button class="btn-primary" onclick="saveContact()">儲存聯絡資訊</button>
+    <div class="form-field"><label>媒材 / 備注</label><input type="text" id="f-medium" placeholder="35mm · Kodak Gold 200"></div>
+    <div class="form-field"><label>封面圖方向</label>
+      <select id="f-orient" onchange="updateFocalHeight('f-focal-frame',this.value)">
+        <option value="portrait">直式 Portrait（高 &gt; 寬）</option>
+        <option value="landscape">橫式 Landscape（寬 &gt; 高）</option>
+        <option value="square">方形 Square</option>
+      </select>
     </div>
-
-    </div><!-- end pane-works -->
-
-    <div class="admin-pane" id="pane-about">
-    <!-- ABOUT SETTINGS -->
-    <div class="card" id="about-card">
-      <p class="card-title">✦ 關於我 About</p>
-      <div class="form-grid">
-        <div class="form-field full">
-          <label>個人照片</label>
-          <div class="drop-zone" id="about-zone" onclick="document.getElementById('about-input').click()">
-            <p><strong>點擊選擇</strong>或拖曳個人照片</p>
-          </div>
-          <img class="cover-preview" id="about-preview">
-          <input type="file" id="about-input" accept="image/*" style="display:none">
+    <div class="form-field full">
+      <label>封面顯示焦點</label>
+      <div class="focal-wrap" id="f-focal-wrap">
+        <div class="focal-frame" id="f-focal-frame">
+          <img src="" alt="封面預覽">
+          <div class="focal-dot" id="f-focal-dot"></div>
         </div>
-        <div class="form-field full">
-          <label>第一段介紹</label>
-          <textarea id="about-p1" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
-        </div>
-        <div class="form-field full">
-          <label>第二段介紹</label>
-          <textarea id="about-p2" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
-        </div>
-        <div class="form-field full">
-          <label>第三段介紹</label>
-          <textarea id="about-p3" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
-        </div>
+        <p class="focal-hint">點擊或拖曳選擇焦點位置</p>
+        <p class="focal-val">50% 50%</p>
       </div>
-      <div class="upload-progress" id="about-progress"><div class="upload-progress-bar" id="about-bar"></div></div>
-      <p class="upload-status" id="about-status"></p>
-      <button class="btn-primary" id="about-save-btn" onclick="saveAbout()">儲存關於我</button>
+      <input type="hidden" id="f-focal-x" value="50">
+      <input type="hidden" id="f-focal-y" value="50">
     </div>
-
-    <!-- WORKS LIST -->
-    <div class="card">
-      <p class="card-title">
-        <span>✦ 已上傳作品</span>
-        <span class="sort-saved" id="sort-saved">已儲存順序 ✓</span>
-      </p>
-      <div class="tab-bar">
-        <button class="tab active" onclick="switchTab(event,'all')">全部</button>
-        <button class="tab" onclick="switchTab(event,'film')">底片</button>
-        <button class="tab" onclick="switchTab(event,'street')">街頭</button>
-        <button class="tab" onclick="switchTab(event,'portrait')">人像</button>
-        <button class="tab" onclick="switchTab(event,'styling')">風格排版</button>
-        <button class="tab" onclick="switchTab(event,'atmosphere')">氛圍</button>
-        <button class="tab" onclick="switchTab(event,'product')">商品</button>
-        <button class="tab" onclick="switchTab(event,'pet')">寵物</button>
-        <button class="tab" onclick="switchTab(event,'digital')">電繪</button>
+    <div class="form-field full">
+      <label>封面圖（主圖）</label>
+      <div class="drop-zone" id="cover-zone" onclick="document.getElementById('cover-input').click()">
+        <p><strong>點擊選擇</strong>或拖曳封面圖<br><span style="font-size:0.65rem;opacity:0.6">建議 2000px 以上</span></p>
       </div>
-      <p class="sort-hint">☰ 拖曳卡片調整前台顯示順序</p>
-      <div id="works-list"><p class="empty-state">載入中…</p></div>
+      <img class="cover-preview" id="cover-preview">
+      <input type="file" id="cover-input" accept="image/*" style="display:none">
     </div>
+    <div class="form-field full">
+      <label>其他照片（最多 9 張）</label>
+      <div class="drop-zone" id="extras-zone" onclick="document.getElementById('extras-input').click()">
+        <p><strong>點擊選擇</strong>或拖曳其他照片</p>
+      </div>
+      <div class="thumbs" id="extras-preview"></div>
+      <input type="file" id="extras-input" accept="image/*" multiple style="display:none">
+    </div>
+  </div>
+  <div class="upload-progress" id="upload-progress"><div class="upload-progress-bar" id="progress-bar"></div></div>
+  <p class="upload-status" id="upload-status"></p>
+  <button class="btn-primary" id="btn-upload" onclick="uploadWork()">↑ 上傳作品</button>
+</div>
+
+
+
+</div><!-- end pane-about -->
+
+<div class="admin-pane" id="pane-contact">
+<!-- CONTACT SETTINGS -->
+<div class="card">
+  <p class="card-title">✦ 聯絡資訊</p>
+  <div class="form-grid">
+    <div class="form-field"><label>Instagram 帳號</label><input type="text" id="c-ig" placeholder="@yourhandle"></div>
+    <div class="form-field"><label>Email</label><input type="text" id="c-email" placeholder="your@email.com"></div>
+    <div class="form-field"><label>Instagram 網址</label><input type="text" id="c-ig-url" placeholder="https://instagram.com/yourhandle"></div>
+    <div class="form-field"><label>地點</label><input type="text" id="c-location" placeholder="Taiwan · Taipei"></div>
+  </div>
+  <p class="upload-status" id="contact-status"></p>
+  <button class="btn-primary" onclick="saveContact()">儲存聯絡資訊</button>
+</div>
+
+</div><!-- end pane-works -->
+
+<div class="admin-pane" id="pane-about">
+<!-- ABOUT SETTINGS -->
+<div class="card" id="about-card">
+  <p class="card-title">✦ 關於我 About</p>
+  <div class="form-grid">
+    <div class="form-field full">
+      <label>個人照片</label>
+      <div class="drop-zone" id="about-zone" onclick="document.getElementById('about-input').click()">
+        <p><strong>點擊選擇</strong>或拖曳個人照片</p>
+      </div>
+      <img class="cover-preview" id="about-preview">
+      <input type="file" id="about-input" accept="image/*" style="display:none">
+    </div>
+    <div class="form-field full">
+      <label>第一段介紹</label>
+      <textarea id="about-p1" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
+    </div>
+    <div class="form-field full">
+      <label>第二段介紹</label>
+      <textarea id="about-p2" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
+    </div>
+    <div class="form-field full">
+      <label>第三段介紹</label>
+      <textarea id="about-p3" rows="3" style="width:100%;padding:0.6rem 0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(196,168,130,0.15);color:var(--cream);font-size:0.85rem;font-family:Georgia,serif;outline:none;resize:vertical;"></textarea>
+    </div>
+  </div>
+  <div class="upload-progress" id="about-progress"><div class="upload-progress-bar" id="about-bar"></div></div>
+  <p class="upload-status" id="about-status"></p>
+  <button class="btn-primary" id="about-save-btn" onclick="saveAbout()">儲存關於我</button>
+</div>
+
+</div><!-- end pane-upload -->
+
+<div class="admin-pane" id="pane-works">
+<!-- WORKS LIST -->
+<div class="card">
+  <p class="card-title">
+    <span>✦ 已上傳作品</span>
+    <span class="sort-saved" id="sort-saved">已儲存順序 ✓</span>
+  </p>
+  <div class="tab-bar">
+    <button class="tab active" onclick="switchTab(event,'all')">全部</button>
+    <button class="tab" onclick="switchTab(event,'film')">底片</button>
+    <button class="tab" onclick="switchTab(event,'street')">街頭</button>
+    <button class="tab" onclick="switchTab(event,'portrait')">人像</button>
+    <button class="tab" onclick="switchTab(event,'styling')">風格排版</button>
+    <button class="tab" onclick="switchTab(event,'atmosphere')">氛圍</button>
+    <button class="tab" onclick="switchTab(event,'product')">商品</button>
+    <button class="tab" onclick="switchTab(event,'pet')">寵物</button>
+    <button class="tab" onclick="switchTab(event,'digital')">電繪</button>
+  </div>
+  <p class="sort-hint">☰ 拖曳卡片調整前台顯示順序</p>
+  <div id="works-list"><p class="empty-state">載入中…</p></div>
+</div>
+```
 
   </div>
 </div>
 
 <!-- EDIT MODAL -->
+
 <div id="edit-modal">
   <div class="modal-box">
     <p class="modal-title">
@@ -780,12 +789,13 @@ function setFocalDot(frameId, dotId, xId, yId, focalPoint){
 
 window.switchPane=function(name){
   document.querySelectorAll('.admin-tab').forEach((t,i)=>{
-    const panes=['works','about','contact'];
+    const panes=['upload','works','about','contact'];
     t.classList.toggle('active', panes[i]===name);
   });
   document.querySelectorAll('.admin-pane').forEach(p=>{
     p.classList.toggle('active', p.id==='pane-'+name);
   });
+  if(name==='works') loadWorks();
 };
 
 // ── CONTACT SETTINGS ──
@@ -887,5 +897,6 @@ window.saveAbout = async () => {
 };
 
 </script>
+
 </body>
 </html>
