@@ -280,6 +280,16 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
       <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('atmosphere',1)">›</button></div>
     </div>
   </div>
+  <div class="sub-section">
+    <div class="sub-header">
+      <p class="sub-title" data-en="Product" data-zh="商品攝影">Product</p>
+    </div>
+    <div class="cat-row-wrap">
+      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('product',-1)">‹</button></div>
+      <div class="cat-row" id="t-product"></div>
+      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('product',1)">›</button></div>
+    </div>
+  </div>
 </section>
 
 <!-- ART -->
@@ -507,7 +517,7 @@ window.scrollCat=function(catId, dir){
 };
 
 window.scrollToCat=function(catId){
-  const photoSection=['film','street','portrait','styling','atmosphere'];
+  const photoSection=['film','street','portrait','styling','atmosphere','product'];
   const target=document.getElementById(photoSection.includes(catId)?'photography':'art');
   if(target) target.scrollIntoView({behavior:'smooth'});
   setTimeout(()=>{
