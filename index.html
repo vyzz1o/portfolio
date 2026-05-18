@@ -211,6 +211,21 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   .cat-l-group .gallery-card.m{width:calc(180px * 2388/1668 / 2);}
   #about>div{grid-template-columns:1fr !important;gap:3rem !important;}
 }
+
+/* SKELETON LOADING */
+@keyframes shimmer{
+  0%{background-position:200% 0;}
+  100%{background-position:-200% 0;}
+}
+.gallery-card img,.cat-card img{
+  background:linear-gradient(90deg,rgba(196,168,130,0.04) 25%,rgba(196,168,130,0.09) 50%,rgba(196,168,130,0.04) 75%);
+  background-size:200% 100%;
+  animation:shimmer 2s infinite linear;
+}
+.gallery-card img.loaded,.cat-card img.loaded{
+  animation:none;
+  background:none;
+}
 </style>
 </head>
 <body>
@@ -716,6 +731,23 @@ document.addEventListener('touchmove', e=>{
 
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:0.1});
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+
+
+// Mark images as loaded to stop shimmer
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.gallery-card img, .cat-card img').forEach(img => {
+    if(img.complete) img.classList.add('loaded');
+    else img.addEventListener('load', () => img.classList.add('loaded'));
+  });
+});
+// Also handle dynamically added images
+const imgObserver = new MutationObserver(() => {
+  document.querySelectorAll('.gallery-card img:not(.loaded), .cat-card img:not(.loaded)').forEach(img => {
+    if(img.complete) img.classList.add('loaded');
+    else img.addEventListener('load', () => img.classList.add('loaded'));
+  });
+});
+imgObserver.observe(document.body, {childList:true, subtree:true});
 
 // prevent image saving
 document.addEventListener('contextmenu',e=>{if(e.target.tagName==='IMG')e.preventDefault();});
