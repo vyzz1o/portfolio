@@ -480,13 +480,19 @@ const CAT_INFO=[
 
 function focalPos(w){ return w.focalPoint||'center'; }
 
+
+function cdnUrl(url, opts='w_900,q_auto,f_auto'){
+  if(!url||!url.includes('cloudinary.com')) return url;
+  return url.replace('/upload/', '/upload/'+opts+'/');
+}
+
 function makeCard(w){
   const isL=(w.orient==='landscape');
   const oc=isL?'l':'p';
   const imgs=[w.coverUrl,...(w.images||[])].filter(Boolean);
   const pos=focalPos(w);
   return `<a class="gallery-card m ${oc}" href="work.html?id=${w.id}&lang=${currentLang}">
-    <img src="${w.coverUrl}" alt="${w.title}" loading="lazy" style="object-position:${pos};">
+    <img src="${cdnUrl(w.coverUrl)}" alt="${w.title}" loading="lazy" style="object-position:${pos};">
     <div class="gallery-card-overlay">
       <p class="gallery-card-title">${w.title}</p>
       <p class="gallery-card-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
@@ -536,7 +542,7 @@ function renderAll(){
     const cover=sortWorks(ws)[0];
     const pos=focalPos(cover);
     return `<a class="cat-card" href="#${cat.id}" onclick="event.preventDefault();scrollToCat('${cat.id}')">
-      <img src="${cover.coverUrl}" alt="${label}" loading="lazy" style="object-position:${pos};">
+      <img src="${cdnUrl(cover.coverUrl)}" alt="${label}" loading="lazy" style="object-position:${pos};">
       <div class="cat-card-overlay">
         <p class="cat-card-name">${label}</p>
         <p class="cat-card-count">${ws.length} works</p>
