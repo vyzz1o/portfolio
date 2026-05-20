@@ -8,6 +8,11 @@
 <meta name="apple-mobile-web-app-title" content="Wish W">
 <meta name="theme-color" content="#1a1008">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231a1008'/><text x='256' y='360' font-family='Georgia,serif' font-size='320' font-weight='300' text-anchor='middle' fill='%23c9a84c'>W</text></svg>">
+<meta property="og:type" content="website">
+<meta property="og:title" id="og-title" content="Wish W — Portfolio">
+<meta property="og:image" id="og-image" content="">
+<meta property="og:url" id="og-url" content="">
+<meta property="og:description" content="Photography · Digital Art · Styling">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>W — Work</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -99,6 +104,11 @@ html[lang="zh-TW"] .work-title{font-family:'Noto Serif TC',serif;font-weight:200
   .strip-img-wrap{height:45vh;}
   .other-section{padding:3rem 1.5rem 4rem;}
 }
+
+/* SHARE BUTTON */
+.share-btn{display:inline-flex;align-items:center;gap:0.5rem;border:1px solid rgba(196,168,130,0.25);background:transparent;color:var(--sepia);font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.5rem 1rem;cursor:none;transition:all 0.2s;}
+.share-btn:hover{border-color:var(--gold);color:var(--gold);}
+.share-btn svg{width:13px;height:13px;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -182,6 +192,12 @@ const lang   = params.get('lang') || 'en';
 let images = [];
 let lbIdx  = 0;
 
+
+function cdnUrl(url, opts='w_1600,q_auto,f_auto'){
+  if(!url||!url.includes('cloudinary.com')) return url;
+  return url.replace('/upload/', '/upload/'+opts+'/');
+}
+
 async function init() {
   if (!workId) { location.href='index.html'; return; }
   const snap = await getDoc(doc(db,'works',workId));
@@ -259,6 +275,28 @@ function renderLb() {
   document.getElementById('lb-next').style.display = images.length>1?'flex':'none';
 }
 document.getElementById('lightbox').addEventListener('click', e=>{ if(e.target.id==='lightbox') closeLb(); });
+
+
+window.shareWork = async function(){
+  const title = document.title;
+  const url = window.location.href;
+  if(navigator.share){
+    try{
+      await navigator.share({ title, url });
+    } catch(e){ if(e.name!=='AbortError') copyToClipboard(url); }
+  } else {
+    copyToClipboard(url);
+  }
+};
+
+function copyToClipboard(text){
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.querySelector('.share-btn');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+    setTimeout(()=>{ btn.innerHTML = orig; }, 2000);
+  });
+}
 
 // Swipe right to go back
 let touchStartX = 0;
