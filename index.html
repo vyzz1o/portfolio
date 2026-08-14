@@ -228,6 +228,32 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   animation:none;
   background:none;
 }
+
+/* MASONRY TABS */
+.filter-tabs{display:flex;gap:0.5rem;flex-wrap:wrap;padding:0 3rem;margin-bottom:2.5rem;max-width:1100px;margin-left:auto;margin-right:auto;}
+.filter-tab{font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.2em;color:var(--sepia);background:transparent;border:1px solid rgba(196,168,130,0.2);padding:0.4rem 1rem;cursor:none;transition:all 0.2s;text-transform:uppercase;}
+.filter-tab:hover{border-color:var(--gold);color:var(--gold);}
+.filter-tab.active{background:var(--gold);color:var(--near-black);border-color:var(--gold);}
+
+/* MASONRY GRID */
+.masonry-section{padding:5rem 0;border-top:1px solid rgba(196,168,130,0.08);}
+.masonry-grid{columns:3;column-gap:0.8rem;max-width:1100px;margin:0 auto;padding:0 3rem;}
+.masonry-grid .gallery-card{break-inside:avoid;margin-bottom:0.8rem;display:block;border-radius:8px;overflow:hidden;border:1px solid rgba(196,168,130,0.08);transition:border-color 0.3s,box-shadow 0.3s;cursor:none;text-decoration:none;position:relative;}
+.masonry-grid .gallery-card:hover{border-color:rgba(196,168,130,0.28);box-shadow:0 12px 40px rgba(0,0,0,0.5);}
+.masonry-grid .gallery-card img{width:100%;height:auto;display:block;transition:transform 0.5s;}
+.masonry-grid .gallery-card:hover img{transform:scale(1.03);}
+.masonry-grid .gallery-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,16,8,0.9) 0%,transparent 55%);opacity:0;transition:opacity 0.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:1rem;}
+.masonry-grid .gallery-card:hover .gallery-card-overlay{opacity:1;}
+.masonry-item-hidden{display:none;}
+
+@media(max-width:768px){
+  .masonry-grid{columns:2;column-gap:0.5rem;padding:0 1rem;}
+  .filter-tabs{padding:0 1rem;gap:0.4rem;}
+  .filter-tab{font-size:0.48rem;padding:0.35rem 0.7rem;}
+}
+@media(max-width:400px){
+  .masonry-grid{columns:2;}
+}
 </style>
 </head>
 <body>
@@ -236,7 +262,6 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
 <canvas id="particle-canvas"></canvas>
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
-
 <nav>
   <div class="page-wrap" style="display:flex;justify-content:space-between;align-items:center;width:100%;max-width:1100px;margin:0 auto;padding:0 2rem;">
   <a href="#hero" class="nav-logo">
@@ -274,112 +299,27 @@ html[lang="zh-TW"] .hero-title{font-size:clamp(3.2rem,8.5vw,8rem);line-height:1.
   </div>
 </section>
 
-<section class="portfolio-section" id="overview">
-  <div class="portfolio-section-inner">
-    <p class="eyebrow fade-up" data-en="— All Works" data-zh="— 全部作品">— All Works</p>
-    <h2 class="sec-title fade-up" data-en="Overview" data-zh="作品總覽">Overview</h2>
+
+<section class="masonry-section" id="works">
+  <div style="max-width:1100px;margin:0 auto;padding:0 3rem 2rem;">
+    <p class="eyebrow fade-up" data-en="— Works" data-zh="— 作品">— Works</p>
+    <h2 class="sec-title fade-up" data-en="Gallery" data-zh="作品集">Gallery</h2>
   </div>
-  <div style="position:relative;max-width:1100px;margin:0 auto;">
-    <div class="scroll-nav left" style="z-index:10;"><button class="scroll-btn" onclick="scrollOverview(-1)">‹</button></div>
-    <div class="cat-overview-wrap" style="padding:0 44px 0 44px;"><div class="cat-overview" id="overview-grid"><p class="gallery-empty">Loading…</p></div></div>
-    <div class="scroll-nav right" style="z-index:10;"><button class="scroll-btn" onclick="scrollOverview(1)">›</button></div>
+  <div class="filter-tabs" id="filter-tabs">
+    <button class="filter-tab active" onclick="filterWorks('all')" data-en="All" data-zh="全部">All</button>
+    <button class="filter-tab" onclick="filterWorks('film')" data-en="Film" data-zh="底片">Film</button>
+    <button class="filter-tab" onclick="filterWorks('street')" data-en="Street" data-zh="街頭">Street</button>
+    <button class="filter-tab" onclick="filterWorks('portrait')" data-en="Portrait" data-zh="人像">Portrait</button>
+    <button class="filter-tab" onclick="filterWorks('styling')" data-en="Styling" data-zh="風格">Styling</button>
+    <button class="filter-tab" onclick="filterWorks('atmosphere')" data-en="Atmosphere" data-zh="氛圍">Atmosphere</button>
+    <button class="filter-tab" onclick="filterWorks('product')" data-en="Product" data-zh="商品">Product</button>
+    <button class="filter-tab" onclick="filterWorks('pet')" data-en="Pet" data-zh="寵物">Pet</button>
+    <button class="filter-tab" onclick="filterWorks('digital')" data-en="Digital Art" data-zh="電繪">Digital Art</button>
+  </div>
+  <div class="masonry-grid" id="masonry-grid">
+    <p class="gallery-empty" style="column-span:all;">Loading…</p>
   </div>
 </section>
-
-<section class="portfolio-section" id="photography">
-  <div class="portfolio-section-inner">
-    <p class="eyebrow fade-up" data-en="— Photography" data-zh="— 攝影">— Photography</p>
-    <h2 class="sec-title fade-up" data-en="Through the Lens" data-zh="鏡頭所見">Through the Lens</h2>
-  </div>
-  <div class="sub-section">
-    <div class="sub-header">
-      <p class="sub-title" data-en="Film" data-zh="底片攝影">Film</p>
-    </div>
-    <div class="cat-row-wrap">
-      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('film',-1)">‹</button></div>
-      <div class="masonry" id="t-film"><p class="gallery-empty">Loading…</p></div>
-      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('film',1)">›</button></div>
-    </div>
-  </div>
-  <div class="sub-section">
-    <div class="sub-header">
-      <p class="sub-title" data-en="Street" data-zh="街頭攝影">Street</p>
-    </div>
-    <div class="cat-row-wrap">
-      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('street',-1)">‹</button></div>
-      <div class="masonry" id="t-street"><p class="gallery-empty">Loading…</p></div>
-      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('street',1)">›</button></div>
-    </div>
-  </div>
-  <div class="sub-section">
-    <div class="sub-header">
-      <p class="sub-title" data-en="Portrait" data-zh="人像攝影">Portrait</p>
-    </div>
-    <div class="cat-row-wrap">
-      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('portrait',-1)">‹</button></div>
-      <div class="masonry" id="t-portrait"><p class="gallery-empty">Loading…</p></div>
-      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('portrait',1)">›</button></div>
-    </div>
-  </div>
-  <div class="sub-section">
-    <div class="sub-header">
-      <p class="sub-title" data-en="Styling" data-zh="風格排版">Styling</p>
-    </div>
-    <div class="cat-row-wrap">
-      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('styling',-1)">‹</button></div>
-      <div class="masonry" id="t-styling"><p class="gallery-empty">Loading…</p></div>
-      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('styling',1)">›</button></div>
-    </div>
-  </div>
-  <div class="sub-section">
-    <div class="sub-header">
-      <p class="sub-title" data-en="Atmosphere" data-zh="氛圍攝影">Atmosphere</p>
-    </div>
-    <div class="cat-row-wrap">
-      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('atmosphere',-1)">‹</button></div>
-      <div class="cat-row" id="t-atmosphere"></div>
-      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('atmosphere',1)">›</button></div>
-    </div>
-  </div>
-  <div class="sub-section">
-    <div class="sub-header">
-      <p class="sub-title" data-en="Product" data-zh="商品攝影">Product</p>
-    </div>
-    <div class="cat-row-wrap">
-      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('product',-1)">‹</button></div>
-      <div class="cat-row" id="t-product"></div>
-      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('product',1)">›</button></div>
-    </div>
-  </div>
-</section>
-
-<section class="portfolio-section" id="art">
-  <div class="portfolio-section-inner">
-    <p class="eyebrow fade-up" data-en="— Creative Work" data-zh="— 創作">— Creative Work</p>
-    <h2 class="sec-title fade-up" data-en="Ink & Pixels" data-zh="線條與色彩">Ink & Pixels</h2>
-  </div>
-  <div class="sub-section">
-    <div class="sub-header">
-      <p class="sub-title" data-en="Pet" data-zh="寵物電繪">Pet</p>
-    </div>
-    <div class="cat-row-wrap">
-      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('pet',-1)">‹</button></div>
-      <div class="masonry" id="t-pet"><p class="gallery-empty">Loading…</p></div>
-      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('pet',1)">›</button></div>
-    </div>
-  </div>
-  <div class="sub-section">
-    <div class="sub-header">
-      <p class="sub-title" data-en="Digital Art" data-zh="電繪插畫">Digital Art</p>
-    </div>
-    <div class="cat-row-wrap">
-      <div class="scroll-nav left"><button class="scroll-btn" onclick="scrollCat('digital',-1)">‹</button></div>
-      <div class="masonry" id="t-digital"><p class="gallery-empty">Loading…</p></div>
-      <div class="scroll-nav right"><button class="scroll-btn" onclick="scrollCat('digital',1)">›</button></div>
-    </div>
-  </div>
-</section>
-
 <section id="about">
   <div style="max-width:1100px;margin:0 auto;padding:0 3rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;box-sizing:border-box;width:100%;">
   <div class="about-img-frame fade-up" id="about-img-frame">
@@ -453,8 +393,12 @@ const db=getFirestore(app);
 
 let allWorks=[];
 let currentLang='en';
-const SIZES=['portrait','landscape','square'];
-let si=0;
+let currentFilter='all';
+
+function cdnUrl(url, opts='w_900,q_auto,f_auto'){
+  if(!url||!url.includes('cloudinary.com')) return url;
+  return url.replace('/upload/', '/upload/'+opts+'/');
+}
 
 function sortWorks(arr){
   return [...arr].sort((a,b)=>{
@@ -465,143 +409,41 @@ function sortWorks(arr){
   });
 }
 
-function cardHtml(w, type='m') {
-  const imgs=[w.coverUrl,...(w.images||[])].filter(Boolean);
-  const size=type==='h'?SIZES[si++%3]:'';
-  const cls=type==='h'?`gallery-card h ${size}`:'gallery-card m';
-  const lang=currentLang;
-  return `<a class="${cls}" href="work.html?id=${w.id}&lang=${lang}">
-    <img src="${w.coverUrl}" alt="${w.title}" loading="lazy">
-    <div class="gallery-card-overlay">
-      <p class="gallery-card-title">${w.title}</p>
-      <p class="gallery-card-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
-      ${imgs.length>1?`<p class="gallery-card-count">${imgs.length} photos</p>`:''}
-    </div>
-  </a>`;
-}
-
-
-
-const CAT_INFO=[
-  {id:'film',    en:'Film',        zh:'底片攝影'},
-  {id:'street',  en:'Street',      zh:'街頭攝影'},
-  {id:'portrait',en:'Portrait',    zh:'人像攝影'},
-  {id:'styling',  en:'Styling',    zh:'風格排版'},
-  {id:'atmosphere',en:'Atmosphere', zh:'氛圍攝影'},
-  {id:'product',   en:'Product',    zh:'商品攝影'},
-  {id:'pet',     en:'Pet',         zh:'寵物電繪'},
-  {id:'digital', en:'Digital Art', zh:'電繪插畫'},
-];
-
 function focalPos(w){ return w.focalPoint||'center'; }
 
-
-function cdnUrl(url, opts='w_900,q_auto,f_auto'){
-  if(!url||!url.includes('cloudinary.com')) return url;
-  return url.replace('/upload/', '/upload/'+opts+'/');
-}
-
-function makeCard(w){
-  const isL=(w.orient==='landscape');
-  const oc=isL?'l':'p';
-  const imgs=[w.coverUrl,...(w.images||[])].filter(Boolean);
-  const pos=focalPos(w);
-  return `<a class="gallery-card m ${oc}" href="work.html?id=${w.id}&lang=${currentLang}">
-    <img src="${cdnUrl(w.coverUrl)}" alt="${w.title}" loading="lazy" style="object-position:${pos};">
-    <div class="gallery-card-overlay">
-      <p class="gallery-card-title">${w.title}</p>
-      <p class="gallery-card-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
-      ${imgs.length>1?`<p class="gallery-card-count">${imgs.length-1} more</p>`:''}
-    </div>
-  </a>`;
-}
-
-function renderCatRow(el, ws){
-  el.className='cat-row';
-  const sorted=sortWorks(ws);
-
-  // Process in upload order: portraits get own slot, landscapes pair up in groups of 2
-  let html='';
-  let landscapeBuf=[];
-
-  function flushLandscapes(){
-    for(let i=0;i<landscapeBuf.length;i+=2){
-      const group=landscapeBuf.slice(i,i+2);
-      html+=`<div class="cat-l-group">${group.map(w=>makeCard(w)).join('')}</div>`;
-    }
-    landscapeBuf=[];
+function renderMasonry(filter){
+  const grid = document.getElementById('masonry-grid');
+  const works = filter==='all' ? sortWorks(allWorks) : sortWorks(allWorks.filter(w=>w.category===filter));
+  if(!works.length){
+    grid.innerHTML='<p class="gallery-empty" style="column-span:all;padding:3rem 0;">No works yet.</p>';
+    return;
   }
-
-  sorted.forEach(w=>{
-    if(w.orient==='landscape'){
-      landscapeBuf.push(w);
-    } else {
-      // flush any pending landscapes before this portrait
-      flushLandscapes();
-      html+=makeCard(w);
-    }
-  });
-  // flush remaining landscapes
-  flushLandscapes();
-
-  el.innerHTML=html;
-}
-
-function renderAll(){
-  // Overview: category cards
-  const grid=document.getElementById('overview-grid');
-  grid.innerHTML=CAT_INFO.map(cat=>{
-    const ws=allWorks.filter(w=>w.category===cat.id);
-    const label=currentLang==='zh'?cat.zh:cat.en;
-    if(!ws.length) return `<div class="cat-card-empty"><span>${label}</span></div>`;
-    const cover=sortWorks(ws)[0];
-    const pos=focalPos(cover);
-    return `<a class="cat-card" href="#${cat.id}" onclick="event.preventDefault();scrollToCat('${cat.id}')">
-      <img src="${cdnUrl(cover.coverUrl)}" alt="${label}" loading="lazy" style="object-position:${pos};">
-      <div class="cat-card-overlay">
-        <p class="cat-card-name">${label}</p>
-        <p class="cat-card-count">${ws.length} works</p>
+  grid.innerHTML = works.map(w=>{
+    const imgs=[w.coverUrl,...(w.images||[])].filter(Boolean);
+    const pos = focalPos(w);
+    return `<a class="gallery-card" href="work.html?id=${w.id}&lang=${currentLang}">
+      <img src="${cdnUrl(w.coverUrl)}" alt="${w.title}" loading="lazy" style="object-position:${pos};">
+      <div class="gallery-card-overlay">
+        <p class="gallery-card-title">${w.title}</p>
+        <p class="gallery-card-meta">${w.year}${w.medium?' · '+w.medium:''}</p>
+        ${imgs.length>1?`<p class="gallery-card-count">${imgs.length-1} more</p>`:''}
       </div>
     </a>`;
   }).join('');
-
-  // Each category row
-  CAT_INFO.forEach(cat=>{
-    const el=document.getElementById('t-'+cat.id);
-    if(!el) return;
-    const ws=allWorks.filter(w=>w.category===cat.id);
-    if(!ws.length){el.innerHTML='<p class="gallery-empty">No works yet.</p>';el.className='';return;}
-    renderCatRow(el, ws);
-  });
 }
 
-window.scrollOverview=function(dir){
-  const el=document.querySelector('.cat-overview-wrap');
-  if(!el) return;
-  el.scrollBy({left:dir*300,behavior:'smooth'});
-};
-
-window.scrollCat=function(catId, dir){
-  const el=document.getElementById('t-'+catId);
-  if(!el) return;
-  const itemW=(el.querySelector('.gallery-card')||el.querySelector('.cat-l-group'))?.offsetWidth||200;
-  el.scrollBy({left:dir*(itemW+8),behavior:'smooth'});
-};
-
-window.scrollToCat=function(catId){
-  const photoSection=['film','street','portrait','styling','atmosphere','product'];
-  const target=document.getElementById(photoSection.includes(catId)?'photography':'art');
-  if(target) target.scrollIntoView({behavior:'smooth'});
-  setTimeout(()=>{
-    const el=document.getElementById('t-'+catId);
-    if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'});
-  },600);
+window.filterWorks=function(cat){
+  currentFilter=cat;
+  document.querySelectorAll('.filter-tab').forEach(t=>{
+    t.classList.toggle('active', t.getAttribute('onclick').includes("'"+cat+"'"));
+  });
+  renderMasonry(cat);
 };
 
 async function load(){
   const snap=await getDocs(collection(db,'works'));
   allWorks=[]; snap.forEach(d=>allWorks.push({id:d.id,...d.data()}));
-  renderAll();
+  renderMasonry('all');
 }
 load();
 
@@ -611,12 +453,11 @@ async function loadAbout(){
     if(!snap.exists()) return;
     const data = snap.data();
     if(data.photoUrl){
-      const frame = document.getElementById('about-img-frame');
       const placeholder = document.getElementById('about-img-placeholder');
       const img = document.createElement('img');
       img.src = data.photoUrl;
       img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:2px;display:block;';
-      placeholder.replaceWith(img);
+      if(placeholder) placeholder.replaceWith(img);
     }
     if(data.p1) document.getElementById('about-p1').innerHTML = data.p1;
     if(data.p2) document.getElementById('about-p2').innerHTML = data.p2;
@@ -647,7 +488,6 @@ async function loadContact(){
 }
 loadContact();
 </script>
-
 <script>
 const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
 let mx=0,my=0,rx=0,ry=0;
@@ -753,5 +593,6 @@ imgObserver.observe(document.body, {childList:true, subtree:true});
 document.addEventListener('contextmenu',e=>{if(e.target.tagName==='IMG')e.preventDefault();});
 document.addEventListener('dragstart',e=>{if(e.target.tagName==='IMG')e.preventDefault();});
 </script>
+
 </body>
 </html>
