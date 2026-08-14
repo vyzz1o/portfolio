@@ -474,6 +474,32 @@ function renderExtrasPrev(){
 window.removeExtra=i=>{extraFiles.splice(i,1);renderExtrasPrev();};
 
 // CLOUDINARY
+async function compressImage(file, maxBytes=9.5*1024*1024){
+  if(file.size <= maxBytes) return file;
+  return new Promise(resolve=>{
+    const img=new Image();
+    const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      URL.revokeObjectURL(url);
+      const canvas=document.createElement('canvas');
+      canvas.width=img.width; canvas.height=img.height;
+      const ctx=canvas.getContext('2d');
+      ctx.drawImage(img,0,0);
+      let quality=0.92;
+      const tryCompress=()=>{
+        canvas.toBlob(blob=>{
+          if(!blob) return resolve(file);
+          if(blob.size<=maxBytes||quality<0.5){
+            resolve(new File([blob],file.name.replace(/\.\w+$/,'.jpg'),{type:'image/jpeg'}));
+          } else { quality-=0.06; tryCompress(); }
+        },'image/jpeg',quality);
+      };
+      tryCompress();
+    };
+    img.src=url;
+  });
+}
+
 async function cloudinaryUpload(file, onP){
   const fd=new FormData();
   fd.append('file',file); fd.append('upload_preset',CLOUDINARY_PRESET); fd.append('folder','portfolio');
@@ -503,12 +529,12 @@ window.uploadWork=async()=>{
   const upd=()=>{bar.style.width=Math.round(done/total*100)+'%';};
   try{
     status.textContent='上傳封面圖…';
-    const coverUrl=await cloudinaryUpload(coverFile,p=>{bar.style.width=Math.round((done+p)/total*100)+'%';});
+    const coverUrl=await cloudinaryUpload(await compressImage(coverFile),p=>{bar.style.width=Math.round((done+p)/total*100)+'%';});
     done++; upd();
     const images=[];
     for(let i=0;i<extraFiles.length;i++){
       status.textContent=`上傳第 ${i+1}/${extraFiles.length} 張…`;
-      images.push(await cloudinaryUpload(extraFiles[i],p=>{bar.style.width=Math.round((done+p)/total*100)+'%';}));
+      images.push(await cloudinaryUpload(await compressImage(extraFiles[i]),p=>{bar.style.width=Math.round((done+p)/total*100)+'%';}));
       done++; upd();
     }
     status.textContent='儲存…';
@@ -674,7 +700,7 @@ window.saveEdit=async()=>{
     for(let i=0;i<editNewFiles.length;i++){
       status.textContent=`上傳第 ${i+1}/${editNewFiles.length} 張…`;
       bar.style.width=Math.round((i+1)/editNewFiles.length*100)+'%';
-      newUrls.push(await cloudinaryUpload(editNewFiles[i]));
+      newUrls.push(await cloudinaryUpload(await compressImage(editNewFiles[i])));
     }
     const allImgs=[...editImgs,...newUrls];
     const coverUrl=allImgs[0]||'';
@@ -870,7 +896,7 @@ window.saveAbout = async () => {
     let photoUrl = null;
     if(aboutPhotoFile){
       status.textContent='上傳照片…'; bar.style.width='30%';
-      photoUrl = await cloudinaryUpload(aboutPhotoFile);
+      photoUrl = await cloudinaryUpload(await compressImage(aboutPhotoFile));
       bar.style.width='70%';
     }
     // Use setDoc to upsert the about document
